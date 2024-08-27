@@ -1,5 +1,16 @@
-// const ipAddress = import.meta.env.IP_ADRESS;
-// console.log(ipAddress);
+import CryptoJS from "crypto-js";
+import Cookies from "js-cookie";
 
-// export const urlEndpoint = `http://${ipAddress}:8080/api`;
-export const urlEndpoint = `http://localhost:8080/api`;
+const ipAddress = 'localhost';
+export const urlEndpoint = `http://${ipAddress}:8080/api`;
+
+const encryptedToken = Cookies.get('token');
+export const token = encryptedToken ? CryptoJS.AES.decrypt(encryptedToken, 'rahasia123').toString(CryptoJS.enc.Utf8) : null;
+
+export const saveToken = (token) => {
+    const encryptedToken = CryptoJS.AES.encrypt(token, 'rahasia123').toString();
+    Cookies.set('token', encryptedToken, {
+        domain: ipAddress,
+        path: '/',
+    })
+}  

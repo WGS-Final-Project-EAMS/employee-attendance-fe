@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { urlEndpoint } from './url'; // Import utility functions and constants for handling URLs and tokens
+import { urlEndpoint, saveToken } from './url'; // Import utility functions and constants for handling URLs and tokens
 import { jwtDecode } from 'jwt-decode'; // Import jwtDecode for decoding JWT tokens
 
 export const userLogin = async (email, password, onAdminLogin, onSuperAdminLogin, onEmployeeLogin) => {
@@ -15,7 +15,7 @@ export const userLogin = async (email, password, onAdminLogin, onSuperAdminLogin
         // Decode the JWT token to get the payload
         const payload = jwtDecode(token);
 
-        console.log(payload.role);
+        saveToken(token);
 
         // Determine the type of user based on the access level and call corresponding callback
         switch (payload.role) {
