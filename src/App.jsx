@@ -1,4 +1,4 @@
-import LoginPage from "./views/LoginPage";
+import SignIn from "./views/SigIn";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { ThemeProvider } from '@mui/material/styles';
 import theme from "./assets/style/theme"
@@ -11,7 +11,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Link to="/login">Login</Link>} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/login" element={<SignIn />} />
             <Route path="/admin" element={<h1>Admin</h1>} />
             <Route path="/super-admin" element={<h1>Super Admin</h1>} />
             <Route path="/employee" element={<h1>Employee</h1>} />
