@@ -36,3 +36,18 @@ export const userLogin = async (email, password, onAdminLogin, onSuperAdminLogin
         console.log(error);        
     }
 }
+
+export const userLogout = async (onLogout) => {
+    try {
+        // Make a POST request to the login endpoint with email and password
+        const response = await axios.post(`${urlEndpoint}/logout`);
+        
+        if (response.status === 200) {
+            onLogout();
+        }
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
