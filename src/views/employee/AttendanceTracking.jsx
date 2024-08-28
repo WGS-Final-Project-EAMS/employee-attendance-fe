@@ -1,19 +1,60 @@
-import { useState } from 'react';
-import { Container, Box, Typography, Button, Card, CardContent } from '@mui/material';
-import EmployeeLayout from '../../layouts/EmployeeLayout';
+import { useState, useEffect } from 'react';
+import { Container, Card, CardContent, Typography, Button, Box } from '@mui/material';
+import EmployeeLayout from '../../layouts/EmployeeLayout'; // Asumsikan ini adalah layout karyawan
+import axios from 'axios';
+import { token, urlEndpoint } from "../../services/url";
 
 const AttendanceTracking = () => {
     const [clockInTime, setClockInTime] = useState(null);
     const [clockOutTime, setClockOutTime] = useState(null);
+    const [attendanceStatus, setAttendanceStatus] = useState(null);
 
-    const handleClockIn = () => {
-        const now = new Date().toLocaleTimeString();
-        setClockInTime(now);
+    useEffect(() => {
+        // Fetch attendance status on mount
+        const fetchAttendanceStatus = async () => {
+            try {
+                const response = await axios.get(`${urlEndpoint}/attendance-status`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setAttendanceStatus(response.data.status);
+            } catch (error) {
+                console.error("Error fetching attendance status:", error);
+            }
+        };
+
+        fetchAttendanceStatus();
+    }, [clockInTime, clockOutTime]);
+
+    const handleClockIn = async () => {
+        try {
+            const response = await axios.post(
+                `${urlEndpoint}/clock-in`,
+                {},
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            
+            const { clock_in_time } = response.data.attendance;
+            setClockInTime(new Date(clock_in_time).toLocaleTimeString());
+        } catch (error) {
+            console.error("Clock in failed: ", error.response?.data?.error || error.message);
+            // Handle error appropriately (e.g., show a notification)
+        }
     };
 
-    const handleClockOut = () => {
-        const now = new Date().toLocaleTimeString();
-        setClockOutTime(now);
+    const handleClockOut = async () => {
+        try {
+            const response = await axios.post(
+                `${urlEndpoint}/clock-out`,
+                {},
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            const { clock_out_time } = response.data.updatedAttendance;
+            setClockOutTime(new Date(clock_out_time).toLocaleTimeString());
+        } catch (error) {
+            console.error("Clock out failed: ", error.response?.data?.error || error.message);
+            // Handle error appropriately (e.g., show a notification)
+        }
     };
 
     return (
@@ -25,23 +66,34 @@ const AttendanceTracking = () => {
                             Attendance
                         </Typography>
                         <Box sx={{ my: 4 }}>
-                            <Typography variant="h6" color="success.main">
-                                {clockInTime ? `Clock In Time: ${clockInTime}` : "You haven't clocked in yet."}
-                            </Typography>
-                            {clockOutTime && (
-                                <Typography variant="h6" color="warning.main" sx={{ mt: 2 }}>
-                                    Clock Out Time: {clockOutTime}
-                                </Typography>
+                            {attendanceStatus === "clocked_out" ? (
+                                <>
+                                    <Typography variant="h6" color={clockInTime? 'success.main': 'warning.main'}>
+                                        Clock In Time: {clockInTime}
+                                    </Typography>
+                                    <Typography variant="h6" color="success.main" sx={{ mt: 2 }}>
+                                        Clock Out Time: {clockOutTime}
+                                    </Typography>
+                                    <Typography variant="h6" color="textSecondary" sx={{ mt: 2 }}>
+                                        You have already clocked out for today.
+                                    </Typography>
+                                </>
+                            ) : (
+                                <>
+                                    <Typography variant="h6" color={clockInTime? 'success.main': 'warning.main'}>
+                                        {clockInTime ? `Clock In Time: ${clockInTime}` : "You haven't clocked in yet."}
+                                    </Typography>
+                                </>
                             )}
                         </Box>
 
                         <Box sx={{ mt: 4, display: 'flex', gap: 2 }}>
-                            {!clockInTime && (
+                            {attendanceStatus === "no_clock_in" && (
                                 <Button variant="contained" color="primary" onClick={handleClockIn} fullWidth>
                                     Clock In
                                 </Button>
                             )}
-                            {clockInTime && !clockOutTime && (
+                            {attendanceStatus === "clocked_in" && (
                                 <Button variant="contained" color="secondary" onClick={handleClockOut} fullWidth>
                                     Clock Out
                                 </Button>
@@ -52,6 +104,6 @@ const AttendanceTracking = () => {
             </Container>
         </EmployeeLayout>
     );
-}
+};
 
 export default AttendanceTracking;
