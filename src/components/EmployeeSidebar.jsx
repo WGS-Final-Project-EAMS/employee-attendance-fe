@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, Collapse, ListItemButton, Card, Typography } from '@mui/material';
+import { Drawer, List, ListItem, ListItemIcon, ListItemText, Collapse, ListItemButton, Card, Typography, Divider } from '@mui/material';
 import { Dashboard, ExpandLess, ExpandMore, ExitToApp, AccessTime, Assignment } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { userLogout } from '../services/auth';
@@ -28,10 +28,10 @@ const EmployeeSidebar = () => {
     }
 
     const menuItems = [
-        { text: 'Dashboard', icon: <Dashboard />, path: '/employee/dashboard' },
+        { text: 'Dashboard', icon: <Dashboard sx={{ color: 'primary.contrastText' }} />, path: '/employee/dashboard' },
         {
             text: 'Attendance',
-            icon: <AccessTime />,
+            icon: <AccessTime sx={{ color: 'primary.contrastText' }} />,
             subItems: [
                 { text: 'Take Attendance', path: '/employee/take-attendance' },
                 { text: 'Attendance History', path: '/employee/attendance-history' }
@@ -39,14 +39,14 @@ const EmployeeSidebar = () => {
         },
         {
             text: 'Permission',
-            icon: <Assignment />,
+            icon: <Assignment sx={{ color: 'primary.contrastText' }} />,
             subItems: [
                 { text: 'Application for Permit', path: '/employee/application-for-permit' },
                 { text: 'Permission Approval', path: '/employee/permission-approval' },
                 { text: 'Permission History', path: '/employee/permission-history' }
             ]
         },
-        { text: 'Logout', icon: <ExitToApp />, action: handleLogout }
+        { text: 'Logout', icon: <ExitToApp sx={{ color: 'primary.contrastText' }} />, action: handleLogout }
     ];
 
     return (
@@ -63,6 +63,7 @@ const EmployeeSidebar = () => {
                     <Typography component="h1" variant="h4" sx={{ m:2 }}>
                         EAMS
                     </Typography>
+                    <Divider sx={{ backgroundColor:'secondary.dark' }} />
                     <List>
                         {menuItems.map((item, index) => (
                             item.subItems ? (

@@ -56,10 +56,10 @@ const AttendanceHistory = () => {
                             <Table sx={{ minWidth: 650 }} aria-label="attendance history table">
                                 <TableHead sx={{ backgroundColor:'primary.dark' }}>
                                     <TableRow>
-                                        <TableCell>Date</TableCell>
-                                        <TableCell>Clock In Time</TableCell>
-                                        <TableCell>Clock Out Time</TableCell>
-                                        <TableCell>Status</TableCell>
+                                        <TableCell sx={{ color:'primary.contrastText' }}>Date</TableCell>
+                                        <TableCell sx={{ color:'primary.contrastText' }}>Clock In Time</TableCell>
+                                        <TableCell sx={{ color:'primary.contrastText' }}>Clock Out Time</TableCell>
+                                        <TableCell sx={{ color:'primary.contrastText' }}>Status</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

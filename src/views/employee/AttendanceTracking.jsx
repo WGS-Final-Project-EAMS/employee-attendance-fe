@@ -68,12 +68,6 @@ const AttendanceTracking = () => {
                         <Box sx={{ my: 4 }}>
                             {attendanceStatus === "clocked_out" ? (
                                 <>
-                                    <Typography variant="h6" color={clockInTime? 'success.main': 'warning.main'}>
-                                        Clock In Time: {clockInTime}
-                                    </Typography>
-                                    <Typography variant="h6" color="success.main" sx={{ mt: 2 }}>
-                                        Clock Out Time: {clockOutTime}
-                                    </Typography>
                                     <Typography variant="h6" color="textSecondary" sx={{ mt: 2 }}>
                                         You have already clocked out for today.
                                     </Typography>
@@ -94,7 +88,7 @@ const AttendanceTracking = () => {
                                 </Button>
                             )}
                             {attendanceStatus === "clocked_in" && (
-                                <Button variant="contained" color="secondary" onClick={handleClockOut} fullWidth>
+                                <Button variant="contained" color="warning" onClick={handleClockOut} fullWidth>
                                     Clock Out
                                 </Button>
                             )}
