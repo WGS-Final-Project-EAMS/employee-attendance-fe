@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Collapse, ListItemButton, Card, Typography } from '@mui/material';
 import { Dashboard, ExpandLess, ExpandMore, ExitToApp, AccessTime, Assignment } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { userLogout } from '../services/auth';
+import { goToPage } from "../services/pageController";
 
 const EmployeeSidebar = () => {
     const [openAttendance, setOpenAttendance] = useState(false);
@@ -15,6 +17,14 @@ const EmployeeSidebar = () => {
     const handlePermissionClick = () => {
         setOpenPermission(!openPermission);
     };
+
+    const onLogout = () => {
+        goToPage('/login', 1500);
+    };
+
+    const handleLogout = () => {
+        userLogout(onLogout);
+    }
 
     const menuItems = [
         { text: 'Dashboard', icon: <Dashboard />, path: '/employee/dashboard' },
@@ -35,7 +45,7 @@ const EmployeeSidebar = () => {
                 { text: 'Permission History', path: '/employee/permission-history' }
             ]
         },
-        { text: 'Logout', icon: <ExitToApp />, path: '/logout' }
+        { text: 'Logout', icon: <ExitToApp />, action: handleLogout }
     ];
 
     return (
@@ -76,7 +86,7 @@ const EmployeeSidebar = () => {
                                     </Collapse>
                                 </React.Fragment>
                             ) : (
-                                <ListItem button key={index} onClick={() => navigate(item.path)}>
+                                <ListItem button key={index} onClick={item.action ? item.action : () => navigate(item.path)}>
                                     <ListItemIcon>{item.icon}</ListItemIcon>
                                     <ListItemText primary={item.text} />
                                 </ListItem>

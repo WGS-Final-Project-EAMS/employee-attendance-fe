@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { urlEndpoint, saveToken } from './url'; // Import utility functions and constants for handling URLs and tokens
 import { jwtDecode } from 'jwt-decode'; // Import jwtDecode for decoding JWT tokens
+import Cookies from 'js-cookie';
 
 export const userLogin = async (email, password, onAdminLogin, onSuperAdminLogin, onEmployeeLogin) => {
     try {        
@@ -43,11 +44,12 @@ export const userLogout = async (onLogout) => {
         const response = await axios.post(`${urlEndpoint}/logout`);
         
         if (response.status === 200) {
+            Cookies.remove('token');
+
             onLogout();
         }
 
     } catch (error) {
-        console.log(error);
-        
+        console.error("Logout failed:", error);
     }
 }

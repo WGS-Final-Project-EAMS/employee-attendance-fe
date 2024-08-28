@@ -5,7 +5,7 @@ import theme from "./assets/style/theme";
 import { userLogout } from './services/auth';
 import { goToPage } from "./services/pageController";
 import AttendanceTracking from "./views/employee/AttendanceTracking";
-// import ProtectedRoute from "./services/ProtectedRoutes";
+import ProtectedRoute from "./services/ProtectedRoutes";
 
 const Admin = () => {
   const onLogout = () => {
@@ -32,13 +32,13 @@ function App() {
           <Routes>
             <Route path="/" element={<Link to="/login">Login</Link>} />
             <Route path="/login" element={<SignIn />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/super-admin" element={<h1>Super Admin</h1>} />
-            <Route path="/employee" element={<AttendanceTracking />} />
-            <Route path="/employee/take-attendance" element={<AttendanceTracking />} />
-            <Route path="/employee/attendance-history" element={<h1>Attendance History</h1>} />
-            {/* <Route element={<ProtectedRoute />} >
-            </Route> */}
+            <Route element={<ProtectedRoute />} >
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/super-admin" element={<h1>Super Admin</h1>} />
+              <Route path="/employee" element={<AttendanceTracking />} />
+              <Route path="/employee/take-attendance" element={<AttendanceTracking />} />
+              <Route path="/employee/attendance-history" element={<h1>Attendance History</h1>} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
