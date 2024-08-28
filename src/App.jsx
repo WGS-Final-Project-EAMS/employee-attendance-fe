@@ -4,6 +4,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from "./assets/style/theme";
 import { userLogout } from './services/auth';
 import { goToPage } from "./services/pageController";
+import AttendanceTracking from "./views/employee/AttendanceTracking";
 // import ProtectedRoute from "./services/ProtectedRoutes";
 
 const Admin = () => {
@@ -31,10 +32,11 @@ function App() {
           <Routes>
             <Route path="/" element={<Link to="/login">Login</Link>} />
             <Route path="/login" element={<SignIn />} />
-            {/* <Route path="/admin" element={<Admin />} /> */}
             <Route path="/admin" element={<Admin />} />
             <Route path="/super-admin" element={<h1>Super Admin</h1>} />
-            <Route path="/employee" element={<h1>Employee</h1>} />
+            <Route path="/employee" element={<AttendanceTracking />} />
+            <Route path="/employee/take-attendance" element={<AttendanceTracking />} />
+            <Route path="/employee/attendance-history" element={<h1>Attendance History</h1>} />
             {/* <Route element={<ProtectedRoute />} >
             </Route> */}
           </Routes>

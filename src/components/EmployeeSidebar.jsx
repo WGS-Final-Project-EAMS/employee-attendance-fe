@@ -1,0 +1,92 @@
+import React, { useState } from 'react';
+import { Drawer, List, ListItem, ListItemIcon, ListItemText, Collapse, ListItemButton, Card, Typography } from '@mui/material';
+import { Dashboard, ExpandLess, ExpandMore, ExitToApp, AccessTime, Assignment } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+
+const EmployeeSidebar = () => {
+    const [openAttendance, setOpenAttendance] = useState(false);
+    const [openPermission, setOpenPermission] = useState(false);
+    const navigate = useNavigate();
+
+    const handleAttendanceClick = () => {
+        setOpenAttendance(!openAttendance);
+    };
+
+    const handlePermissionClick = () => {
+        setOpenPermission(!openPermission);
+    };
+
+    const menuItems = [
+        { text: 'Dashboard', icon: <Dashboard />, path: '/employee/dashboard' },
+        {
+            text: 'Attendance',
+            icon: <AccessTime />,
+            subItems: [
+                { text: 'Take Attendance', path: '/employee/take-attendance' },
+                { text: 'Attendance History', path: '/employee/attendance-history' }
+            ]
+        },
+        {
+            text: 'Permission',
+            icon: <Assignment />,
+            subItems: [
+                { text: 'Application for Permit', path: '/employee/application-for-permit' },
+                { text: 'Permission Approval', path: '/employee/permission-approval' },
+                { text: 'Permission History', path: '/employee/permission-history' }
+            ]
+        },
+        { text: 'Logout', icon: <ExitToApp />, path: '/logout' }
+    ];
+
+    return (
+        <>
+            <Drawer
+                variant="permanent"
+                sx={{
+                    width: 240,
+                    flexShrink: 0,
+                    [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' }
+                }}
+            >
+                <Card sx={{ minHeight: '100vh' }}>
+                    <Typography component="h1" variant="h4" sx={{ m:2 }}>
+                        EAMS
+                    </Typography>
+                    <List>
+                        {menuItems.map((item, index) => (
+                            item.subItems ? (
+                                <React.Fragment key={index}>
+                                    <ListItemButton onClick={item.text === 'Attendance' ? handleAttendanceClick : handlePermissionClick}>
+                                        <ListItemIcon>{item.icon}</ListItemIcon>
+                                        <ListItemText primary={item.text} />
+                                        {item.text === 'Attendance' ? openAttendance ? <ExpandLess /> : <ExpandMore /> : openPermission ? <ExpandLess /> : <ExpandMore />}
+                                    </ListItemButton>
+                                    <Collapse in={item.text === 'Attendance' ? openAttendance : openPermission} timeout="auto" unmountOnExit>
+                                        <List component="div" disablePadding>
+                                            {item.subItems.map((subItem, subIndex) => (
+                                                <ListItemButton
+                                                    key={subIndex}
+                                                    sx={{ pl: 4 }}
+                                                    onClick={() => navigate(subItem.path)}
+                                                >
+                                                    <ListItemText primary={subItem.text} />
+                                                </ListItemButton>
+                                            ))}
+                                        </List>
+                                    </Collapse>
+                                </React.Fragment>
+                            ) : (
+                                <ListItem button key={index} onClick={() => navigate(item.path)}>
+                                    <ListItemIcon>{item.icon}</ListItemIcon>
+                                    <ListItemText primary={item.text} />
+                                </ListItem>
+                            )
+                        ))}
+                    </List>
+                </Card>
+            </Drawer>
+        </>
+    );
+};
+
+export default EmployeeSidebar;
