@@ -6,6 +6,7 @@ import { userLogout } from './services/auth';
 import { goToPage } from "./services/pageController";
 import AttendanceTracking from "./views/employee/AttendanceTracking";
 import ProtectedRoute from "./services/ProtectedRoutes";
+import Unauthorized from "./views/Unauthorized";
 
 const Admin = () => {
   const onLogout = () => {
@@ -32,13 +33,27 @@ function App() {
           <Routes>
             <Route path="/" element={<Link to="/login">Login</Link>} />
             <Route path="/login" element={<SignIn />} />
-            <Route element={<ProtectedRoute />} >
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/super-admin" element={<h1>Super Admin</h1>} />
-              <Route path="/employee" element={<AttendanceTracking />} />
-              <Route path="/employee/take-attendance" element={<AttendanceTracking />} />
-              <Route path="/employee/attendance-history" element={<h1>Attendance History</h1>} />
+
+            {/* Admin Routes */}
+            <Route element={<ProtectedRoute allowedRoles={['admin']} />} >
+                <Route path="/admin" element={<Admin />} />
             </Route>
+
+            {/* Super Admin Routes */}
+            <Route element={<ProtectedRoute allowedRoles={['super_admin']} />} >
+                <Route path="/super-admin" element={<h1>Super Admin</h1>} />
+            </Route>
+
+            {/* Employee Routes */}
+            <Route element={<ProtectedRoute allowedRoles={['employee']} />} >
+                <Route path="/employee" element={<AttendanceTracking />} />
+                <Route path="/employee/take-attendance" element={<AttendanceTracking />} />
+                <Route path="/employee/attendance-history" element={<h1>Attendance History</h1>} />
+            </Route>
+
+            {/* Unauthorized */}
+            <Route path="/unauthorized" element={<Unauthorized />} />
+            
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

@@ -1,12 +1,21 @@
 import { Navigate, Outlet } from "react-router-dom";
-import Cookies from "js-cookie"; // Asumsi Anda menggunakan cookie untuk menyimpan token
+import { jwtDecode } from 'jwt-decode'; // Import jwtDecode for decoding JWT tokens
+import { token } from "./url";
 
-const ProtectedRoute = () => {
-    const token = Cookies.get("token"); // Mendapatkan token dari cookie
+const ProtectedRoute = ({ allowedRoles }) => {
 
     if (!token) {
         // Jika tidak ada token, arahkan ke halaman login
         return <Navigate to="/login" replace />;
+    }
+
+    // Decode the token to get the user's role
+    const { role } = jwtDecode(token);
+
+    // Check if the user's role is allowed to access the requested route
+    if (!allowedRoles.includes(role)) {
+        // Jika role tidak diizinkan, arahkan ke halaman yang sesuai, misalnya halaman "Unauthorized"
+        return <Navigate to="/unauthorized" replace />;
     }
 
     // Jika ada token, render halaman yang diminta
