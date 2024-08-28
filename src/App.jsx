@@ -5,6 +5,7 @@ import theme from "./assets/style/theme";
 import { userLogout } from './services/auth';
 import { goToPage } from "./services/pageController";
 import AttendanceTracking from "./views/employee/AttendanceTracking";
+import AttendanceHistory from "./views/employee/AttendanceHistory";
 import ProtectedRoute from "./services/ProtectedRoutes";
 import Unauthorized from "./views/Unauthorized";
 
@@ -48,7 +49,7 @@ function App() {
             <Route element={<ProtectedRoute allowedRoles={['employee']} />} >
                 <Route path="/employee" element={<AttendanceTracking />} />
                 <Route path="/employee/take-attendance" element={<AttendanceTracking />} />
-                <Route path="/employee/attendance-history" element={<h1>Attendance History</h1>} />
+                <Route path="/employee/attendance-history" element={<AttendanceHistory />} />
             </Route>
 
             {/* Unauthorized */}

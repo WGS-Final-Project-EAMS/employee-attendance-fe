@@ -6,9 +6,7 @@ const EmployeeLayout = ({children}) => {
     return (
         <Container component="main" disableGutters maxWidth="xl" sx={{ display: 'flex', flexGrow: 1, padding: '16px' }}>
             <EmployeeSidebar />
-            <div>
-                {children}
-            </div>
+            {children}
         </Container>
     );
 }
