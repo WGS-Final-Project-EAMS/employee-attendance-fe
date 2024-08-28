@@ -1,3 +1,8 @@
+import { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import { token } from "../services/url";
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode'; // Import jwtDecode for decoding JWT tokens
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -6,6 +11,39 @@ import Copyright from '../components/Copyright';
 import MainLayout from '../layouts/MainLayout';
 
 export default function SignIn() {
+  const navigate = useNavigate();
+
+    useEffect(() => {
+
+      if (token) {
+          try {
+              // Decode the token to get the payload
+              const payload = jwtDecode(token);
+              
+              // Redirect based on role
+              switch (payload.role) {
+                  case 'admin':
+                      navigate('/admin', { replace: true });
+                      break;
+                  case 'super_admin':
+                      navigate('/super-admin', { replace: true });
+                      break;
+                  case 'employee':
+                      navigate('/employee', { replace: true });
+                      break;
+                  default:
+                      navigate('/login', { replace: true });
+                      break;
+              }
+          } catch (error) {
+              console.log("Invalid token:", error);
+              // You might want to clear the invalid token and redirect to login page
+              Cookies.remove("token");
+              navigate('/login', { replace: true });
+          }
+      }
+    }, [navigate]);
+  
   return (
     <MainLayout>
       <Grid item xs={5} sx={{ backgroundColor:"primary.dark", minHeight: '100vh', paddingLeft:8 }}>
