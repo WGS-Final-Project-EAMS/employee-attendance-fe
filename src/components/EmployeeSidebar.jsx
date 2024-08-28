@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Collapse, ListItemButton, Card, Typography } from '@mui/material';
 import { Dashboard, ExpandLess, ExpandMore, ExitToApp, AccessTime, Assignment } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { userLogout } from '../services/auth';
 import { goToPage } from "../services/pageController";
 
@@ -9,6 +9,7 @@ const EmployeeSidebar = () => {
     const [openAttendance, setOpenAttendance] = useState(false);
     const [openPermission, setOpenPermission] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleAttendanceClick = () => {
         setOpenAttendance(!openAttendance);
@@ -58,7 +59,7 @@ const EmployeeSidebar = () => {
                     [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' }
                 }}
             >
-                <Card sx={{ minHeight: '100vh' }}>
+                <Card sx={{ minHeight: '100vh', backgroundColor: 'primary.dark', color: 'primary.contrastText' }}>
                     <Typography component="h1" variant="h4" sx={{ m:2 }}>
                         EAMS
                     </Typography>
@@ -73,20 +74,28 @@ const EmployeeSidebar = () => {
                                     </ListItemButton>
                                     <Collapse in={item.text === 'Attendance' ? openAttendance : openPermission} timeout="auto" unmountOnExit>
                                         <List component="div" disablePadding>
-                                            {item.subItems.map((subItem, subIndex) => (
-                                                <ListItemButton
-                                                    key={subIndex}
-                                                    sx={{ pl: 4 }}
-                                                    onClick={() => navigate(subItem.path)}
-                                                >
-                                                    <ListItemText primary={subItem.text} />
-                                                </ListItemButton>
-                                            ))}
+                                            {item.subItems.map((subItem, subIndex) => {
+                                                const isActive = location.pathname === subItem.path; // Mengecek apakah path ini aktif
+                                                return (
+                                                    <ListItemButton
+                                                        key={subIndex}
+                                                        sx={{ pl: 4, backgroundColor: isActive ? 'primary.main' : 'inherit' }}
+                                                        onClick={() => navigate(subItem.path)}
+                                                    >
+                                                        <ListItemText primary={subItem.text} />
+                                                    </ListItemButton>
+                                                );
+                                            })}
                                         </List>
                                     </Collapse>
                                 </React.Fragment>
                             ) : (
-                                <ListItem button key={index} onClick={item.action ? item.action : () => navigate(item.path)}>
+                                <ListItem
+                                    button
+                                    key={index}
+                                    onClick={item.action ? item.action : () => navigate(item.path)}
+                                    sx={{ backgroundColor: location.pathname === item.path ? 'primary.main' : 'inherit' }} // Styling untuk item aktif
+                                >
                                     <ListItemIcon>{item.icon}</ListItemIcon>
                                     <ListItemText primary={item.text} />
                                 </ListItem>

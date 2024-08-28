@@ -3,42 +3,42 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
     palette: {
-        primary: {
-          light: '#b3e5fc', // Soft light blue
-          main: '#81d4fa',  // Soft main blue
-          dark: '#4ba3c7',  // Soft dark blue
-          contrastText: '#ffffff',
-        },
-        secondary: {
-          light: '#ffe082', // Soft light yellow
-          main: '#ffca28',  // Soft main yellow
-          dark: '#c79a00',  // Soft dark yellow
-          contrastText: '#000000',
-        },
-        warning: {
-          light: '#fff59d', // Soft light amber
-          main: '#ffc107',  // Soft main amber
-          dark: '#c79100',  // Soft dark amber
-          contrastText: '#000000',
-        },
-        error: {
-          light: '#ef9a9a', // Soft light red
-          main: '#e57373',  // Soft main red
-          dark: '#af4448',  // Soft dark red
-          contrastText: '#ffffff',
-        },
-        info: {
-          light: '#80deea', // Soft light cyan
-          main: '#4dd0e1',  // Soft main cyan
-          dark: '#009faf',  // Soft dark cyan
-          contrastText: '#000000',
-        },
-        success: {
-          light: '#a5d6a7', // Soft light green
-          main: '#81c784',  // Soft main green
-          dark: '#519657',  // Soft dark green
-          contrastText: '#ffffff',
-        },
+      primary: {
+        light: '#5f738c', // Light navy blue
+        main: '#3f51b5',  // Main navy blue
+        dark: '#2c387e',  // Dark navy blue
+        contrastText: '#ffffff', // White text
+      },
+      secondary: {
+        light: '#bdbdbd', // Light grey
+        main: '#9e9e9e',  // Main grey
+        dark: '#616161',  // Dark grey
+        contrastText: '#000000', // Black text
+      },
+      warning: {
+        light: '#fff9c4', // Light yellow
+        main: '#ffeb3b',  // Main yellow
+        dark: '#fbc02d',  // Dark yellow
+        contrastText: '#000000', // Black text
+      },
+      error: {
+        light: '#ef5350', // Light red
+        main: '#f44336',  // Main red
+        dark: '#c62828',  // Dark red
+        contrastText: '#ffffff', // White text
+      },
+      info: {
+        light: '#b3e5fc', // Light blue
+        main: '#03a9f4',  // Main light blue
+        dark: '#0288d1',  // Dark blue
+        contrastText: '#000000', // Black text
+      },
+      success: {
+        light: '#81c784', // Light green
+        main: '#4caf50',  // Main green
+        dark: '#388e3c',  // Dark green
+        contrastText: '#ffffff', // White text
+      },
     },
 });
 
