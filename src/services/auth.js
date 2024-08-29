@@ -10,31 +10,36 @@ export const userLogin = async (email, password, onAdminLogin, onSuperAdminLogin
             email, password
         });
 
-        // Extract token from the response
-        const { token } = response.data;
+        if (response && response.status === 200) { // Login success
+            // Extract token from the response
+            const { token } = response.data;
 
-        // Decode the JWT token to get the payload
-        const payload = jwtDecode(token);
+            // Decode the JWT token to get the payload
+            const payload = jwtDecode(token);
 
-        saveToken(token);
+            saveToken(token);
 
-        // Determine the type of user based on the access level and call corresponding callback
-        switch (payload.role) {
-            case 'admin':
-                onAdminLogin();
-                break;
-            case 'employee':
-                onEmployeeLogin();
-                break;
-            case 'super_admin':
-                onSuperAdminLogin();
-                break;
-            default:
-                break;
+            // Determine the type of user based on the access level and call corresponding callback
+            switch (payload.role) {
+                case 'admin':
+                    onAdminLogin();
+                    break;
+                case 'employee':
+                    onEmployeeLogin();
+                    break;
+                case 'super_admin':
+                    onSuperAdminLogin();
+                    break;
+                default:
+                    break;
+            }
+        } else { // Login failed
+            return response.data.error;
         }
 
     } catch (error) {
-        console.log(error);        
+        // Return error response data or a generic message if none provided
+        return error.response?.data?.error || { general: "Login failed. Please try again." };       
     }
 }
 
