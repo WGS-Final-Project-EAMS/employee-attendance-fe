@@ -61,7 +61,7 @@ const EmployeeSidebar = () => {
             >
                 <Card sx={{ minHeight: '100vh', backgroundColor: 'primary.dark', color: 'primary.contrastText' }}>
                     <Typography component="h1" variant="h4" sx={{ m:2 }}>
-                        EAMS
+                        Ngabsen
                     </Typography>
                     <Divider sx={{ backgroundColor:'secondary.dark' }} />
                     <List>

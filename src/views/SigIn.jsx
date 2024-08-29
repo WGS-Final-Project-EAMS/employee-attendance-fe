@@ -48,7 +48,7 @@ export default function SignIn() {
     <MainLayout>
       <Grid item xs={5} sx={{ backgroundColor:"primary.dark", minHeight: '100vh', paddingLeft:8 }}>
         <Typography component="h1" variant="h3" sx={{ mt:11 }} color="primary.contrastText">
-          EAMS
+          NGABSEN
         </Typography>
         <Box
           sx={{
