@@ -6,6 +6,7 @@ import { userLogout } from './services/auth';
 import { goToPage } from "./services/pageController";
 import AttendanceTracking from "./views/employee/AttendanceTracking";
 import AttendanceHistory from "./views/employee/AttendanceHistory";
+import ActiveAdminManagement from "./views/super-admin/ActiveAdminManagement";
 import ProtectedRoute from "./services/ProtectedRoutes";
 import Unauthorized from "./views/Unauthorized";
 
@@ -42,7 +43,8 @@ function App() {
 
             {/* Super Admin Routes */}
             <Route element={<ProtectedRoute allowedRoles={['super_admin']} />} >
-                <Route path="/super-admin" element={<h1>Super Admin</h1>} />
+                <Route path="/super-admin" element={<ActiveAdminManagement />} />
+                <Route path="/super-admin/admin-management/active" element={<ActiveAdminManagement />} />
             </Route>
 
             {/* Employee Routes */}
