@@ -1,59 +1,50 @@
 import { useState, useEffect } from 'react';
 import { Container, Card, CardContent, Typography, Button, Box } from '@mui/material';
-import EmployeeLayout from '../../layouts/EmployeeLayout'; // Asumsikan ini adalah layout karyawan
-import axios from 'axios';
-import { token, urlEndpoint } from "../../services/url";
+import EmployeeLayout from '../../layouts/EmployeeLayout';
+import { fetchAttendanceStatus, clockIn, clockOut } from "../../services/attendanceService";
+import ErrorMessage from '../../components/ErrorMessage';
 
 const AttendanceTracking = () => {
     const [clockInTime, setClockInTime] = useState(null);
     const [clockOutTime, setClockOutTime] = useState(null);
     const [attendanceStatus, setAttendanceStatus] = useState(null);
+    const [error, setError] = useState(null);  // State for managing errors
 
     useEffect(() => {
-        // Fetch attendance status on mount
-        const fetchAttendanceStatus = async () => {
+        const loadAttendanceStatus = async () => {
             try {
-                const response = await axios.get(`${urlEndpoint}/attendance-status`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setAttendanceStatus(response.data.status);
+                const data = await fetchAttendanceStatus();
+                setAttendanceStatus(data);
             } catch (error) {
+                setError("Failed to fetch attendance status.");
                 console.error("Error fetching attendance status:", error);
             }
         };
 
-        fetchAttendanceStatus();
+        loadAttendanceStatus();
     }, [clockInTime, clockOutTime]);
 
     const handleClockIn = async () => {
         try {
-            const response = await axios.post(
-                `${urlEndpoint}/clock-in`,
-                {},
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-            
-            const { clock_in_time } = response.data.attendance;
+            const data = await clockIn();
+            const { clock_in_time } = data;
             setClockInTime(new Date(clock_in_time).toLocaleTimeString());
+            setError(null); // Clear any previous errors
         } catch (error) {
-            console.error("Clock in failed: ", error.response?.data?.error || error.message);
-            // Handle error appropriately (e.g., show a notification)
+            setError(error.response?.data?.error || "Clock in failed.");
+            console.error("Clock in failed:", error.response?.data?.error || error.message);
         }
     };
 
     const handleClockOut = async () => {
         try {
-            const response = await axios.post(
-                `${urlEndpoint}/clock-out`,
-                {},
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-
-            const { clock_out_time } = response.data.updatedAttendance;
+            const data = await clockOut();
+            const { clock_out_time } = data;
             setClockOutTime(new Date(clock_out_time).toLocaleTimeString());
+            setError(null); // Clear any previous errors
         } catch (error) {
-            console.error("Clock out failed: ", error.response?.data?.error || error.message);
-            // Handle error appropriately (e.g., show a notification)
+            setError(error.response?.data?.error || "Clock out failed.");
+            console.error("Clock out failed:", error.response?.data?.error || error.message);
         }
     };
 
@@ -65,6 +56,14 @@ const AttendanceTracking = () => {
                         <Typography variant="h4" component="h1" gutterBottom>
                             Attendance
                         </Typography>
+
+                        {/* Display Error Message if any */}
+                        {error && (
+                            <Box sx={{ mb: 2 }}>
+                                <ErrorMessage message={error} />
+                            </Box>
+                        )}
+
                         <Box sx={{ my: 4 }}>
                             {attendanceStatus === "clocked_out" ? (
                                 <>
@@ -74,7 +73,7 @@ const AttendanceTracking = () => {
                                 </>
                             ) : (
                                 <>
-                                    <Typography variant="h6" color={clockInTime? 'success.main': 'warning.main'}>
+                                    <Typography variant="h6" color={clockInTime ? 'success.main' : 'warning.main'}>
                                         {clockInTime ? `Clock In Time: ${clockInTime}` : "You haven't clocked in yet."}
                                     </Typography>
                                 </>
