@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -10,14 +9,14 @@ import { userLogin } from '../services/auth';
 import { goToPage } from "../services/pageController";
 
 export default function SignInForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    setEmail(data.get('email'));
-    setPassword(data.get('password'));
+
+    const data = new FormData(event.currentTarget); // Get data from form
+
+    const email = data.get('email');
+    const password = data.get('password');
 
     userLogin(email, password, onAdminLogin, onSuperAdminLogin, onEmployeeLogin);
   };
