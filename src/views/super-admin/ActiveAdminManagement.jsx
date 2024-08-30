@@ -7,6 +7,7 @@ import LoadingIndicator from "../../components/LoadingIndicator";
 import ErrorMessage from "../../components/ErrorMessage";
 import AdminTable from "../../components/AdminTable";
 import ModalElement from "../../components/elements/ModalElement";
+import ModalActionContent from "../../components/elements/ModalActionContent";
 
 const ActiveAdminManagement = () => {
     const [activeAdmin, setActiveAdmin] = useState([]);
@@ -21,11 +22,6 @@ const ActiveAdminManagement = () => {
     const handleCloseModal = () => {
         setOpenModal(false);
     };
-
-    const renderModalContent = () => {
-        return <Typography variant="h6">Create Admin Form</Typography>;
-    };
-
 
     useEffect(() => {
         const loadActiveAdmin = async () => {
@@ -74,7 +70,9 @@ const ActiveAdminManagement = () => {
                     </Box>
                 </Container>
                 {/* Modal */}
-                <ModalElement openModal={openModal} handleCloseModal={handleCloseModal} renderModalContent={renderModalContent}/>
+                <ModalElement openModal={openModal} handleCloseModal={handleCloseModal} renderModalContent={
+                   () => <ModalActionContent modalType="create" handleOpenModal={handleOpenModal}/>
+                }/>
             </SuperAdminLayout>
         </>
     );

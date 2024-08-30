@@ -1,6 +1,7 @@
 import { Typography, Box, Grid, Avatar, Button } from '@mui/material';
+import CreateEmployeeForm from '../forms/CreateEmployeeForm';
 
-const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal }) => {
+const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal, onSubmit }) => {
     const detailFields = [
         { label: 'Username', value: selectedAdmin?.user.username },
         { label: 'Role', value: selectedAdmin?.user.role },
@@ -10,6 +11,16 @@ const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal }) => {
         { label: 'Assigned By', value: selectedAdmin?.assignedBy?.username },
         { label: 'Status', value: selectedAdmin?.is_active ? 'Active' : 'Non-active' },
     ];
+
+    if (modalType === 'create') {
+        return (
+            <Box sx={{ display:'flex', flexDirection: 'column', gap:4 }}>
+                <Typography variant="h6">Create New Admin</Typography>
+                <CreateEmployeeForm onSubmit={onSubmit} />
+            </Box>
+        );
+        // Implement form edit for admin
+    }
 
     if (modalType === 'edit') {
         return <Typography variant="h6">Edit Admin Form</Typography>;
