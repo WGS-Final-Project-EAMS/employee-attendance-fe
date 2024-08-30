@@ -1,18 +1,22 @@
 import { useState } from 'react';
-import { FormControl, TextField, Button, Grid, Avatar, Typography } from '@mui/material';
+import { FormControl, TextField, Button, Grid, Avatar, Typography, Alert } from '@mui/material';
+import axios from 'axios';
+import { token, urlEndpoint } from '../../services/url';
+import { getCurrentUserId } from '../../services/auth';
 
-const CreateEmployeeForm = ({ onSubmit }) => {
+const CreateAdminForm = () => {
     const [formData, setFormData] = useState({
         username: '',
-        role: 'admin',
         email: '',
-        assigned_by: '',
+        role: 'admin',
+        assigned_by: getCurrentUserId(),
         full_name: '',
         phone_number: '',
-        profile_picture_url: '',
+        profile_picture_url: null,
     });
 
     const [profilePicture, setProfilePicture] = useState(null);
+    const [successMessage, setSuccessMessage] = useState('');
 
     const handleFileChange = (e) => {
         setProfilePicture(e.target.files[0]);
@@ -25,13 +29,46 @@ const CreateEmployeeForm = ({ onSubmit }) => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onSubmit(formData);
+        
+        console.log(formData);
+        
+        try {
+            const response = await axios.post(`${urlEndpoint}/admin`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
+
+
+            if (response.status === 201) {
+                setSuccessMessage('Admin created successfully!');
+                
+                // Reset form after success
+                setFormData({
+                    username: '',
+                    email: '',
+                    full_name: '',
+                    phone_number: '',
+                    profile_picture_url: null,
+                });
+                setProfilePicture(null);
+            }
+        } catch (error) {
+            console.error('Failed to create admin:', error.response?.data || error.message);
+            setSuccessMessage('Failed to create admin');
+        }
     };
 
     return (
-        <FormControl onSubmit={handleSubmit}>
+        <FormControl component="form" onSubmit={handleSubmit}>
+            {/* Show success message */}
+            {successMessage && (
+                <Grid item sx={{ pb:2 }} xs={12}>
+                    <Alert severity="success">{successMessage}</Alert>
+                </Grid>
+            )}
             <Grid container spacing={2} sx={{ p:2, mb:2 }}>
                 <Grid container direction='row' spacing={2}>
                     <Grid item xs={12}>
@@ -102,10 +139,10 @@ const CreateEmployeeForm = ({ onSubmit }) => {
                 </Grid>
             </Grid>
             <Button type="submit" variant="contained" color="primary" fullWidth>
-                Create Employee
+                Create admin
             </Button>
         </FormControl>
     );
 };
 
-export default CreateEmployeeForm;
+export default CreateAdminForm;

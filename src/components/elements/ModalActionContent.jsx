@@ -1,5 +1,5 @@
 import { Typography, Box, Grid, Avatar, Button } from '@mui/material';
-import CreateEmployeeForm from '../forms/CreateEmployeeForm';
+import CreateAdminForm from '../forms/CreateAdminForm';
 
 const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal, onSubmit }) => {
     const detailFields = [
@@ -14,7 +14,7 @@ const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal, onSubmi
 
     if (modalType === 'create') {
         return (
-            <CreateEmployeeForm onSubmit={onSubmit} />
+            <CreateAdminForm />
         );
         // Implement form edit for admin
     }

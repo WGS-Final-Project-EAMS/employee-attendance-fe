@@ -2,6 +2,7 @@ import axios from 'axios';
 import { urlEndpoint, saveToken } from './url'; // Import utility functions and constants for handling URLs and tokens
 import { jwtDecode } from 'jwt-decode'; // Import jwtDecode for decoding JWT tokens
 import Cookies from 'js-cookie';
+import { token } from "./url";
 
 export const userLogin = async (email, password, onAdminLogin, onSuperAdminLogin, onEmployeeLogin) => {
     try {        
@@ -58,3 +59,15 @@ export const userLogout = async (onLogout) => {
         console.error("Logout failed:", error);
     }
 }
+
+export const getCurrentUserId = () => {
+  try {
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      return decodedToken.user_id;
+    }
+  } catch (error) {
+    console.error("Failed to get user ID from token:", error);
+    return null;
+  }
+};
