@@ -1,6 +1,7 @@
-import { Modal, Box, Button, Zoom } from "@mui/material";
+import { Modal, Box, Button, Zoom, Typography, IconButton } from "@mui/material";
+import { Close } from '@mui/icons-material';
 
-const ModalElement = ({openModal, handleCloseModal, renderModalContent}) => {
+const ModalElement = ({openModal, handleCloseModal, renderModalContent, modalTitle}) => {
 
     return (
         <Modal
@@ -20,11 +21,13 @@ const ModalElement = ({openModal, handleCloseModal, renderModalContent}) => {
                     }}
                 >
                     <Box sx={{ ...style }}>
+                        <Box sx={{ display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center', mb:4 }}>
+                            <Typography variant="h6">{modalTitle}</Typography>
+                            <IconButton onClick={() => handleCloseModal()}>
+                                <Close />
+                            </IconButton>
+                        </Box>
                         {renderModalContent()}
-                        {/* Add form submission buttons here */}
-                        <Button onClick={handleCloseModal} sx={{ mt: 2 }}>
-                            Close
-                        </Button>
                     </Box>
                 </Box>
             </Zoom>

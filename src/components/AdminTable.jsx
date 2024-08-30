@@ -11,10 +11,12 @@ const AdminTable = ({ admin, onDelete }) => {
     const [selectedAdmin, setSelectedAdmin] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [modalType, setModalType] = useState('');
+    const [modalTitle, setModalTItle] = useState('');
 
-    const handleOpenModal = (admin, type) => {
+    const handleOpenModal = (admin, type, title) => {
         setSelectedAdmin(admin);
         setModalType(type);
+        setModalTItle(title);
         setOpenModal(true);
     };
 
@@ -48,10 +50,10 @@ const AdminTable = ({ admin, onDelete }) => {
                                 <TableCell>{record.full_name}</TableCell>
                                 <TableCell>{record.phone_number}</TableCell>
                                 <TableCell align="right">
-                                    <IconButton color="primary" onClick={() => handleOpenModal(record, 'detail')}>
+                                    <IconButton color="primary" onClick={() => handleOpenModal(record, 'detail', 'Admin Details')}>
                                         <Visibility />
                                     </IconButton>
-                                    <IconButton color="warning" onClick={() => handleOpenModal(record, 'edit')}>
+                                    <IconButton color="warning" onClick={() => handleOpenModal(record, 'edit', 'Edit Admin Data')}>
                                         <Edit />
                                     </IconButton>
                                     <IconButton color="error" onClick={() => handleDeleteClick(record.admin_id)}>
@@ -68,6 +70,7 @@ const AdminTable = ({ admin, onDelete }) => {
             <ModalElement
                 openModal={openModal}
                 handleCloseModal={handleCloseModal}
+                modalTitle={modalTitle}
                 renderModalContent={() => (
                     <ModalActionContent
                         selectedAdmin={selectedAdmin}

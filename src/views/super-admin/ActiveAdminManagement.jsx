@@ -70,9 +70,10 @@ const ActiveAdminManagement = () => {
                     </Box>
                 </Container>
                 {/* Modal */}
-                <ModalElement openModal={openModal} handleCloseModal={handleCloseModal} renderModalContent={
-                   () => <ModalActionContent modalType="create" handleOpenModal={handleOpenModal}/>
-                }/>
+                <ModalElement openModal={openModal} handleCloseModal={handleCloseModal} modalTitle="Create New Admin"
+                    renderModalContent={
+                        () => <ModalActionContent modalType="create" handleOpenModal={handleOpenModal}/>
+                    }/>
             </SuperAdminLayout>
         </>
     );

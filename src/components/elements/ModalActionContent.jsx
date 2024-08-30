@@ -14,10 +14,7 @@ const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal, onSubmi
 
     if (modalType === 'create') {
         return (
-            <Box sx={{ display:'flex', flexDirection: 'column', gap:4 }}>
-                <Typography variant="h6">Create New Admin</Typography>
-                <CreateEmployeeForm onSubmit={onSubmit} />
-            </Box>
+            <CreateEmployeeForm onSubmit={onSubmit} />
         );
         // Implement form edit for admin
     }
@@ -31,7 +28,6 @@ const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal, onSubmi
         return (
             <>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <Typography variant="h6">Admin Details</Typography>
                     <Avatar alt="Profile Picture" sx={{ width: 56, height: 56 }} src={selectedAdmin?.profile_picture_url} />
                     {detailFields.map((field, index) => (
                         <Grid container spacing={2} key={index}>
