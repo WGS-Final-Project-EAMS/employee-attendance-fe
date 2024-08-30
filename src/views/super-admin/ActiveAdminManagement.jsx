@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Container, Typography, Box, Button } from "@mui/material";
 import { PersonAddAlt } from '@mui/icons-material';
 import SuperAdminLayout from "../../layouts/SuperAdminLayout";
@@ -7,13 +6,26 @@ import { fetchActiveAdmin } from "../../services/adminService";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import ErrorMessage from "../../components/ErrorMessage";
 import AdminTable from "../../components/AdminTable";
+import ModalElement from "../../components/elements/ModalElement";
 
 const ActiveAdminManagement = () => {
     const [activeAdmin, setActiveAdmin] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
 
-    const navigate = useNavigate();
+    const handleOpenModal = () => {
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
+
+    const renderModalContent = () => {
+        return <Typography variant="h6">Create Admin Form</Typography>;
+    };
+
 
     useEffect(() => {
         const loadActiveAdmin = async () => {
@@ -32,10 +44,6 @@ const ActiveAdminManagement = () => {
         loadActiveAdmin();
     }, []);
 
-    const handleCreateClick = () => {
-        navigate('/admin/create');
-    };
-
     return (
         <>
             <SuperAdminLayout>
@@ -49,7 +57,7 @@ const ActiveAdminManagement = () => {
                             variant="contained"
                             color="primary"
                             sx={{ mb: 4 }}
-                            onClick={handleCreateClick}
+                            onClick={handleOpenModal}
                         >
                             <PersonAddAlt sx={{ mr: 2 }} />
                             <Typography component="h1" variant="body1">Create New Admin</Typography>
@@ -65,6 +73,8 @@ const ActiveAdminManagement = () => {
                         )}
                     </Box>
                 </Container>
+                {/* Modal */}
+                <ModalElement openModal={openModal} handleCloseModal={handleCloseModal} renderModalContent={renderModalContent}/>
             </SuperAdminLayout>
         </>
     );

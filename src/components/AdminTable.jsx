@@ -1,16 +1,26 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from "@mui/material";
-import { Visibility, Edit, Delete } from '@mui/icons-material';
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import {
+    Table, TableBody, TableCell, TableContainer, TableHead,
+    TableRow, Paper, IconButton, 
+} from "@mui/material";
+import { Visibility, Edit, Delete, } from '@mui/icons-material';
+import ModalElement from "./elements/ModalElement";
+import ModalActionContent from "./elements/ModalActionContent";
 
-const AdminTable = ({ admin }) => {
-    const navigate = useNavigate();
+const AdminTable = ({ admin, onDelete }) => {
+    const [selectedAdmin, setSelectedAdmin] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+    const [modalType, setModalType] = useState('');
 
-    const handleDetailClick = (adminId) => {
-        navigate(`/admin/detail/${adminId}`);
+    const handleOpenModal = (admin, type) => {
+        setSelectedAdmin(admin);
+        setModalType(type);
+        setOpenModal(true);
     };
 
-    const handleEditClick = (adminId) => {
-        navigate(`/admin/edit/${adminId}`);
+    const handleCloseModal = () => {
+        setSelectedAdmin(null);
+        setOpenModal(false);
     };
 
     const handleDeleteClick = (adminId) => {
@@ -20,54 +30,54 @@ const AdminTable = ({ admin }) => {
     };
 
     return (
-        <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="admin table">
-                <TableHead sx={{ backgroundColor: 'primary.dark' }}>
-                    <TableRow>
-                        <TableCell sx={{ color: 'primary.contrastText' }}>Username</TableCell>
-                        <TableCell sx={{ color: 'primary.contrastText' }}>Full Name</TableCell>
-                        <TableCell sx={{ color: 'primary.contrastText' }}>Phone Number</TableCell>
-                        <TableCell align="right" sx={{ color: 'primary.contrastText' }}>Action</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {admin.map((record) => (
-                        <TableRow key={record.admin_id}>
-                            <TableCell>
-                                {record.user.username}
-                            </TableCell>
-                            <TableCell>
-                                {record.full_name}
-                            </TableCell>
-                            <TableCell>
-                                {record.phone_number}
-                            </TableCell>
-                            <TableCell align="right">
-                                <IconButton
-                                    color="primary"
-                                    onClick={() => handleDetailClick(record.admin_id)}
-                                >
-                                    <Visibility />
-                                </IconButton>
-                                <IconButton
-                                    color="warning"
-                                    onClick={() => handleEditClick(record.admin_id)}
-                                >
-                                    <Edit />
-                                </IconButton>
-                                <IconButton
-                                    color="error"
-                                    onClick={() => handleDeleteClick(record.admin_id)}
-                                >
-                                    <Delete />
-                                </IconButton>
-                            </TableCell>
+        <>
+            <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="admin table">
+                    <TableHead sx={{ backgroundColor: 'primary.dark' }}>
+                        <TableRow>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Username</TableCell>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Full Name</TableCell>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Phone Number</TableCell>
+                            <TableCell align="right" sx={{ color: 'primary.contrastText' }}>Action</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    )
+                    </TableHead>
+                    <TableBody>
+                        {admin.map((record) => (
+                            <TableRow key={record.admin_id}>
+                                <TableCell>{record.user.username}</TableCell>
+                                <TableCell>{record.full_name}</TableCell>
+                                <TableCell>{record.phone_number}</TableCell>
+                                <TableCell align="right">
+                                    <IconButton color="primary" onClick={() => handleOpenModal(record, 'detail')}>
+                                        <Visibility />
+                                    </IconButton>
+                                    <IconButton color="warning" onClick={() => handleOpenModal(record, 'edit')}>
+                                        <Edit />
+                                    </IconButton>
+                                    <IconButton color="error" onClick={() => handleDeleteClick(record.admin_id)}>
+                                        <Delete />
+                                    </IconButton>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            {/* Modal */}
+            <ModalElement
+                openModal={openModal}
+                handleCloseModal={handleCloseModal}
+                renderModalContent={() => (
+                    <ModalActionContent
+                        selectedAdmin={selectedAdmin}
+                        modalType={modalType}
+                        handleOpenModal={handleOpenModal}
+                    />
+                )}
+            />
+        </>
+    );
 };
 
 export default AdminTable;
