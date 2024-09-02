@@ -31,16 +31,25 @@ const CreateAdminForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        console.log(formData);
-        
-        try {
-            const response = await axios.post(`${urlEndpoint}/admin`, formData, {
+
+        try {   
+            const data = new FormData();
+            data.append('username', formData.username);
+            data.append('email', formData.email);
+            data.append('role', formData.role);
+            data.append('assigned_by', formData.assigned_by);
+            data.append('full_name', formData.full_name);
+            data.append('phone_number', formData.phone_number);
+            if (profilePicture) {
+                data.append('profile_picture_url', profilePicture);
+            }
+
+            const response = await axios.post(`${urlEndpoint}/admin`, data, {
                 headers: {
+                    'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`
                 },
             });
-
 
             if (response.status === 201) {
                 setSuccessMessage('Admin created successfully!');
@@ -49,6 +58,8 @@ const CreateAdminForm = () => {
                 setFormData({
                     username: '',
                     email: '',
+                    role: 'admin',
+                    assigned_by: getCurrentUserId(),
                     full_name: '',
                     phone_number: '',
                     profile_picture_url: null,
@@ -65,12 +76,14 @@ const CreateAdminForm = () => {
         <FormControl component="form" onSubmit={handleSubmit}>
             {/* Show success message */}
             {successMessage && (
-                <Grid item sx={{ pb:2 }} xs={12}>
-                    <Alert severity="success">{successMessage}</Alert>
+                <Grid item sx={{ pb: 2 }} xs={12}>
+                    <Alert severity={successMessage.includes('Failed') ? 'error' : 'success'}>
+                        {successMessage}
+                    </Alert>
                 </Grid>
             )}
-            <Grid container spacing={2} sx={{ p:2, mb:2 }}>
-                <Grid container direction='row' spacing={2}>
+            <Grid container spacing={2} sx={{ p: 2, mb: 2 }}>
+                <Grid container direction="row" spacing={2}>
                     <Grid item xs={12}>
                         <TextField
                             label="Username"
@@ -118,16 +131,16 @@ const CreateAdminForm = () => {
                     <Grid item xs={12}>
                         <Button
                             component="label"
-                            variant='outlined'
-                            sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', gap: 2, py:2 }}
-                            color='secondary'
+                            variant="outlined"
+                            sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', gap: 2, py: 2 }}
+                            color="secondary"
                         >
                             <Avatar
                                 alt="Profile Picture"
-                                src={formData.profile_picture_url}
+                                src={profilePicture ? URL.createObjectURL(profilePicture) : formData.profile_picture_url}
                                 sx={{ width: 56, height: 56 }}
                             />
-                            <Typography variant="subtitle1">Choose Proflie Picture</Typography>
+                            <Typography variant="subtitle1">Choose Profile Picture</Typography>
                             <input
                                 type="file"
                                 hidden
@@ -139,7 +152,7 @@ const CreateAdminForm = () => {
                 </Grid>
             </Grid>
             <Button type="submit" variant="contained" color="primary" fullWidth>
-                Create admin
+                Create Admin
             </Button>
         </FormControl>
     );

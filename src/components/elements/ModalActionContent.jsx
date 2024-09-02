@@ -1,5 +1,6 @@
 import { Typography, Box, Grid, Avatar, Button } from '@mui/material';
 import CreateAdminForm from '../forms/CreateAdminForm';
+import { urlEndpoint } from '../../services/url';
 
 const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal, onSubmit }) => {
     const detailFields = [
@@ -25,10 +26,18 @@ const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal, onSubmi
     }
 
     if (modalType === 'detail') {
+        const AvatarComponent = ({url}) => {
+            const avatarUrl = `${urlEndpoint}/${url}`;
+            console.log(avatarUrl);
+
+            return (
+                <Avatar alt="Profile Picture" sx={{ width: 56, height: 56 }} src={avatarUrl} />
+            );
+        }
         return (
             <>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <Avatar alt="Profile Picture" sx={{ width: 56, height: 56 }} src={selectedAdmin?.profile_picture_url} />
+                    <AvatarComponent url={selectedAdmin?.profile_picture_url} />
                     {detailFields.map((field, index) => (
                         <Grid container spacing={2} key={index}>
                             <Grid item xs={4}>
