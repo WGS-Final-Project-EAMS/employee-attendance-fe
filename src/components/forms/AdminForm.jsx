@@ -29,6 +29,7 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
             const avatarUrl = `${urlEndpoint}/${adminData.profile_picture_url}`;
 
             setFormData({
+                user_id: adminData.user_id || '',
                 admin_id: adminData.admin_id || '',
                 username: adminData.user.username || '',
                 email: adminData.user.email || '',
