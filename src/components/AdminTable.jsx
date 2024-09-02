@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, Paper, IconButton, 
+    TableRow, TablePagination, Paper, IconButton, 
 } from "@mui/material";
 import { Visibility, Edit, Delete, } from '@mui/icons-material';
 import ModalElement from "./elements/ModalElement";
@@ -13,6 +13,10 @@ const AdminTable = ({ admin, onDelete }) => {
     const [openModal, setOpenModal] = useState(false);
     const [modalType, setModalType] = useState('');
     const [modalTitle, setModalTItle] = useState('');
+
+    // Pagination state
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const handleOpenModal = (admin, type, title) => {
         setSelectedAdmin(admin);
@@ -32,6 +36,16 @@ const AdminTable = ({ admin, onDelete }) => {
         }
     };
 
+    // Pagination handle
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
     return (
         <>
             <TableContainer component={Paper}>
@@ -45,7 +59,9 @@ const AdminTable = ({ admin, onDelete }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {admin.map((record) => (
+                    {admin
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((record) => (
                             <TableRow key={record.admin_id}>
                                 <TableCell sx={{ display:'flex', flexDirection:'row', alignItems:'center', gap:3 }}>
                                     <AvatarComponent url={ record.profile_picture_url } size={36} />
@@ -68,6 +84,15 @@ const AdminTable = ({ admin, onDelete }) => {
                         ))}
                     </TableBody>
                 </Table>
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={admin.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
             </TableContainer>
 
             {/* Modal */}
