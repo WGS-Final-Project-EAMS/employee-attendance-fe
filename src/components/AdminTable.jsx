@@ -6,6 +6,7 @@ import {
 import { Visibility, Edit, Delete, } from '@mui/icons-material';
 import ModalElement from "./elements/ModalElement";
 import ModalActionContent from "./elements/ModalActionContent";
+import AvatarComponent from "./elements/UserAvatar";
 
 const AdminTable = ({ admin, onDelete }) => {
     const [selectedAdmin, setSelectedAdmin] = useState(null);
@@ -46,7 +47,10 @@ const AdminTable = ({ admin, onDelete }) => {
                     <TableBody>
                         {admin.map((record) => (
                             <TableRow key={record.admin_id}>
-                                <TableCell>{record.user.username}</TableCell>
+                                <TableCell sx={{ display:'flex', flexDirection:'row', alignItems:'center', gap:3 }}>
+                                    <AvatarComponent url={ record.profile_picture_url } size={36} />
+                                    {record.user.username}
+                                </TableCell>
                                 <TableCell>{record.full_name}</TableCell>
                                 <TableCell>{record.phone_number}</TableCell>
                                 <TableCell align="right">
