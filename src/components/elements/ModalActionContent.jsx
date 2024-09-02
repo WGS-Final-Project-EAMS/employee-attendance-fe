@@ -2,7 +2,7 @@ import { Typography, Box, Grid, Button } from '@mui/material';
 import AdminForm from '../forms/AdminForm';
 import AvatarComponent from './UserAvatar';
 
-const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal, onSubmit }) => {
+const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal }) => {
     const detailFields = [
         { label: 'Username', value: selectedAdmin?.user.username },
         { label: 'Role', value: selectedAdmin?.user.role },
@@ -42,7 +42,7 @@ const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal, onSubmi
                         </Grid>
                     ))}
                 </Box>
-                <Button onClick={() => handleOpenModal(selectedAdmin, 'edit')} sx={{ mt: 2 }} color="warning">
+                <Button onClick={() => handleOpenModal(selectedAdmin, 'edit', 'Edit Admin Data')} sx={{ mt: 2 }} color="warning">
                     Edit
                 </Button>
             </>

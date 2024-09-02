@@ -15,30 +15,31 @@ const ActiveAdminManagement = () => {
     const [error, setError] = useState(null);
     const [openModal, setOpenModal] = useState(false);
 
+    const loadActiveAdmin = async () => {
+        try {
+            const data = await fetchActiveAdmin(); // Get attendance history data
+            
+            setActiveAdmin(data);
+        } catch (error) {
+            setError("Failed to fetch attendance history.");
+            console.error("Error fetching attendance history:", error);
+        } finally {
+            setLoading(false); // Loading false if fetching successful
+        }
+    }
+
+    useEffect(() => {
+        loadActiveAdmin();
+    }, []);
+
     const handleOpenModal = () => {
         setOpenModal(true);
     };
 
     const handleCloseModal = () => {
         setOpenModal(false);
-    };
-
-    useEffect(() => {
-        const loadActiveAdmin = async () => {
-            try {
-                const data = await fetchActiveAdmin(); // Get attendance history data
-                
-                setActiveAdmin(data);
-            } catch (error) {
-                setError("Failed to fetch attendance history.");
-                console.error("Error fetching attendance history:", error);
-            } finally {
-                setLoading(false); // Loading false if fetching successful
-            }
-        }
-
         loadActiveAdmin();
-    }, []);
+    };
 
     return (
         <>
@@ -65,14 +66,14 @@ const ActiveAdminManagement = () => {
                         ) : activeAdmin.length === 0 ? (
                             <Typography>No attendance history found.</Typography>
                         ) : (
-                            <AdminTable admin={activeAdmin} />
+                            <AdminTable admin={activeAdmin} loadActiveAdmin={loadActiveAdmin} />
                         )}
                     </Box>
                 </Container>
                 {/* Modal */}
                 <ModalElement openModal={openModal} handleCloseModal={handleCloseModal} modalTitle="Create New Admin"
                     renderModalContent={
-                        () => <ModalActionContent modalType="create" handleOpenModal={handleOpenModal}/>
+                        () => <ModalActionContent modalType="create" handleOpenModal={handleOpenModal} />
                     }/>
             </SuperAdminLayout>
         </>

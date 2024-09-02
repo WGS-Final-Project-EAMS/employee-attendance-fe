@@ -8,7 +8,7 @@ import ModalElement from "./elements/ModalElement";
 import ModalActionContent from "./elements/ModalActionContent";
 import AvatarComponent from "./elements/UserAvatar";
 
-const AdminTable = ({ admin, onDelete }) => {
+const AdminTable = ({ admin, onDelete, loadActiveAdmin }) => {
     const [selectedAdmin, setSelectedAdmin] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [modalType, setModalType] = useState('');
@@ -28,6 +28,7 @@ const AdminTable = ({ admin, onDelete }) => {
     const handleCloseModal = () => {
         setSelectedAdmin(null);
         setOpenModal(false);
+        loadActiveAdmin();
     };
 
     const handleDeleteClick = (adminId) => {
