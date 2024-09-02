@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FormControl, TextField, Button, Grid, Avatar, Typography, Alert } from '@mui/material';
 import { token } from '../../services/url';
 import { getCurrentUserId } from '../../services/auth';
-import { createAdmin } from '../../services/adminService';
+import { createAdmin, updateAdmin } from '../../services/adminService';
+import { urlEndpoint } from '../../services/url';
 
-const CreateAdminForm = () => {
+const AdminForm = ({ mode = 'create', adminData = {} }) => {
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -22,6 +23,25 @@ const CreateAdminForm = () => {
     const [phoneNumberError, setPhoneNumberError] = useState('');
     const [generalError, setGeneralError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+
+    useEffect(() => {
+        if (mode === 'edit' && adminData) {
+            const avatarUrl = `${urlEndpoint}/${adminData.profile_picture_url}`;
+
+            setFormData({
+                admin_id: adminData.admin_id || '',
+                username: adminData.user.username || '',
+                email: adminData.user.email || '',
+                role: adminData.role || 'admin',
+                assigned_by: adminData.assigned_by || '',
+                full_name: adminData.full_name || '',
+                phone_number: adminData.phone_number || '',
+                profile_picture_url: avatarUrl || null,
+            });
+            
+            setProfilePicture(null); // Reset profile picture state
+        }
+    }, [mode, adminData]);
 
     const handleFileChange = (e) => {
         setProfilePicture(e.target.files[0]);
@@ -45,21 +65,24 @@ const CreateAdminForm = () => {
         setGeneralError('');
         setSuccessMessage('');
 
-        const { success, error } = await createAdmin(formData, profilePicture, token);
+        const serviceFunction = mode === 'create' ? createAdmin : updateAdmin;
+        const { success, error } = await serviceFunction(formData, profilePicture, token);
 
         if (success) {
-            setSuccessMessage('Admin created successfully!');
-            // Reset form after success
-            setFormData({
-                username: '',
-                email: '',
-                role: 'admin',
-                assigned_by: getCurrentUserId(),
-                full_name: '',
-                phone_number: '',
-                profile_picture_url: null,
-            });
-            setProfilePicture(null);
+            setSuccessMessage(`Admin ${mode === 'create' ? 'created' : 'updated'} successfully!`);
+            if (mode === 'create') {
+                // Reset form after success
+                setFormData({
+                    username: '',
+                    email: '',
+                    role: 'admin',
+                    assigned_by: getCurrentUserId(),
+                    full_name: '',
+                    phone_number: '',
+                    profile_picture_url: null,
+                });
+                setProfilePicture(null);
+            }
         } else {
             if (error.username) setUsernameError(error.username);
             if (error.email) setEmailError(error.email);
@@ -71,13 +94,11 @@ const CreateAdminForm = () => {
 
     return (
         <FormControl component="form" onSubmit={handleSubmit}>
-            {/* Show general error */}
             {generalError && (
                 <Grid item sx={{ pb: 2 }} xs={12}>
                     <Alert severity="error">{generalError}</Alert>
                 </Grid>
             )}
-            {/* Show success message */}
             {successMessage && (
                 <Grid item sx={{ pb: 2 }} xs={12}>
                     <Alert severity="success">{successMessage}</Alert>
@@ -152,17 +173,17 @@ const CreateAdminForm = () => {
                         <input
                             type="file"
                             hidden
-                            accept="image/*"
+                            accept="image/jpeg, image/png, image/webp"
                             onChange={handleFileChange}
                         />
                     </Button>
                 </Grid>
             </Grid>
             <Button type="submit" variant="contained" color="primary" fullWidth>
-                Create Admin
+                {mode === 'create' ? 'Create Admin' : 'Update Admin'}
             </Button>
         </FormControl>
     );
 };
 
-export default CreateAdminForm;
+export default AdminForm;

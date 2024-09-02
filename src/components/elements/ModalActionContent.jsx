@@ -1,6 +1,6 @@
-import { Typography, Box, Grid, Avatar, Button } from '@mui/material';
-import CreateAdminForm from '../forms/CreateAdminForm';
-import { urlEndpoint } from '../../services/url';
+import { Typography, Box, Grid, Button } from '@mui/material';
+import AdminForm from '../forms/AdminForm';
+import AvatarComponent from './UserAvatar';
 
 const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal, onSubmit }) => {
     const detailFields = [
@@ -15,25 +15,18 @@ const ModalActionContent = ({ selectedAdmin, modalType, handleOpenModal, onSubmi
 
     if (modalType === 'create') {
         return (
-            <CreateAdminForm />
+            <AdminForm />
         );
         // Implement form edit for admin
     }
 
     if (modalType === 'edit') {
-        return <Typography variant="h6">Edit Admin Form</Typography>;
+        return <AdminForm mode='edit' adminData={selectedAdmin} />;
         // Implement form edit for admin
     }
 
     if (modalType === 'detail') {
-        const AvatarComponent = ({url}) => {
-            const avatarUrl = `${urlEndpoint}/${url}`;
-            console.log(avatarUrl);
-
-            return (
-                <Avatar alt="Profile Picture" sx={{ width: 56, height: 56 }} src={avatarUrl} />
-            );
-        }
+        
         return (
             <>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
