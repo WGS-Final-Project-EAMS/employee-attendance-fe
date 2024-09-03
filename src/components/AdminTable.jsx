@@ -48,7 +48,7 @@ const AdminTable = ({ admin, loadAdmin }) => {
                     <TableHead sx={{ backgroundColor: 'primary.dark' }}>
                         <TableRow>
                             <TableCell sx={{ color: 'primary.contrastText' }}>Username</TableCell>
-                            <TableCell sx={{ color: 'primary.contrastText' }}>Full Name</TableCell>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Email</TableCell>
                             <TableCell sx={{ color: 'primary.contrastText' }}>Phone Number</TableCell>
                             <TableCell align="right" sx={{ color: 'primary.contrastText' }}>Action</TableCell>
                         </TableRow>
@@ -62,7 +62,7 @@ const AdminTable = ({ admin, loadAdmin }) => {
                                     <AvatarComponent url={ record.profile_picture_url } size={36} />
                                     {record.user.username}
                                 </TableCell>
-                                <TableCell>{record.full_name}</TableCell>
+                                <TableCell>{record.user.email}</TableCell>
                                 <TableCell>{record.phone_number}</TableCell>
                                 <TableCell align="right">
                                     <IconButton color="primary" onClick={() => handleOpenModal(record, 'detail', 'Admin Details')}>
