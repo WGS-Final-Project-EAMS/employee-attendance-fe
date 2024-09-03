@@ -8,7 +8,7 @@ import ModalElement from "./elements/ModalElement";
 import ModalActionContent from "./elements/ModalActionContent";
 import AvatarComponent from "./elements/UserAvatar";
 
-const AdminTable = ({ admin, onDelete, loadAdmin }) => {
+const AdminTable = ({ admin, loadAdmin }) => {
     const [selectedAdmin, setSelectedAdmin] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [modalType, setModalType] = useState('');
@@ -29,12 +29,6 @@ const AdminTable = ({ admin, onDelete, loadAdmin }) => {
         setSelectedAdmin(null);
         setOpenModal(false);
         loadAdmin();
-    };
-
-    const handleDeleteClick = (adminId) => {
-        if (window.confirm('Are you sure you want to delete this admin?')) {
-            onDelete(adminId);
-        }
     };
 
     // Pagination handle
@@ -78,7 +72,7 @@ const AdminTable = ({ admin, onDelete, loadAdmin }) => {
                                         <Edit />
                                     </IconButton>
                                     {!record.is_active &&
-                                        <IconButton color="error" onClick={() => handleDeleteClick(record.admin_id)}>
+                                        <IconButton color="error" onClick={() => handleOpenModal(record, 'delete')}>
                                             <Delete />
                                         </IconButton>
                                     }
@@ -105,9 +99,10 @@ const AdminTable = ({ admin, onDelete, loadAdmin }) => {
                 modalTitle={modalTitle}
                 renderModalContent={() => (
                     <ModalActionContent
-                        selectedAdmin={selectedAdmin}
+                        data={selectedAdmin}
                         modalType={modalType}
                         handleOpenModal={handleOpenModal}
+                        handleCloseModal={handleCloseModal}
                     />
                 )}
             />

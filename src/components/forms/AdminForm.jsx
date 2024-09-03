@@ -79,9 +79,6 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
         setGeneralError('');
         setSuccessMessage('');
 
-        console.log(formData);
-        
-
         const serviceFunction = mode === 'create' ? createAdmin : updateAdmin;
         const { success, error } = await serviceFunction(formData, profilePicture, token);
 

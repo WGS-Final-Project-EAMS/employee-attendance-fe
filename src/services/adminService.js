@@ -89,3 +89,22 @@ export const updateAdmin = async (adminData, profilePicture, token) => {
         return { success: false, error: error.response?.data || 'An error occurred' };
     }
 };
+
+// Delete admin (hard delete)
+export const deleteAdmin = async (adminId) => {
+    try {
+        const response = await axios.delete(`${urlEndpoint}/admin/${adminId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,  // Include token in the Authorization header
+            }
+        });
+
+        if (response.status === 204) {
+            return { success: true };
+        } else {
+            return { success: false, error: response.data };
+        }
+    } catch (error) {
+        return { success: false, error: error.response?.data || 'An error occurred' };
+    }
+}
