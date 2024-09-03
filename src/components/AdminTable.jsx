@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 import { Visibility, Edit, Delete, } from '@mui/icons-material';
 import ModalElement from "./elements/ModalElement";
-import ModalActionContent from "./elements/ModalActionContent";
+import { ModalActionAdmin } from "./elements/ModalActionContent";
 import AvatarComponent from "./elements/UserAvatar";
 
 const AdminTable = ({ admin, loadAdmin }) => {
@@ -98,7 +98,7 @@ const AdminTable = ({ admin, loadAdmin }) => {
                 handleCloseModal={handleCloseModal}
                 modalTitle={modalTitle}
                 renderModalContent={() => (
-                    <ModalActionContent
+                    <ModalActionAdmin
                         data={selectedAdmin}
                         modalType={modalType}
                         handleOpenModal={handleOpenModal}

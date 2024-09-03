@@ -5,7 +5,7 @@ import AdminForm from '../forms/AdminForm';
 import AvatarComponent from './UserAvatar';
 import { deleteAdmin } from '../../services/adminService';
 
-const ModalActionContent = ({ data, modalType, handleOpenModal, handleCloseModal=null }) => {
+export const ModalActionAdmin = ({ data, modalType, handleOpenModal, handleCloseModal=null }) => {
     const detailFields = [
         { label: 'Username', value: data?.user?.username },
         { label: 'Role', value: data?.user?.role },
@@ -101,4 +101,38 @@ const ModalActionContent = ({ data, modalType, handleOpenModal, handleCloseModal
     return null;
 };
 
-export default ModalActionContent;
+export const ModalActionErrorLog = ({ data, modalType }) => {
+
+    if (modalType === 'detail') {
+        const errorDate = new Date(data?.error_timestamp).toLocaleDateString('en-GB')
+        const errorTimeString = new Date(data?.error_timestamp).toLocaleTimeString();
+        const errorTime = `${errorDate} - ${errorTimeString}`;
+
+        const detailFields = [
+            { label: 'User', value: data?.user?.username },
+            { label: 'User Email', value: data?.user?.email },
+            { label: 'Error Type', value: data?.error_type },
+            { label: 'Error Time', value: errorTime },
+            { label: 'Error Message', value: data?.error_message },
+        ];
+        
+        return (
+            <>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    {detailFields.map((field, index) => (
+                        <Grid container spacing={2} key={index}>
+                            <Grid item xs={4}>
+                                <Typography variant="body1" color='secondary.main'>{field.label}</Typography>
+                            </Grid>
+                            <Grid item xs={8}>
+                                <Typography variant="body1">{field.value}</Typography>
+                            </Grid>
+                        </Grid>
+                    ))}
+                </Box>
+            </>
+        );
+    }
+    
+    return null;
+};

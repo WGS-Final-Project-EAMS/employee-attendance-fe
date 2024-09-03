@@ -7,7 +7,7 @@ import LoadingIndicator from "../../components/LoadingIndicator";
 import ErrorMessage from "../../components/ErrorMessage";
 import AdminTable from "../../components/AdminTable";
 import ModalElement from "../../components/elements/ModalElement";
-import ModalActionContent from "../../components/elements/ModalActionContent";
+import { ModalActionAdmin } from "../../components/elements/ModalActionContent";
 
 const ActiveAdminManagement = () => {
     const [activeAdmin, setActiveAdmin] = useState([]);
@@ -73,7 +73,7 @@ const ActiveAdminManagement = () => {
                 {/* Modal */}
                 <ModalElement openModal={openModal} handleCloseModal={handleCloseModal} modalTitle="Create New Admin"
                     renderModalContent={
-                        () => <ModalActionContent modalType="create" handleOpenModal={handleOpenModal} />
+                        () => <ModalActionAdmin modalType="create" handleOpenModal={handleOpenModal} />
                     }/>
             </SuperAdminLayout>
         </>

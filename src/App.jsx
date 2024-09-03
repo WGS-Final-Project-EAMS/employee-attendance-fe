@@ -8,6 +8,7 @@ import AttendanceTracking from "./views/employee/AttendanceTracking";
 import AttendanceHistory from "./views/employee/AttendanceHistory";
 import ActiveAdminManagement from "./views/super-admin/ActiveAdminManagement";
 import NonActiveAdmin from "./views/super-admin/NonActiveAdmin";
+import ErrorLog from "./views/super-admin/ErrorLog";
 import ProtectedRoute from "./services/ProtectedRoutes";
 import Unauthorized from "./views/Unauthorized";
 
@@ -47,6 +48,7 @@ function App() {
                 <Route path="/super-admin" element={<ActiveAdminManagement />} />
                 <Route path="/super-admin/admin-management/active" element={<ActiveAdminManagement />} />
                 <Route path="/super-admin/admin-management/non-active" element={<NonActiveAdmin />} />
+                <Route path="/super-admin/error-log" element={<ErrorLog />} />
             </Route>
 
             {/* Employee Routes */}
