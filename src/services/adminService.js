@@ -3,7 +3,15 @@ import { token, urlEndpoint } from "./url";
 
 // Get all active admin
 export const fetchActiveAdmin = async () => {
-    const response = await axios.get(`${urlEndpoint}/admins`, {
+    const response = await axios.get(`${urlEndpoint}/admins/active`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+};
+
+// Get all active admin
+export const fetchNonActiveAdmin = async () => {
+    const response = await axios.get(`${urlEndpoint}/admins/non-active`, {
         headers: { Authorization: `Bearer ${token}` }
     });
     return response.data;

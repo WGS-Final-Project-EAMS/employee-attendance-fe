@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
-import { FormControl, TextField, Button, Grid, Avatar, Typography, Alert } from '@mui/material';
+import {
+    FormControl, TextField, Button, Grid, Avatar, Typography, Alert,
+    FormControlLabel, Switch,
+ } from '@mui/material';
 import { token } from '../../services/url';
 import { getCurrentUserId } from '../../services/auth';
 import { createAdmin, updateAdmin } from '../../services/adminService';
@@ -14,7 +17,9 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
         full_name: '',
         phone_number: '',
         profile_picture_url: null,
+        is_active: false,
     });
+    
 
     const [profilePicture, setProfilePicture] = useState(null);
     const [usernameError, setUsernameError] = useState('');
@@ -38,6 +43,7 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
                 full_name: adminData.full_name || '',
                 phone_number: adminData.phone_number || '',
                 profile_picture_url: avatarUrl || null,
+                is_active: adminData.is_active || false, // Add this line
             });
             
             setProfilePicture(null); // Reset profile picture state
@@ -55,6 +61,13 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
         });
     };
 
+    const handleSwitchChange = (event) => {
+        setFormData({
+            ...formData,
+            is_active: event.target.checked,
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -65,6 +78,9 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
         setPhoneNumberError('');
         setGeneralError('');
         setSuccessMessage('');
+
+        console.log(formData);
+        
 
         const serviceFunction = mode === 'create' ? createAdmin : updateAdmin;
         const { success, error } = await serviceFunction(formData, profilePicture, token);
@@ -155,6 +171,20 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
                         helperText={phoneNumberError}
                     />
                 </Grid>
+                {mode === 'edit' &&
+                    <Grid item xs={12}>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={formData.is_active}
+                                    onChange={handleSwitchChange}
+                                    color="primary"
+                                />
+                            }
+                            label={formData.is_active ? 'active' : 'non-active'}
+                        />
+                    </Grid>
+                }
                 <Grid item xs={12}>
                     <Typography variant="h6">Upload Profile Picture</Typography>
                 </Grid>

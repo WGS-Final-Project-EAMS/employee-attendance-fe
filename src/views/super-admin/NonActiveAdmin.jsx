@@ -2,24 +2,24 @@ import { useState, useEffect } from "react";
 import { Container, Typography, Box, Button } from "@mui/material";
 import { PersonAddAlt } from '@mui/icons-material';
 import SuperAdminLayout from "../../layouts/SuperAdminLayout";
-import { fetchActiveAdmin } from "../../services/adminService";
+import { fetchNonActiveAdmin } from "../../services/adminService";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import ErrorMessage from "../../components/ErrorMessage";
 import AdminTable from "../../components/AdminTable";
 import ModalElement from "../../components/elements/ModalElement";
 import ModalActionContent from "../../components/elements/ModalActionContent";
 
-const ActiveAdminManagement = () => {
-    const [activeAdmin, setActiveAdmin] = useState([]);
+const NonActiveAdmin = () => {
+    const [nonActiveAdmin, setAdmin] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [openModal, setOpenModal] = useState(false);
 
-    const loadActiveAdmin = async () => {
+    const loadNonactiveAdmin = async () => {
         try {
-            const data = await fetchActiveAdmin(); // Get attendance history data
+            const data = await fetchNonActiveAdmin(); // Get attendance history data
             
-            setActiveAdmin(data);
+            setAdmin(data);
         } catch (error) {
             setError("Failed to fetch attendance history.");
             console.error("Error fetching attendance history:", error);
@@ -29,7 +29,7 @@ const ActiveAdminManagement = () => {
     }
 
     useEffect(() => {
-        loadActiveAdmin();
+        loadNonactiveAdmin();
     }, []);
 
     const handleOpenModal = () => {
@@ -38,7 +38,7 @@ const ActiveAdminManagement = () => {
 
     const handleCloseModal = () => {
         setOpenModal(false);
-        loadActiveAdmin();
+        loadNonactiveAdmin();
     };
 
     return (
@@ -46,27 +46,18 @@ const ActiveAdminManagement = () => {
             <SuperAdminLayout>
                 <Container maxWidth="xl" sx={{ mt: 8, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Typography component="h1" variant="h4" color="primary.dark">
-                        Admin Management
+                        Non Active Admin
                     </Typography>
                     {/* Main Content */}
                     <Box sx={{ my: 4, mt: 4 }}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            sx={{ mb: 4 }}
-                            onClick={handleOpenModal}
-                        >
-                            <PersonAddAlt sx={{ mr: 2 }} />
-                            <Typography component="h1" variant="body1">Create New Admin</Typography>
-                        </Button>
                         {loading ? (
                             <LoadingIndicator />
                         ) : error ? (
                             <ErrorMessage message={error} />
-                        ) : activeAdmin.length === 0 ? (
-                            <Typography>No active admin found.</Typography>
+                        ) : nonActiveAdmin.length === 0 ? (
+                            <Typography>No non-active admin found.</Typography>
                         ) : (
-                            <AdminTable admin={activeAdmin} loadAdmin={loadActiveAdmin} />
+                            <AdminTable admin={nonActiveAdmin} loadAdmin={loadNonactiveAdmin} />
                         )}
                     </Box>
                 </Container>
@@ -80,4 +71,4 @@ const ActiveAdminManagement = () => {
     );
 }
 
-export default ActiveAdminManagement;
+export default NonActiveAdmin;
