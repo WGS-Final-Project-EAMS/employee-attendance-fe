@@ -77,9 +77,11 @@ const AdminTable = ({ admin, onDelete, loadAdmin }) => {
                                     <IconButton color="warning" onClick={() => handleOpenModal(record, 'edit', 'Edit Admin Data')}>
                                         <Edit />
                                     </IconButton>
-                                    <IconButton color="error" onClick={() => handleDeleteClick(record.admin_id)}>
-                                        <Delete />
-                                    </IconButton>
+                                    {!record.is_active &&
+                                        <IconButton color="error" onClick={() => handleDeleteClick(record.admin_id)}>
+                                            <Delete />
+                                        </IconButton>
+                                    }
                                 </TableCell>
                             </TableRow>
                         ))}
