@@ -71,7 +71,7 @@ const AdminTable = ({ admin, loadAdmin }) => {
                                     <IconButton color="warning" onClick={() => handleOpenModal(record, 'edit', 'Edit Admin Data')}>
                                         <Edit />
                                     </IconButton>
-                                    {!record.is_active &&
+                                    {!record.user.is_active &&
                                         <IconButton color="error" onClick={() => handleOpenModal(record, 'delete')}>
                                             <Delete />
                                         </IconButton>
