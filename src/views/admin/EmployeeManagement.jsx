@@ -7,7 +7,7 @@ import LoadingIndicator from "../../components/LoadingIndicator";
 import ErrorMessage from "../../components/ErrorMessage";
 import EmployeeTable from "../../components/EmployeeTable";
 import ModalElement from "../../components/elements/ModalElement";
-import { ModalActionAdmin } from "../../components/elements/ModalActionContent";
+import { ModalActionEmployee } from "../../components/elements/ModalActionContent";
 
 const EmployeeManagement = () => {
     const [employee, setEmployee] = useState([]);
@@ -71,9 +71,9 @@ const EmployeeManagement = () => {
                     </Box>
                 </Container>
                 {/* Modal */}
-                <ModalElement openModal={openModal} handleCloseModal={handleCloseModal} modalTitle="Create New Admin"
+                <ModalElement openModal={openModal} handleCloseModal={handleCloseModal} modalTitle="Create New Employee"
                     renderModalContent={
-                        () => <ModalActionAdmin modalType="create" handleOpenModal={handleOpenModal} />
+                        () => <ModalActionEmployee modalType="create" handleOpenModal={handleOpenModal} />
                     }/>
             </AdminLayout>
         </>

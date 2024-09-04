@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 import { Visibility, Edit, Delete, } from '@mui/icons-material';
 import ModalElement from "./elements/ModalElement";
-import { ModalActionAdmin } from "./elements/ModalActionContent";
+import { ModalActionEmployee } from "./elements/ModalActionContent";
 import AvatarComponent from "./elements/UserAvatar";
 
 const EmployeeTable = ({ employee, loadEmployee }) => {
@@ -65,10 +65,10 @@ const EmployeeTable = ({ employee, loadEmployee }) => {
                                 <TableCell>{record.position}</TableCell>
                                 <TableCell>{record.department}</TableCell>
                                 <TableCell align="right">
-                                    <IconButton color="primary" onClick={() => handleOpenModal(record, 'detail', 'employee Details')}>
+                                    <IconButton color="primary" onClick={() => handleOpenModal(record, 'detail', 'Employee Details')}>
                                         <Visibility />
                                     </IconButton>
-                                    <IconButton color="warning" onClick={() => handleOpenModal(record, 'edit', 'Edit employee Data')}>
+                                    <IconButton color="warning" onClick={() => handleOpenModal(record, 'edit', 'Edit Employee Data')}>
                                         <Edit />
                                     </IconButton>
                                     {!record.user.is_active &&
@@ -98,7 +98,7 @@ const EmployeeTable = ({ employee, loadEmployee }) => {
                 handleCloseModal={handleCloseModal}
                 modalTitle={modalTitle}
                 renderModalContent={() => (
-                    <ModalActionAdmin
+                    <ModalActionEmployee
                         data={selectedEmployee}
                         modalType={modalType}
                         handleOpenModal={handleOpenModal}
