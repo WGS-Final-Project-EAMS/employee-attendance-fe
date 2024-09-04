@@ -6,7 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import Alert from '@mui/material/Alert';
 import { userLogin } from '../services/auth';
 import { goToPage } from "../services/pageController";
 
@@ -58,9 +58,9 @@ export default function SignInForm() {
     <Box component="form" onSubmit={handleSubmit} noValidate>
       {/* Start of Error Handling */}
       {generalError && (
-        <Typography color="error" variant="body2" gutterBottom>
-          {generalError}
-        </Typography>
+        <Grid item sx={{ pb: 2 }} xs={12}>
+            <Alert severity="error">{generalError}</Alert>
+        </Grid>
       )}
       {/* End of Error Handling */}
       <TextField
