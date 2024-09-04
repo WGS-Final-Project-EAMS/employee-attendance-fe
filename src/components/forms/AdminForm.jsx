@@ -43,7 +43,7 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
                 full_name: adminData.full_name || '',
                 phone_number: adminData.phone_number || '',
                 profile_picture_url: avatarUrl || null,
-                is_active: adminData.is_active || false, // Add this line
+                is_active: adminData.user.is_active || false, // Add this line
             });
             
             setProfilePicture(null); // Reset profile picture state

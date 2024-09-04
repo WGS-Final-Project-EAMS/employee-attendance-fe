@@ -13,7 +13,7 @@ export const ModalActionAdmin = ({ data, modalType, handleOpenModal, handleClose
         { label: 'Full Name', value: data?.full_name },
         { label: 'Phone Number', value: data?.phone_number },
         { label: 'Assigned By', value: data?.assignedBy?.username },
-        { label: 'Status', value: data?.is_active ? 'Active' : 'Non-active' },
+        { label: 'Status', value: data?.user?.is_active ? 'Active' : 'Non-active' },
     ];
 
     if (modalType === 'create') {
