@@ -1,19 +1,9 @@
-import React, { useState } from 'react';
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, Collapse, ListItemButton, Card, Typography, Divider } from '@mui/material';
-import { Dashboard, ExpandLess, ExpandMore, ExitToApp, Group, CheckCircle } from '@mui/icons-material';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Dashboard, ExitToApp, Group, CheckCircle } from '@mui/icons-material';
 import { userLogout } from '../services/auth';
 import { goToPage } from "../services/pageController";
+import SidebarLayout from '../layouts/SidebarLayout';
 
 const AdminSidebar = () => {
-    const [openEmployeeManagement, setOpenEmployeeManagement] = useState(false);
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    const handleUserManagementClick = () => {
-        setOpenEmployeeManagement(!openEmployeeManagement);
-    };
-
     const onLogout = () => {
         goToPage('/login', 1500);
     };
@@ -36,64 +26,7 @@ const AdminSidebar = () => {
         { text: 'Logout', icon: <ExitToApp sx={{ color: 'primary.contrastText' }} />, action: handleLogout }
     ];
 
-    return (
-        <>
-            <Drawer
-                variant="permanent"
-                sx={{
-                    width: 240,
-                    flexShrink: 0,
-                    [`& .MuiDrawer-paper`]: { width: 240, boxSizing: 'border-box' }
-                }}
-            >
-                <Card sx={{ minHeight: '100vh', backgroundColor: 'primary.dark', color: 'primary.contrastText' }}>
-                    <Typography component="h1" variant="h4" sx={{ m:2 }}>
-                        Ngabsen
-                    </Typography>
-                    <Divider sx={{ backgroundColor:'secondary.dark' }} />
-                    <List>
-                        {menuItems.map((item, index) => (
-                            item.subItems ? (
-                                <React.Fragment key={index}>
-                                    <ListItemButton onClick={handleUserManagementClick}>
-                                        <ListItemIcon>{item.icon}</ListItemIcon>
-                                        <ListItemText primary={item.text} />
-                                        {openEmployeeManagement ? <ExpandLess /> : <ExpandMore /> }
-                                    </ListItemButton>
-                                    <Collapse in={openEmployeeManagement} timeout="auto" unmountOnExit>
-                                        <List component="div" disablePadding>
-                                            {item.subItems.map((subItem, subIndex) => {
-                                                const isActive = location.pathname === subItem.path;
-                                                return (
-                                                    <ListItemButton
-                                                        key={subIndex}
-                                                        sx={{ pl: 4, backgroundColor: isActive ? 'primary.main' : 'inherit' }}
-                                                        onClick={() => navigate(subItem.path)}
-                                                    >
-                                                        <ListItemText primary={subItem.text} />
-                                                    </ListItemButton>
-                                                );
-                                            })}
-                                        </List>
-                                    </Collapse>
-                                </React.Fragment>
-                            ) : (
-                                <ListItem
-                                    button
-                                    key={index}
-                                    onClick={item.action ? item.action : () => navigate(item.path)}
-                                    sx={{ backgroundColor: location.pathname === item.path ? 'primary.main' : 'inherit' }}
-                                >
-                                    <ListItemIcon>{item.icon}</ListItemIcon>
-                                    <ListItemText primary={item.text} />
-                                </ListItem>
-                            )
-                        ))}
-                    </List>
-                </Card>
-            </Drawer>
-        </>
-    );
+    return <SidebarLayout menuItems={menuItems} title="Admin" />;
 };
 
 export default AdminSidebar;
