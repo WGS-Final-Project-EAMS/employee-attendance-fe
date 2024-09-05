@@ -5,6 +5,7 @@ import AdminForm from '../forms/AdminForm';
 import EmployeeForm from '../forms/EmployeeForm';
 import AvatarComponent from './UserAvatar';
 import { deleteAdmin } from '../../services/adminService';
+import { deleteEmployee } from '../../services/employeeService';
 
 export const ModalActionAdmin = ({ data, modalType, handleOpenModal, handleCloseModal=null }) => {
     const detailFields = [
@@ -121,29 +122,27 @@ export const ModalActionEmployee = ({ data, modalType, handleOpenModal, handleCl
         return (
             <EmployeeForm />
         );
-        // Implement form edit for admin
     }
 
     if (modalType === 'edit') {
         return <EmployeeForm mode='edit' employeeData={data} />;
-        // Implement form edit for admin
     }
     
     if (modalType === 'delete') {
         const handleDelete = async (e) => {
             e.preventDefault();
-            const { success } = await deleteAdmin(data?.admin_id);
+            const { success } = await deleteEmployee(data?.employee_id);
             if (success) {
-                handleOpenModal({ message: 'Admin has been successfully deleted.' }, 'info');
+                handleOpenModal({ message: 'Employee has been successfully deleted.' }, 'info');
             } else {
-                handleOpenModal({ message: 'Failed to delete the admin. Please try again later.' }, 'info');
+                handleOpenModal({ message: 'Failed to delete the Employee. Please try again later.' }, 'info');
             }
         };
 
         return (
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
                 <ReportGmailerrorred sx={{ fontSize: 120 }} color='warning' />
-                <Typography>Are you sure you want to delete {data?.user?.username || 'this admin'}?</Typography>
+                <Typography>Are you sure you want to delete {data?.user?.username || 'this employee'}?</Typography>
                 <Box sx={{ flexDirection: 'row' }}>
                     <Button color="secondary" onClick={handleCloseModal}>
                         Cancel

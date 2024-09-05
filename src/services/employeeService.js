@@ -11,21 +11,12 @@ export const fetchEmployee = async () => {
 
 // Get inactive employees
 export const fetchInactiveEmployees = async () => {
-    try {
-        const response = await axios.get(`${urlEndpoint}/employees/inactive`, {
-            headers: {
-                Authorization: `Bearer ${token}`, // Include token in the Authorization header
-            }
-        });
-
-        if (response.status === 200) {
-            return { success: true, data: response.data };
-        } else {
-            return { success: false, error: response.data };
+    const response = await axios.get(`${urlEndpoint}/employees/inactive`, {
+        headers: {
+            Authorization: `Bearer ${token}`, // Include token in the Authorization header
         }
-    } catch (error) {
-        return { success: false, error: error.response?.data || 'An error occurred' };
-    }
+    });
+    return response.data;
 };
 
 // Create new employee

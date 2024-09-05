@@ -17,6 +17,7 @@ import ErrorLog from "./views/super-admin/ErrorLog";
 import DashboardAdmin from "./views/admin/DashboardAdmin";
 import ProtectedRoute from "./services/ProtectedRoutes";
 import EmployeeManagement from "./views/admin/EmployeeManagement";
+import InactiveEmployeeManagement from "./views/admin/InactiveEmployeeManagement";
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
                 <Route path="/admin" element={<DashboardAdmin />} />
                 <Route path="/admin/dashboard" element={<DashboardAdmin />} />
                 <Route path="/admin/employee-management/active" element={<EmployeeManagement />} />
+                <Route path="/admin/employee-management/inactive" element={<InactiveEmployeeManagement />} />
             </Route>
 
             {/* Super Admin Routes */}
