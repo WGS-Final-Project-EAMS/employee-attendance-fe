@@ -50,14 +50,20 @@ const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
         setManagerOptions(options);
     };
 
+    const formatDate = (date) => {
+        // Is date valid
+        const parsedDate = new Date(date);
+        if (isNaN(parsedDate)) {
+            return '';
+        }
+        
+        return parsedDate.toISOString().split('T')[0];
+    }
+
     useEffect(() => {
         loadManagerOptions();
         if (mode === 'edit' && employeeData) {
             const avatarUrl = `${urlEndpoint}/${employeeData.profile_picture_url}`;
-
-            const formattedEmploymentDate = employeeData.employment_date
-            ? new Date(employeeData.employment_date).toISOString().split('T')[0]
-            : '';
 
             setFormData({
                 user_id: employeeData.user_id || '',
@@ -67,7 +73,7 @@ const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
                 department: employeeData.department || '',
                 phone_number: employeeData.phone_number || '',
                 manager_id: employeeData.manager_id || '',
-                employment_date: formattedEmploymentDate || '',
+                employment_date: employeeData.employment_date || '',
                 username: employeeData.user?.username || '',
                 email: employeeData.user?.email || '',
                 profile_picture_url: avatarUrl || null,
@@ -225,7 +231,7 @@ const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
                         label="Employment Date"
                         name="employment_date"
                         type="date"
-                        value={formData.employment_date}
+                        value={formatDate(formData.employment_date)}
                         onChange={handleChange}
                         fullWidth
                         required

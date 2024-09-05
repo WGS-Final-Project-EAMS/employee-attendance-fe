@@ -82,11 +82,18 @@ export const updateAdmin = async (adminData, profilePicture, token) => {
 
         if (response.status === 200) {
             return { success: true };
-        } else {
-            return { success: false, error: response.data };
         }
     } catch (error) {
-        return { success: false, error: error.response?.data || 'An error occurred' };
+        // Specific error
+        if (error.response && error.response.data) {
+            return { 
+                success: false,
+                error: error.response.data.error || { general: 'Failed to create admin' }
+            };
+        }
+
+        // General error
+        return { success: false, error: { general: 'Failed to create admin' } };
     }
 };
 
