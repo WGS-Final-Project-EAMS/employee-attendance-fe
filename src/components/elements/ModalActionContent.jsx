@@ -111,7 +111,7 @@ export const ModalActionEmployee = ({ data, modalType, handleOpenModal, handleCl
         { label: 'Position', value: data?.position },
         { label: 'Department', value: data?.department },
         { label: 'Phone Number', value: data?.phone_number },
-        { label: 'Manager', value: data?.manager?.full_name },
+        { label: 'Supervisor', value: data?.manager?.full_name },
         { label: 'Employement Date', value: employmentDate },
         { label: 'Username', value: data?.user?.username },
         { label: 'Email', value: data?.user?.email },

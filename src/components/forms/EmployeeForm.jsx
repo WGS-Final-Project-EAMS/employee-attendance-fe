@@ -204,11 +204,11 @@ const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <FormControl fullWidth>
-                        <InputLabel id="manager-select-label">Manager</InputLabel>
+                        <InputLabel id="manager-select-label">Supervisor</InputLabel>
                         <Select
                             labelId="manager-select-label"
                             id="manager-select"
-                            label="Manager"
+                            label="Supervisor"
                             value={formData.manager_id}
                             onChange={(event) => setFormData({ ...formData, manager_id: event.target.value })}
                         >
