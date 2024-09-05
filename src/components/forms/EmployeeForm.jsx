@@ -6,6 +6,7 @@ import {
 import { token } from '../../services/url';
 import { createEmployee, updateEmployee, fetchEmployee } from '../../services/employeeService';
 import { urlEndpoint } from '../../services/url';
+import SubmitButton from '../elements/SubmitButton';
 
 const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
     const [formData, setFormData] = useState({
@@ -31,6 +32,7 @@ const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
     const [emailError, setEmailError] = useState('');
     const [generalError, setGeneralError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const fetchEmployeeOptions = async () => {
         try {
@@ -116,9 +118,12 @@ const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
         setSuccessMessage('');
 
         const serviceFunction = mode === 'create' ? createEmployee : updateEmployee;
+        
+        setLoading(true); // Submitting
         const { success, error } = await serviceFunction(formData, profilePicture, token);
 
         if (success) {
+            setLoading(false);
             setSuccessMessage(`Employee ${mode === 'create' ? 'created' : 'updated'} successfully!`);
             if (mode === 'create') {
                 // Reset form after success
@@ -137,6 +142,7 @@ const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
                 setProfilePicture(null);
             }
         } else {
+            setLoading(false);
             if (error.full_name) setFullNameError(error.full_name);
             if (error.position) setPositionError(error.position);
             if (error.department) setDepartmentError(error.department);
@@ -302,9 +308,7 @@ const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
                     </Button>
                 </Grid>
             </Grid>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-                {mode === 'create' ? 'Create Employee' : 'Update Employee'}
-            </Button>
+            <SubmitButton loading={loading} text={mode === 'create' ? 'Create Employee' : 'Update Employee'} />
         </FormControl>
     );
 };
