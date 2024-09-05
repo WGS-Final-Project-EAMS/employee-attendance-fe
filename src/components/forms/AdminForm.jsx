@@ -7,6 +7,7 @@ import { token } from '../../services/url';
 import { getCurrentUserId } from '../../services/auth';
 import { createAdmin, updateAdmin } from '../../services/adminService';
 import { urlEndpoint } from '../../services/url';
+import SubmitButton from '../elements/SubmitButton';
 
 const AdminForm = ({ mode = 'create', adminData = {} }) => {
     const [formData, setFormData] = useState({
@@ -28,6 +29,7 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
     const [phoneNumberError, setPhoneNumberError] = useState('');
     const [generalError, setGeneralError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (mode === 'edit' && adminData) {
@@ -80,9 +82,12 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
         setSuccessMessage('');
 
         const serviceFunction = mode === 'create' ? createAdmin : updateAdmin;
+        
+        setLoading(true); // Submitting
         const { success, error } = await serviceFunction(formData, profilePicture, token);
 
         if (success) {
+            setLoading(false);
             setSuccessMessage(`Admin ${mode === 'create' ? 'created' : 'updated'} successfully!`);
             if (mode === 'create') {
                 // Reset form after success
@@ -98,6 +103,7 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
                 setProfilePicture(null);
             }
         } else {
+            setLoading(false);
             if (error.username) setUsernameError(error.username);
             if (error.email) setEmailError(error.email);
             if (error.full_name) setFullNameError(error.full_name);
@@ -207,9 +213,7 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
                     </Button>
                 </Grid>
             </Grid>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-                {mode === 'create' ? 'Create Admin' : 'Update Admin'}
-            </Button>
+            <SubmitButton loading={loading} text={mode === 'create' ? 'Create Admin' : 'Update Admin'} />
         </FormControl>
     );
 };
