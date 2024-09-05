@@ -7,13 +7,16 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 import { userLogin } from '../services/auth';
 import { goToPage } from "../services/pageController";
+import LoadingIndicator from './LoadingIndicator';
 
 export default function SignInForm() {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [generalError, setGeneralError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,10 +31,12 @@ export default function SignInForm() {
     const email = data.get('email');
     const password = data.get('password');
 
+    setLoading(true);
     const error = await userLogin(email, password, onAdminLogin, onSuperAdminLogin, onEmployeeLogin);
-
+    
     // Error handling
     if (error) {
+      setLoading(false);
       // If there are specific field errors, display them
       if (error.email) setEmailError(error.email);
       if (error.password) setPasswordError(error.password);
@@ -97,8 +102,9 @@ export default function SignInForm() {
         size="large"
         variant="contained"
         color="primary"
+        disabled={loading}
       >
-        Sign In
+        {loading ? <LoadingIndicator indicator={<CircularProgress size={24} color="inherit"/>} /> : 'Sign In'}
       </Button>
       <Grid container>
         <Grid item xs>
