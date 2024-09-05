@@ -1,16 +1,14 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Alert from '@mui/material/Alert';
-import CircularProgress from '@mui/material/CircularProgress';
 import { userLogin } from '../services/auth';
 import { goToPage } from "../services/pageController";
-import LoadingIndicator from './LoadingIndicator';
+import SubmitButton from './elements/SubmitButton';
 
 export default function SignInForm() {
   const [emailError, setEmailError] = useState('');
@@ -96,16 +94,7 @@ export default function SignInForm() {
         control={<Checkbox value="remember" color="primary" />}
         label="Remember me"
       />
-      <Button
-        type="submit"
-        fullWidth
-        size="large"
-        variant="contained"
-        color="primary"
-        disabled={loading}
-      >
-        {loading ? <LoadingIndicator indicator={<CircularProgress size={24} color="inherit"/>} /> : 'Sign In'}
-      </Button>
+      <SubmitButton loading={loading} text="Sign In" />
       <Grid container>
         <Grid item xs>
           <Link href="#" variant="body2">
