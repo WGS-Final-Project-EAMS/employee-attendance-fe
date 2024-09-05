@@ -37,7 +37,7 @@ export const createEmployee = async (formData, profilePicture, token) => {
     data.append('phone_number', formData.phone_number);
     data.append('position', formData.position);
     data.append('department', formData.department);
-    data.append('manager', formData.manager);
+    data.append('manager_id', formData.manager_id);
     data.append('employment_date', formData.employment_date);
     
     if (profilePicture) {
@@ -73,6 +73,8 @@ export const createEmployee = async (formData, profilePicture, token) => {
 export const updateEmployee = async (employeeData, profilePicture, token) => {
     try {
         const formData = new FormData();
+
+        employeeData.employment_date = new Date(employeeData.employment_date).toISOString();
 
         // Append all fields from employeeData to the FormData object
         for (const key in employeeData) {

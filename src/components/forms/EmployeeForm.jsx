@@ -60,6 +60,7 @@ const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
             : '';
 
             setFormData({
+                user_id: employeeData.user_id || '',
                 employee_id: employeeData.employee_id || '',
                 full_name: employeeData.full_name || '',
                 position: employeeData.position || '',
