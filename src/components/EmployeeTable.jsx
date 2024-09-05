@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, TablePagination, Paper, IconButton, 
+    TableRow, TablePagination, Paper, IconButton, Box
 } from "@mui/material";
 import { Visibility, Edit, Delete, } from '@mui/icons-material';
 import ModalElement from "./elements/ModalElement";
@@ -58,9 +58,11 @@ const EmployeeTable = ({ employee, loadEmployee }) => {
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((record) => (
                             <TableRow key={record.employee_id}>
-                                <TableCell sx={{ display:'flex', flexDirection:'row', alignItems:'center', gap:3 }}>
-                                    <AvatarComponent url={ record.profile_picture_url } size={36} />
-                                    {record.full_name}
+                                <TableCell>
+                                    <Box sx={{ display:'flex', flexDirection:'row', alignItems:'center', gap:3 }}>
+                                        <AvatarComponent url={ record.profile_picture_url } size={36} />
+                                        {record.full_name}
+                                    </Box>
                                 </TableCell>
                                 <TableCell>{record.position}</TableCell>
                                 <TableCell>{record.department}</TableCell>
