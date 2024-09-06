@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCurrentLocation } from "./locationService";
 import { token, urlEndpoint } from "./url";
 
 // Get Employee Attendance Status
@@ -12,9 +13,11 @@ export const fetchAttendanceStatus = async () => {
 
 // Handle Clock in
 export const clockIn = async () => {
+    const location = await getCurrentLocation();
+    
     const response = await axios.post(
         `${urlEndpoint}/clock-in`,
-        {},
+        {location},
         { headers: { Authorization: `Bearer ${token}` } }
     );
 
@@ -23,9 +26,11 @@ export const clockIn = async () => {
 
 // Handle Clock out
 export const clockOut = async () => {
+    const location = await getCurrentLocation();
+
     const response = await axios.post(
         `${urlEndpoint}/clock-out`,
-        {},
+        {location},
         { headers: { Authorization: `Bearer ${token}` } }
     );
 

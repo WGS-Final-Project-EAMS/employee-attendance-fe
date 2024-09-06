@@ -9,15 +9,15 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     server: {
-      host: "0.0.0.0",
+      host: "localhost",
       port: env.VITE_FE_PORT, // Akses env secara langsung dari `env`
-      proxy: {
-        "/api": {
-          target: `http://${env.VITE_APP_IP_ADDRESS}:${env.VITE_FE_PORT}`, // Gunakan variabel env yang di-load
-          changeOrigin: true,
-          secure: false,
-        },
-      },
+      // proxy: {
+      //   "/api": {
+      //     target: `http://${env.VITE_APP_IP_ADDRESS}:${env.VITE_FE_PORT}`, // Gunakan variabel env yang di-load
+      //     changeOrigin: true,
+      //     secure: false,
+      //   },
+      // },
     },
   }
 })
