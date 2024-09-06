@@ -18,6 +18,7 @@ import DashboardAdmin from "./views/admin/DashboardAdmin";
 import ProtectedRoute from "./services/ProtectedRoutes";
 import EmployeeManagement from "./views/admin/EmployeeManagement";
 import InactiveEmployeeManagement from "./views/admin/InactiveEmployeeManagement";
+import ChangePassword from "./views/admin/ChangePassword";
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
                 <Route path="/admin/dashboard" element={<DashboardAdmin />} />
                 <Route path="/admin/employee-management/active" element={<EmployeeManagement />} />
                 <Route path="/admin/employee-management/inactive" element={<InactiveEmployeeManagement />} />
+                <Route path="/admin/change-password" element={<ChangePassword />} />
             </Route>
 
             {/* Super Admin Routes */}
@@ -43,6 +45,7 @@ function App() {
                 <Route path="/super-admin/admin-management/active" element={<ActiveAdminManagement />} />
                 <Route path="/super-admin/admin-management/non-active" element={<NonActiveAdmin />} />
                 <Route path="/super-admin/error-log" element={<ErrorLog />} />
+                <Route path="/super-admin/change-password" element={<ChangePassword />} />
             </Route>
 
             {/* Employee Routes */}
@@ -50,6 +53,7 @@ function App() {
                 <Route path="/employee" element={<AttendanceTracking />} />
                 <Route path="/employee/take-attendance" element={<AttendanceTracking />} />
                 <Route path="/employee/attendance-history" element={<AttendanceHistory />} />
+                <Route path="/employee/change-password" element={<ChangePassword />} />
             </Route>
 
             {/* Unauthorized */}
