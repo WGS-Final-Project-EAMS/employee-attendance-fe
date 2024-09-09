@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { Box, Typography, Card, CardContent, Avatar, Button, Grid } from "@mui/material";
 import { Key } from "@mui/icons-material";
 import { useNavigate } from 'react-router-dom';
-import AdminLayout from "../../layouts/AdminLayout";
+import EmployeeLayout from "../../layouts/EmployeeLayout";
 import { getUserById } from "../../services/auth";
 
-const DashboardAdmin = () => {
+const DashboardEmployee = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null); // State untuk menyimpan data user
   // const [loading, setLoading] = useState(true); // State untuk mengelola status loading
@@ -34,7 +34,7 @@ const DashboardAdmin = () => {
   }, []);
 
   const handleChangePassword = () => {
-      navigate('/admin/change-password');
+      navigate('/employee/change-password');
   };
 
   // if (loading) {
@@ -46,7 +46,7 @@ const DashboardAdmin = () => {
   }
 
   return (
-    <AdminLayout>
+    <EmployeeLayout>
       <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', gap:2 }}>
           <Typography component="h1" variant="h4" color="primary.dark">
               Dashboard
@@ -75,8 +75,8 @@ const DashboardAdmin = () => {
                   </Box>
               </Card>
       </Box>
-    </AdminLayout>
+    </EmployeeLayout>
   );
 }
 
-export default DashboardAdmin;
+export default DashboardEmployee;

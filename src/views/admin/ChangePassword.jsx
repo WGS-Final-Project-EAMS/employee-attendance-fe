@@ -1,10 +1,30 @@
 import { Box, Typography } from '@mui/material';
 import AdminLayout from '../../layouts/AdminLayout';
+import EmployeeLayout from '../../layouts/EmployeeLayout';
+import SuperAdminLayout from '../../layouts/SuperAdminLayout';
 import ChangePasswordForm from '../../components/forms/ChangePasswordForm';
 
-const ChangePassword = () => {
+const ChangePassword = ({ role }) => {
+  
+  // Memilih layout yang sesuai berdasarkan role user
+  const getLayoutComponent = () => {
+    switch (role) {
+      case 'admin':
+        return AdminLayout;
+      case 'employee':
+        return EmployeeLayout;
+      case 'super_admin':
+        return SuperAdminLayout;
+      default:
+        return AdminLayout; // Default layout jika role tidak dikenal
+    }
+  };
+
+  // Mendapatkan komponen layout
+  const LayoutComponent = getLayoutComponent();
+
   return (
-    <AdminLayout>
+    <LayoutComponent>
       <Box
         sx={{
           display: 'flex',
@@ -21,7 +41,7 @@ const ChangePassword = () => {
 
         <ChangePasswordForm />
       </Box>
-    </AdminLayout>
+    </LayoutComponent>
   );
 };
 

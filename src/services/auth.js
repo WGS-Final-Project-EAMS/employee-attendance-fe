@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { urlEndpoint, saveToken } from './url'; // Import utility functions and constants for handling URLs and tokens
+import { urlEndpoint, saveToken, token } from './url'; // Import utility functions and constants for handling URLs and tokens
 import { jwtDecode } from 'jwt-decode'; // Import jwtDecode for decoding JWT tokens
 import Cookies from 'js-cookie';
-import { token } from "./url";
 
 export const userLogin = async (email, password, onAdminLogin, onSuperAdminLogin, onEmployeeLogin) => {
     try {        
@@ -70,6 +69,27 @@ export const getCurrentUserId = () => {
     console.error("Failed to get user ID from token:", error);
     return null;
   }
+};
+
+// Function untuk mendapatkan data user yang sedang login
+export const getUserById = async () => {
+    try {
+        // Request ke endpoint BE untuk mendapatkan user berdasarkan ID
+        const response = await axios.get(`${urlEndpoint}/user`, {
+            headers: {
+                Authorization: `Bearer ${token}` // Menyertakan token dalam header untuk otentikasi
+            }
+        });        
+
+        // Jika request berhasil, kembalikan data user
+        return response.data[0];
+    } catch (error) {
+        // Menangani error jika request gagal
+        if (error.response && error.response.data) {
+            return { success: false, error: error.response.data.error || 'Failed to get user data' };
+        }
+        return { success: false, error: 'Failed to get user data' };
+    }
 };
 
 export const changePassword = async (newPassword, confirmPassword) => {
