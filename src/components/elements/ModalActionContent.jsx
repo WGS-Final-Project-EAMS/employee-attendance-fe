@@ -3,6 +3,7 @@ import { Typography, Box, Grid, Button, FormControl } from '@mui/material';
 import { ReportGmailerrorred, CheckCircleOutline, Edit } from '@mui/icons-material';
 import AdminForm from '../forms/AdminForm';
 import EmployeeForm from '../forms/EmployeeForm';
+import LeaveRequestForm from '../forms/LeaveRequestForm';
 import AvatarComponent from './UserAvatar';
 import { deleteAdmin } from '../../services/adminService';
 import { deleteEmployee } from '../../services/employeeService';
@@ -200,6 +201,16 @@ export const ModalActionEmployee = ({ data, modalType, handleOpenModal, handleCl
     
     return null;
 };
+
+export const ModalActionLeaveRequest = ({ data, modalType }) => {
+    if (modalType === 'create') {
+        return (
+            <LeaveRequestForm />
+        );
+    }
+
+    return null;
+}
 
 export const ModalActionErrorLog = ({ data, modalType }) => {
 
