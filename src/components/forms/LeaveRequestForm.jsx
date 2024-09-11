@@ -67,6 +67,7 @@ const LeaveRequestForm = () => {
             if (error.end_date) setEndDateError(error.end_date);
             if (error.leave_reason) setReasonError(error.leave_reason);
             if (error.general) setGeneralError(error.general);
+            if (error) setGeneralError(error);
         }
     };
 
@@ -116,7 +117,8 @@ const LeaveRequestForm = () => {
                         error={!!startDateError}
                         helperText={startDateError}
                         inputProps={{
-                            min: getTodayDate() // Limit dates to today only
+                            min: getTodayDate(), // Limit dates to today only
+                            max: formData.end_date || null
                         }}
                     />
                 </Grid>
@@ -132,8 +134,9 @@ const LeaveRequestForm = () => {
                         InputLabelProps={{ shrink: true }}
                         error={!!endDateError}
                         helperText={endDateError}
+                        disabled={!formData.start_date}
                         inputProps={{
-                            min: getTodayDate() // Limit dates to today only
+                            min: formData.start_date || getTodayDate() // Limit dates to today only
                         }}
                     />
                 </Grid>
