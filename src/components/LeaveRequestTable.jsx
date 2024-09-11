@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Container, Box, Grid, Typography, Chip, Card, CardContent, Button, Pagination, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
-import { Add } from "@mui/icons-material";
+import { Add, Refresh } from "@mui/icons-material";
 import { fetchLeaveRequest } from "../services/leaveRequestService";
 import ModalElement from "./elements/ModalElement";
 import { ModalActionLeaveRequest } from "./elements/ModalActionContent";
@@ -76,14 +76,17 @@ const LeaveRequestTable = ({ title, filterStatus }) => {
                         <MenuItem value={25}>25</MenuItem>
                     </Select>
                 </FormControl>
+                <Button variant="outlined" size="large" color="secondary" startIcon={<Refresh />} onClick={() => loadLeaveRequests()}>
+                    <Typography component="h1" variant="body1">Refresh</Typography>
+                </Button>
                 {filterStatus[0] === 'pending' && (
                     <Button
                         variant="outlined"
                         color="primary"
                         size="large"
+                        startIcon={<Add />}
                         onClick={handleOpenModal}
                     >
-                        <Add sx={{ mr: 2 }} />
                         <Typography component="h1" variant="body1">Create New Leave Request</Typography>
                     </Button>
                 )}

@@ -3,7 +3,7 @@ import {
     Table, TableBody, TableCell, TableContainer, TableHead,
     TableRow, TablePagination, Paper, IconButton, Box, Chip
 } from "@mui/material";
-import { Visibility, CheckCircle, Cancel } from '@mui/icons-material';
+import { Visibility, CheckCircle, Cancel, Refresh } from '@mui/icons-material';
 import ModalElement from "./elements/ModalElement";
 import { ModalActionLeaveRequest } from "./elements/ModalActionContent";
 import AvatarComponent from "./elements/UserAvatar";
@@ -94,15 +94,20 @@ const PermissionApprovalTable = ({ leaveRequests, loadLeaveRequests }) => {
                             ))}
                     </TableBody>
                 </Table>
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={leaveRequests.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                <Box sx={{ display:'flex', justifyContent:'flex-end' }}>
+                    <IconButton color="secondary" onClick={() => loadLeaveRequests()}>
+                        <Refresh />
+                    </IconButton>
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={leaveRequests.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </Box>
             </TableContainer>
 
             {/* Modal */}
