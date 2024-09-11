@@ -7,7 +7,7 @@ import LeaveRequestForm from '../forms/LeaveRequestForm';
 import AvatarComponent from './UserAvatar';
 import { deleteAdmin } from '../../services/adminService';
 import { deleteEmployee } from '../../services/employeeService';
-import { updateLeaveRequest } from '../../services/leaveRequestService';
+import { updateLeaveRequest, cancelLeaveRequest } from '../../services/leaveRequestService';
 
 export const InfoModal = ({ message, handleCloseModal, duration = 3000, type = "success" }) => {
   
@@ -232,6 +232,17 @@ export const ModalActionLeaveRequest = ({ data, modalType, handleOpenModal, hand
         { label: 'Status', value: data?.status },
     ];
 
+    const handleCancel = async (e) => {
+        e.preventDefault();
+        const { success } = await cancelLeaveRequest(data);
+        
+        if (success) {
+            handleOpenModal({ message: 'Leave request canceled.' }, 'info');
+        } else {
+            handleOpenModal({ message: 'Failed to cancel leave request. Please try again later.' }, 'info');
+        }
+    };
+
     const handleApprove = async (e) => {
         e.preventDefault();
         const { success } = await updateLeaveRequest(data, { status: "approved" });
@@ -289,6 +300,25 @@ export const ModalActionLeaveRequest = ({ data, modalType, handleOpenModal, hand
                     </Box>
                 }
             </>
+        );
+    }
+
+    if (modalType === 'cancel') {
+        return (
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                <ReportGmailerrorred sx={{ fontSize: 120 }} color='warning' />
+                <Typography>Are you sure you want to cancel this leave request?</Typography>
+                <Box sx={{ flexDirection: 'row' }}>
+                    <Button color="secondary" onClick={handleCloseModal}>
+                        No
+                    </Button>
+                    <FormControl component="form" onSubmit={handleCancel}>
+                        <Button type="submit" color="primary">
+                            Yes
+                        </Button>
+                    </FormControl>
+                </Box>
+            </Box>
         );
     }
 

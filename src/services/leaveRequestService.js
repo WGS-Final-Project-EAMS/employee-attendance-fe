@@ -71,3 +71,20 @@ export const updateLeaveRequest = async (data, status) => {
         return { success: false, error: { general: 'Failed to create leave request' } };
     }
 };
+
+export const cancelLeaveRequest = async (leaveRequestId) => {
+    try {
+        const response = await axios.delete(`${urlEndpoint}/leave-requests/${leaveRequestId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        
+        if (response.status === 200) {
+            return { success: true };
+        }
+    } catch (error) {
+        // General error
+        return { success: false, error: { error } };
+    }
+};

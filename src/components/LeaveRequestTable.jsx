@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { Container, Box, Grid, Typography, Chip, Card, CardContent, Button, Pagination, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
-import { Add, Refresh } from "@mui/icons-material";
+import { Add, Refresh, Close } from "@mui/icons-material";
 import { fetchLeaveRequest } from "../services/leaveRequestService";
 import ModalElement from "./elements/ModalElement";
 import { ModalActionLeaveRequest } from "./elements/ModalActionContent";
 
 const LeaveRequestTable = ({ title, filterStatus }) => {
     const [leaveRequest, setLeaveRequest] = useState([]);
+    const [selectedLeaveRequest, setSelectedLeaveRequest] = useState([]);
     const [openModal, setOpenModal] = useState(false);
+    const [modalType, setModalType] = useState('');
+    const [modalTitle, setModalTItle] = useState('');
 
     // Pagination state
     const [page, setPage] = useState(1); // Mulai dari halaman 1
@@ -26,7 +29,11 @@ const LeaveRequestTable = ({ title, filterStatus }) => {
         return new Date(date).toLocaleDateString();
     }
 
-    const handleOpenModal = () => {
+    const handleOpenModal = (leaveRequest = null, type = "create", title = null) => {
+        setModalTItle(null);
+        leaveRequest && setSelectedLeaveRequest(leaveRequest);
+        type && setModalType(type);
+        title && setModalTItle(title);
         setOpenModal(true);
     };
 
@@ -85,7 +92,7 @@ const LeaveRequestTable = ({ title, filterStatus }) => {
                         color="primary"
                         size="large"
                         startIcon={<Add />}
-                        onClick={handleOpenModal}
+                        onClick={() => handleOpenModal(null, "create", "Create New Leave Request")}
                     >
                         <Typography component="h1" variant="body1">Create New Leave Request</Typography>
                     </Button>
@@ -162,6 +169,17 @@ const LeaveRequestTable = ({ title, filterStatus }) => {
                                             variant="outlined"
                                         />
                                     </Grid>
+                                    <Grid item xs={12}>
+                                        <Button
+                                            variant="outlined"
+                                            color="error"
+                                            size="medium"
+                                            startIcon={<Close />}
+                                            onClick={() => handleOpenModal(record.leave_request_id, 'cancel')}
+                                        >
+                                            <Typography component="h1" variant="body1">Cancel</Typography>
+                                        </Button>
+                                    </Grid>
                                 </Grid>
                             </CardContent>
                         </Card>
@@ -173,8 +191,8 @@ const LeaveRequestTable = ({ title, filterStatus }) => {
             <ModalElement
                 openModal={openModal}
                 handleCloseModal={handleCloseModal}
-                modalTitle="Create New Leave Request"
-                renderModalContent={() => <ModalActionLeaveRequest modalType="create" />}
+                modalTitle={modalTitle}
+                renderModalContent={() => <ModalActionLeaveRequest modalType={modalType} data={selectedLeaveRequest} handleCloseModal={handleCloseModal} handleOpenModal={handleOpenModal} />}
             />
         </Container>
     );
