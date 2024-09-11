@@ -1,13 +1,13 @@
+// PermissionHistory.js
 import EmployeeLayout from "../../layouts/EmployeeLayout";
 import LeaveRequestTable from "../../components/LeaveRequestTable";
 
-const ApplicationForPermit = () => {
-
+const PermissionHistory = () => {
     return (
         <EmployeeLayout>
-            <LeaveRequestTable title="Application for Permit" filterStatus={['pending']} />
+            <LeaveRequestTable title="Permission History" filterStatus={['approved', 'rejected']} />
         </EmployeeLayout>
     );
 };
 
-export default ApplicationForPermit;
+export default PermissionHistory;

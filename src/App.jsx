@@ -9,6 +9,8 @@ import AttendanceTracking from "./views/employee/AttendanceTracking";
 import AttendanceHistory from "./views/employee/AttendanceHistory";
 import DashboardEmployee from "./views/employee/DashboardEmployee";
 import ApplicationForPermit from "./views/employee/ApplicationForPermit";
+import PermissionApproval from "./views/employee/PermissionApproval";
+import PermissionHistory from "./views/employee/PermissionHistory";
 
 // Super admin
 import ActiveAdminManagement from "./views/super-admin/ActiveAdminManagement";
@@ -59,6 +61,8 @@ function App() {
                 <Route path="/employee/take-attendance" element={<AttendanceTracking />} />
                 <Route path="/employee/attendance-history" element={<AttendanceHistory />} />
                 <Route path="/employee/application-for-permit" element={<ApplicationForPermit />} />
+                <Route path="/employee/permission-approval" element={<PermissionApproval />} />
+                <Route path="/employee/permission-history" element={<PermissionHistory />} />
                 <Route path="/employee/change-password" element={<ChangePassword role="employee" />} />
             </Route>
 
