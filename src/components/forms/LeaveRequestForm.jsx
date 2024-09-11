@@ -28,6 +28,14 @@ const LeaveRequestForm = () => {
         });
     };
 
+    const getTodayDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Menambahkan 0 jika bulan hanya 1 digit
+        const day = String(today.getDate()).padStart(2, '0'); // Menambahkan 0 jika tanggal hanya 1 digit
+        return `${year}-${month}-${day}`;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -107,6 +115,9 @@ const LeaveRequestForm = () => {
                         InputLabelProps={{ shrink: true }}
                         error={!!startDateError}
                         helperText={startDateError}
+                        inputProps={{
+                            min: getTodayDate() // Limit dates to today only
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -121,6 +132,9 @@ const LeaveRequestForm = () => {
                         InputLabelProps={{ shrink: true }}
                         error={!!endDateError}
                         helperText={endDateError}
+                        inputProps={{
+                            min: getTodayDate() // Limit dates to today only
+                        }}
                     />
                 </Grid>
                 <Grid item xs={12}>
