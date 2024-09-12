@@ -86,7 +86,7 @@ const LeaveRequestTable = ({ title, filterStatus }) => {
                 <Button variant="outlined" size="large" color="secondary" startIcon={<Refresh />} onClick={() => loadLeaveRequests()}>
                     <Typography component="h1" variant="body1">Refresh</Typography>
                 </Button>
-                {filterStatus[0] === 'pending' && (
+                {filterStatus.includes("pending") && (
                     <Button
                         variant="outlined"
                         color="primary"
@@ -169,17 +169,19 @@ const LeaveRequestTable = ({ title, filterStatus }) => {
                                             variant="outlined"
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <Button
-                                            variant="outlined"
-                                            color="error"
-                                            size="medium"
-                                            startIcon={<Close />}
-                                            onClick={() => handleOpenModal(record.leave_request_id, 'cancel')}
-                                        >
-                                            <Typography component="h1" variant="body1">Cancel</Typography>
-                                        </Button>
-                                    </Grid>
+                                    {filterStatus.includes("pending") && 
+                                        <Grid item xs={12}>
+                                            <Button
+                                                variant="outlined"
+                                                color="error"
+                                                size="medium"
+                                                startIcon={<Close />}
+                                                onClick={() => handleOpenModal(record.leave_request_id, 'cancel')}
+                                            >
+                                                <Typography component="h1" variant="body1">Cancel</Typography>
+                                            </Button>
+                                        </Grid>
+                                    }
                                 </Grid>
                             </CardContent>
                         </Card>
