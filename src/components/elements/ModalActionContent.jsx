@@ -224,11 +224,14 @@ export const ModalActionEmployee = ({ data, modalType, handleOpenModal, handleCl
 };
 
 export const ModalActionLeaveRequest = ({ data, modalType, handleOpenModal, handleCloseModal = null }) => {
+    const startDate = new Date(data?.start_date).toLocaleDateString('en-GB');
+    const endDate = new Date(data?.end_date).toLocaleDateString('en-GB');
+
     const detailFields = [
         { label: 'Full Name', value: data?.employee?.full_name },
         { label: 'Leave Type', value: data?.leave_type },
         { label: 'Leave Reason', value: data?.leave_reason },
-        { label: 'Leave Time', value: data?.end_date },
+        { label: 'Leave Time', value: `${startDate} - ${endDate}` },
         { label: 'Status', value: data?.status },
     ];
 
