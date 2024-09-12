@@ -39,3 +39,17 @@ export const fetchAttendanceHistory = async () => {
     });
     return response.data;
 };
+
+// Get Today's Attendance
+export const fetchTodayAttendance = async () => {
+    const response = await axios.get(`${urlEndpoint}/today-attendance`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+    // try {
+    // } catch (error) {
+    //     console.error("Error fetching today's attendance:", error);
+    //     // Optionally, you can throw the error again if you want to handle it elsewhere
+    //     throw error;
+    // }
+};
