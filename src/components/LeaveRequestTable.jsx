@@ -83,7 +83,7 @@ const LeaveRequestTable = ({ title, filterStatus }) => {
                         <MenuItem value={25}>25</MenuItem>
                     </Select>
                 </FormControl>
-                <Button variant="outlined" size="large" color="secondary" startIcon={<Refresh />} onClick={() => loadLeaveRequests()}>
+                <Button variant="outlined" size="large" color="secondary" startIcon={<Refresh />} onClick={() => loadLeaveRequest()}>
                     <Typography component="h1" variant="body1">Refresh</Typography>
                 </Button>
                 {filterStatus.includes("pending") && (
