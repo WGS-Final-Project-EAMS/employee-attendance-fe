@@ -1,4 +1,4 @@
-import { Dashboard, ExitToApp, Group, CheckCircle } from '@mui/icons-material';
+import { Dashboard, ExitToApp, Group, Settings, CheckCircle } from '@mui/icons-material';
 import { userLogout } from '../services/auth';
 import { goToPage } from "../services/pageController";
 import SidebarLayout from '../layouts/SidebarLayout';
@@ -23,9 +23,16 @@ const AdminSidebar = () => {
             ]
         },
         { text: 'Attendance Records', icon: <CheckCircle sx={{ color: 'primary.contrastText' }} />, path: '/admin/attendance-records' },
-        { text: 'Logout', icon: <ExitToApp sx={{ color: 'primary.contrastText' }} />, action: handleLogout }
+        {
+            text: 'Settings',
+            icon: <Settings sx={{ color: 'primary.contrastText' }} />,
+            subItems: [
+                { text: 'Office', path: '/admin/settings/office' }
+            ]
+        },
+        { text: 'Logout', icon: <ExitToApp sx={{ color: 'primary.contrastText' }} />, action: handleLogout },
     ];
-
+    
     return <SidebarLayout menuItems={menuItems} title="Admin" />;
 };
 
