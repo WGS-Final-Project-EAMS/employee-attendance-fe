@@ -1,4 +1,5 @@
-import { Box, Typography, Button, CircularProgress } from '@mui/material';
+import { Box, Typography, Button, CircularProgress, Container, Card, CardContent, Grid } from '@mui/material';
+import { Edit, Add } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import AdminLayout from '../../layouts/AdminLayout';
 import OfficeSettingsForm from '../../components/forms/OfficeSettingsForm';
@@ -36,75 +37,99 @@ const OfficeSettings = () => {
 
   return (
     <AdminLayout>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'flex-start',
-          gap: 2,
-          padding: 4,
-        }}
-      >
-        <Typography component="h1" variant="h4" color="primary.dark">
-          Office Settings
-        </Typography>
-
-        {officeSettings ? (
-          <>
-            {!isEdit ? (
-              <Box>
-                <Typography>Office Start Time: {officeSettings.office_start_time}</Typography>
-                <Typography>Office End Time: {officeSettings.office_end_time}</Typography>
-                <Typography>Office Location: {officeSettings.office_location}</Typography>
-                <Typography>Monthly Recap Day: {officeSettings.monthly_recap_day}</Typography>
-                <Button variant="contained" color="primary" onClick={toggleEdit}>
-                  Edit Settings
-                </Button>
-              </Box>
-            ) : (
-              <OfficeSettingsForm
-                initialValues={officeSettings}
-                isEdit={true}
-                toggleEdit={toggleEdit}
-                onSuccess={() => {
-                  toggleEdit();
-                  // Refetch data after successful update
-                  loadOfficeSettings();
-                }}
-              />
-            )}
-          </>
-        ) : (
-          <>
-            <Typography>No Office Settings Found.</Typography>
-            <Button variant="contained" color="primary" onClick={handleOpenModal}>
-              Create New Office Settings
-            </Button>
-          </>
-        )}
-
-        <ModalElement
-          openModal={openModal}
-          handleCloseModal={handleCloseModal}
-          modalTitle="Create Office Settings"
-          renderModalContent={() => (
-            <OfficeSettingsForm
-              initialValues={{
-                office_start_time: '',
-                office_end_time: '',
-                office_location: '',
-                monthly_recap_day: '',
-              }}
-              isEdit={false}
-              onSuccess={() => {
-                handleCloseModal();
-                loadOfficeSettings(); // Refetch data after successful create
-              }}
-            />
-          )}
-        />
-      </Box>
+      <Container maxWidth="xl" sx={{ mt: 8 }}>
+          <Box>
+            <Card variant="outlined" sx={{ py: 4, px: 8 }}>
+                <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 4 }}>
+                    <Typography component="h1" variant="h4" color="primary.dark">
+                      Office Settings
+                    </Typography>
+                    {officeSettings ? (
+                      <>
+                        {!isEdit ? (
+                          <Box sx={{ display: 'flex', flexDirection:'column', gap:4 }}>
+                            <Grid container spacing={2}>
+                                {/* Start Time */}
+                                <Grid item xs={3}>
+                                    <Typography>Office Start Time</Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Typography>{officeSettings.office_start_time}</Typography>
+                                </Grid>
+                                
+                                {/* End Time */}
+                                <Grid item xs={3}>
+                                    <Typography>Office End Time</Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Typography>{officeSettings.office_end_time}</Typography>
+                                </Grid>
+                                
+                                {/* Office Location */}
+                                <Grid item xs={3}>
+                                    <Typography>Office Location</Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Typography>{officeSettings.office_location}</Typography>
+                                </Grid>
+                                
+                                {/* Monthly Recap Day */}
+                                <Grid item xs={3}>
+                                    <Typography>Monthly Recap Day</Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <Typography>{officeSettings.monthly_recap_day}</Typography>
+                                </Grid>
+                            </Grid>
+                            <Button variant="outlined" color="primary" size="large" startIcon={<Edit />} onClick={toggleEdit}>
+                              Edit Settings
+                            </Button>
+                          </Box>
+                        ) : (
+                          <OfficeSettingsForm
+                            initialValues={officeSettings}
+                            isEdit={true}
+                            toggleEdit={toggleEdit}
+                            onSuccess={() => {
+                              toggleEdit();
+                              // Refetch data after successful update
+                              loadOfficeSettings();
+                            }}
+                          />
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <Typography>No Office Settings Found.</Typography>
+                        <Button variant="contained" size="large" color="primary" startIcon={<Add />} onClick={handleOpenModal}>
+                          Create New Office Settings
+                        </Button>
+                      </>
+                    )}
+                    <ModalElement
+                      openModal={openModal}
+                      handleCloseModal={handleCloseModal}
+                      modalTitle="Create Office Settings"
+                      renderModalContent={() => (
+                        <OfficeSettingsForm
+                          initialValues={{
+                            office_start_time: '',
+                            office_end_time: '',
+                            office_location: '',
+                            monthly_recap_day: '',
+                          }}
+                          isEdit={false}
+                          onSuccess={() => {
+                            handleCloseModal();
+                            loadOfficeSettings(); // Refetch data after successful create
+                          }}
+                        />
+                      )}
+                    />
+                </CardContent>
+            </Card>
+          </Box>
+      </Container>
     </AdminLayout>
   );
 };

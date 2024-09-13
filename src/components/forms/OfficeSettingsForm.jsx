@@ -70,12 +70,12 @@ const OfficeSettingsForm = ({ initialValues, isEdit, onSuccess, toggleEdit = nul
         required
       />
 
-      <Button variant="contained" color="primary" type="submit" disabled={loading}>
-        {loading ? 'Saving...' : isEdit ? 'Update Settings' : 'Create Settings'}
+      <Button variant="contained" color="primary" type="submit" size="large" disabled={loading}>
+        {loading ? 'Saving...' : isEdit ? 'Save Settings' : 'Create Settings'}
       </Button>
       
       {isEdit && (  
-        <Button variant="contained" color="secondary" onClick={() => toggleEdit()}>
+        <Button color="secondary" onClick={() => toggleEdit()}>
             Back
         </Button>
       )}
