@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Container, Card, CardContent, Typography, Button, Box, Grid, Alert } from '@mui/material';
+import { LocalFireDepartment } from '@mui/icons-material';
 import EmployeeLayout from '../../layouts/EmployeeLayout';
 import { fetchAttendanceStatus, fetchTodayAttendance, clockIn, clockOut } from "../../services/attendanceService";
 import { fetchOfficeSettings } from '../../services/officeSettingsService';
+import { fetchStreakByUserId } from '../../services/streakService';
 import ErrorMessage from '../../components/ErrorMessage';
 import DigitalClock from '../../components/elements/DigitalClock';
 
@@ -10,6 +12,7 @@ const AttendanceTracking = () => {
     const [clockInTime, setClockInTime] = useState(null);
     const [clockOutTime, setClockOutTime] = useState(null);
     const [attendanceStatus, setAttendanceStatus] = useState(null);
+    const [streak, setStreak] = useState(null);
     const [error, setError] = useState(null);
     const [officeStartTime, setOfficeStartTime] = useState(null); // State for office start time
     const [lateAlert, setLateAlert] = useState(false); // State for late alert
@@ -52,6 +55,18 @@ const AttendanceTracking = () => {
         }
     };
 
+    // Load current streak
+    const loadCurrentStreak = async () => {
+        try {
+            const { current_streak } = await fetchStreakByUserId();
+            setStreak(current_streak);
+
+        } catch (error) {
+            setError(error.response?.data?.message || "Failed to fetch current streak.");
+            console.error("Error fetching current streak:", error.response?.data?.message || error.message);
+        }
+    }
+
     // Handle Clock In
     const handleClockIn = async () => {
         try {
@@ -60,6 +75,7 @@ const AttendanceTracking = () => {
             setClockInTime(new Date(clock_in_time).toLocaleTimeString());
             setAttendanceStatus('clocked_in');
             setError(null); // Clear any previous errors
+            loadCurrentStreak();
         } catch (error) {
             setError(error.response?.data?.error || "Clock in failed.");
             console.error("Clock in failed:", error.response?.data?.error || error.message);
@@ -98,6 +114,7 @@ const AttendanceTracking = () => {
     useEffect(() => {
         loadOfficeSettings();
         loadAttendanceStatus();
+        loadCurrentStreak();
     }, []);
 
     return (
@@ -139,6 +156,9 @@ const AttendanceTracking = () => {
                                     <ErrorMessage message={error} />
                                 </Box>
                             )}
+                            <Typography sx={{ textAlign:'center' }} variant="h6" component="h1" color="warning.dark" gutterBottom>
+                                <LocalFireDepartment /> Current streak: {streak ? streak : 'no streak yet'}
+                            </Typography>
                             <Box sx={{ mt: 4, display: 'flex', gap: 2 }}>
                                 {attendanceStatus === "no_clock_in" && (
                                     <Button variant="outlined" color="primary" size="large" onClick={handleClockIn} fullWidth>
