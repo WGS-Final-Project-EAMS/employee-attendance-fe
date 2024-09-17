@@ -155,7 +155,9 @@ const AttendanceTracking = () => {
                                 </Box>
                             )}
                             <Typography sx={{ textAlign:'center' }} variant="h6" component="h1" color="warning.dark" gutterBottom>
-                                <LocalFireDepartment /> Current streak: {streak ? streak : 'no streak yet'}
+                                <Box sx={{ display:'flex', justifyContent:'center', alignItems:'center', gap:1 }}>
+                                    <LocalFireDepartment /> {streak ? `Streak ${streak}` : 'no streak yet'}
+                                </Box>
                             </Typography>
                             <Box sx={{ mt: 4, display: 'flex', gap: 2 }}>
                                 {attendanceStatus === "no_clock_in" && (
