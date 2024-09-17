@@ -26,13 +26,10 @@ const DigitalClock = () => {
                 my: 4,
                 color: 'primary.main',
                 padding: 2,
-                border: 2,
-                borderRadius: 2,
                 width: 'fit-content',
                 mx: 'auto',
             }}
         >
-            <AccessTime sx={{ fontSize: 48, mr: 2 }} />
             <Typography variant="h3" component="div">
                 {formatTime(currentTime)}
             </Typography>

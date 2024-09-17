@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Container, Card, CardContent, Typography, Button, Box, Grid, Alert } from '@mui/material';
-import { LocalFireDepartment } from '@mui/icons-material';
+import { LocalFireDepartment, AccessTime } from '@mui/icons-material';
 import EmployeeLayout from '../../layouts/EmployeeLayout';
 import { fetchAttendanceStatus, fetchTodayAttendance, clockIn, clockOut } from "../../services/attendanceService";
 import { fetchOfficeSettings } from '../../services/officeSettingsService';
@@ -131,8 +131,6 @@ const AttendanceTracking = () => {
                                     <Grid item xs={12}>
                                         <Alert severity="success">
                                             You have already clocked out for today.
-                                            {clockInTime && `\n Clock In Time: ${clockInTime}`}
-                                            {clockOutTime && `\n Clock Out Time: ${clockOutTime}`}
                                         </Alert>
                                     </Grid>
                                 ) : (
@@ -161,20 +159,34 @@ const AttendanceTracking = () => {
                             </Typography>
                             <Box sx={{ mt: 4, display: 'flex', gap: 2 }}>
                                 {attendanceStatus === "no_clock_in" && (
-                                    <Button variant="outlined" color="primary" size="large" onClick={handleClockIn} fullWidth>
+                                    <Button variant="outlined" color="primary" size="large" startIcon={<AccessTime sx={{ fontSize: 24 }} />} onClick={handleClockIn} fullWidth>
                                         <Typography variant="h6" component="h1">
                                             Clock In
                                         </Typography>
                                     </Button>
                                 )}
                                 {attendanceStatus === "clocked_in" && (
-                                    <Button variant="outlined" color="error" size="large" onClick={handleClockOut} fullWidth>
+                                    <Button variant="outlined" color="error" size="large" startIcon={<AccessTime sx={{ fontSize: 24 }} />} onClick={handleClockOut} fullWidth>
                                         <Typography variant="h6" component="h1">
                                             Clock Out
                                         </Typography>
                                     </Button>
                                 )}
                             </Box>
+                            {clockInTime && attendanceStatus === "clocked_out" && (
+                                <Typography sx={{ textAlign:'center', pt:2 }} variant="body1" component="h1" color="success.main" gutterBottom>
+                                    <Box sx={{ display:'flex', justifyContent:'center', gap:1 }}>
+                                        <AccessTime sx={{ fontSize: 24 }} /> {clockInTime && `\n Clock In Time: ${clockInTime}`}
+                                    </Box>
+                                </Typography>
+                            )}
+                            {clockOutTime && attendanceStatus === "clocked_out" && (
+                                <Typography sx={{ textAlign:'center', pt:2 }} variant="body1" component="h1" color="secondary.main" gutterBottom>
+                                    <Box sx={{ display:'flex', justifyContent:'center', gap:1 }}>
+                                        <AccessTime sx={{ fontSize: 24 }} /> {clockOutTime && `\n Clock Out Time: ${clockOutTime}`}
+                                    </Box>
+                                </Typography>
+                            )}
                         </CardContent>
                     </Card>
                 </Box>
