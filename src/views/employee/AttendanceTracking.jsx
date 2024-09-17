@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Container, Card, CardContent, Typography, Button, Box, Grid, Alert } from '@mui/material';
 import EmployeeLayout from '../../layouts/EmployeeLayout';
 import { fetchAttendanceStatus, fetchTodayAttendance, clockIn, clockOut } from "../../services/attendanceService";
+import { fetchOfficeSettings } from '../../services/officeSettingsService';
 import ErrorMessage from '../../components/ErrorMessage';
 import DigitalClock from '../../components/elements/DigitalClock';
 
@@ -9,7 +10,20 @@ const AttendanceTracking = () => {
     const [clockInTime, setClockInTime] = useState(null);
     const [clockOutTime, setClockOutTime] = useState(null);
     const [attendanceStatus, setAttendanceStatus] = useState(null);
-    const [error, setError] = useState(null);  // State for managing errors
+    const [error, setError] = useState(null);
+    const [officeStartTime, setOfficeStartTime] = useState(null); // State for office start time
+    const [lateAlert, setLateAlert] = useState(false); // State for late alert
+
+    // Load office settings to get start time
+    const loadOfficeSettings = async () => {
+        try {
+            const { office_start_time } = await fetchOfficeSettings();
+            setOfficeStartTime(office_start_time);
+        } catch (error) {
+            setError("Failed to fetch office settings.");
+            console.error("Error fetching office settings:", error);
+        }
+    };
 
     // Load attendance status
     const loadAttendanceStatus = async () => {
@@ -17,7 +31,6 @@ const AttendanceTracking = () => {
             const status = await fetchAttendanceStatus();
             setAttendanceStatus(status);
 
-            // If user is clocked in, load clock in/out time
             if (status === 'clocked_in' || status === 'clocked_out') {
                 await loadAttendanceTime();
             }
@@ -67,8 +80,23 @@ const AttendanceTracking = () => {
         }
     };
 
-    // Load attendance status on component mount
+    // Check if employee is late
     useEffect(() => {
+        if (officeStartTime) {
+            const currentTime = new Date();
+            const [hours, minutes] = officeStartTime.split(':');
+            const officeTime = new Date();
+            officeTime.setHours(hours, minutes, 0, 0);
+
+            if (currentTime > officeTime && attendanceStatus !== 'clocked_in') {
+                setLateAlert(true);
+            }
+        }
+    }, [officeStartTime, attendanceStatus]);
+
+    // Load office settings and attendance status on component mount
+    useEffect(() => {
+        loadOfficeSettings();
         loadAttendanceStatus();
     }, []);
 
@@ -86,8 +114,8 @@ const AttendanceTracking = () => {
                                     <Grid item xs={12}>
                                         <Alert severity="success">
                                             You have already clocked out for today.
-                                            {clockInTime && ` Clock In Time: ${clockInTime}`}
-                                            {clockOutTime && ` Clock Out Time: ${clockOutTime}`}
+                                            {clockInTime && `\n Clock In Time: ${clockInTime}`}
+                                            {clockOutTime && `\n Clock Out Time: ${clockOutTime}`}
                                         </Alert>
                                     </Grid>
                                 ) : (
@@ -97,9 +125,15 @@ const AttendanceTracking = () => {
                                         </Alert>
                                     </Grid>
                                 )}
+                                {lateAlert && attendanceStatus === "no_clock_in" && (
+                                    <Grid item xs={12}>
+                                        <Alert severity="error">
+                                            You are late! Please clock in as soon as possible.
+                                        </Alert>
+                                    </Grid>
+                                )}
                             </Box>
                             <DigitalClock />
-                            {/* Display Error Message if any */}
                             {error && (
                                 <Box sx={{ mb: 2 }}>
                                     <ErrorMessage message={error} />
