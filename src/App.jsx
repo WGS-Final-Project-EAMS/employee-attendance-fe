@@ -25,6 +25,7 @@ import EmployeeManagement from "./views/admin/EmployeeManagement";
 import InactiveEmployeeManagement from "./views/admin/InactiveEmployeeManagement";
 import ChangePassword from "./views/admin/ChangePassword";
 import OfficeSettings from "./views/admin/OfficeSettings";
+import AttendanceRecords from "./views/admin/AttendanceRecords";
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
                 <Route path="/admin/employee-management/active" element={<EmployeeManagement />} />
                 <Route path="/admin/employee-management/inactive" element={<InactiveEmployeeManagement />} />
                 <Route path="/admin/settings/office" element={<OfficeSettings />} />
+                <Route path="/admin/attendance-records" element={<AttendanceRecords />} />
                 <Route path="/admin/change-password" element={<ChangePassword role="admin"/>} />
             </Route>
 
