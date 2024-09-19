@@ -69,8 +69,8 @@ const AttendanceRecapTable = ({ recaps, period }) => {
                                 <TableCell>{recap.employee.full_name}</TableCell>
                                 <TableCell>{recap.employee.department}</TableCell>
                                 <TableCell>{recap.employee.position}</TableCell>
-                                <TableCell>{new Date(recap.clock_in_time).toLocaleTimeString()}</TableCell>
-                                <TableCell>{new Date(recap.clock_out_time).toLocaleTimeString()}</TableCell>
+                                <TableCell>{recap.clock_in_time && new Date(recap.clock_in_time).toLocaleTimeString()}</TableCell>
+                                <TableCell>{recap.clock_out_time && new Date(recap.clock_out_time).toLocaleTimeString()}</TableCell>
                                 <TableCell>{recap.clock_in_location}</TableCell>
                                 <TableCell>{recap.status}</TableCell>
                             </TableRow>
