@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, CssBaseline } from '@mui/material';
 import theme from "./assets/style/theme";
 import SignIn from "./views/SigIn";
 import Unauthorized from "./views/Unauthorized";
@@ -32,6 +32,7 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Link to="/login">Login</Link>} />

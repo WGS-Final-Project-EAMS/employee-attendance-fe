@@ -38,7 +38,11 @@ const theme = createTheme({
         main: '#4caf50',  // Main green
         dark: '#388e3c',  // Dark green
         contrastText: '#ffffff', // White text
-      },
+    },
+      background: {
+        default: '#f0f4f8', // Light greyish blue
+        paper: '#ffffff',   // Untuk card atau elemen paper
+    },
     },
 });
 
