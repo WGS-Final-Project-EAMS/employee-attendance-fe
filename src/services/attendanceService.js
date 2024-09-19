@@ -53,3 +53,40 @@ export const fetchTodayAttendance = async () => {
     //     throw error;
     // }
 };
+
+// Fetch attendance recap
+export const fetchAttendanceRecap = async ({ period, date, month, year }) => {
+    try {
+      const params = { period, date, month, year };
+      const response = await axios.get(`${urlEndpoint}/attendance-recap`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params,
+      });
+  
+      return response.data.recaps;
+    } catch (error) {
+      console.error("Error fetching attendance recap:", error);
+      throw new Error(error.response?.data?.error || "Failed to fetch attendance recap.");
+    }
+  };
+  
+  // Fetch attendance recap in CSV format
+  export const fetchAttendanceRecapCSV = async ({ period, date, month, year }) => {
+    try {
+      const params = { period, date, month, year, format: 'csv' };
+      const response = await axios.get(`${urlEndpoint}/attendance-recap`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params,
+        responseType: 'blob', // For file download
+      });
+  
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching attendance recap CSV:", error);
+      throw new Error(error.response?.data?.error || "Failed to fetch attendance recap CSV.");
+    }
+  };
