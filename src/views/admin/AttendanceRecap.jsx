@@ -15,6 +15,7 @@ const AttendanceRecap = () => {
     const [date, setDate] = useState(new Date());
     const [month, setMonth] = useState(new Date().getMonth() + 1);
     const [year, setYear] = useState(new Date().getFullYear());
+    const title = "Attendance Recap";
 
     const loadRecaps = async () => {
         try {
@@ -64,10 +65,10 @@ const AttendanceRecap = () => {
     }, [period, date, month, year]);
 
     return (
-        <AdminLayout>
+        <AdminLayout title={title}>
             <Container maxWidth="xl" sx={{ mt: 8 }}>
                 <Typography component="h1" variant="h4" color="primary.dark">
-                    Attendance Recap
+                    {title}
                 </Typography>
                 
                 {/* Filters */}

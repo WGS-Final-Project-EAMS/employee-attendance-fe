@@ -97,6 +97,20 @@ export const updateAdmin = async (adminData, profilePicture, token) => {
     }
 };
 
+export const getAdminByUserId = async () => {
+    try {
+        const response = await axios.get(`${urlEndpoint}/user-admin`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+        return response.data;
+
+    } catch (error) {
+        return { error: error.response?.data || 'An error occurred' };
+    }
+}
+
 // Delete admin (hard delete)
 export const deleteAdmin = async (adminId) => {
     try {

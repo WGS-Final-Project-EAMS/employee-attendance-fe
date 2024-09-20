@@ -3,7 +3,7 @@ import { userLogout } from '../services/auth';
 import { goToPage } from "../services/pageController";
 import SidebarLayout from '../layouts/SidebarLayout';
 
-const AdminSidebar = () => {
+const AdminSidebar = ({ open }) => {
     const onLogout = () => {
         goToPage('/login', 1500);
     };
@@ -23,17 +23,18 @@ const AdminSidebar = () => {
             ]
         },
         { text: 'Attendance Records', icon: <CheckCircle sx={{ color: 'primary.contrastText' }} />, path: '/admin/attendance-records' },
-        {
-            text: 'Settings',
-            icon: <Settings sx={{ color: 'primary.contrastText' }} />,
-            subItems: [
-                { text: 'Office', path: '/admin/settings/office' }
-            ]
-        },
-        { text: 'Logout', icon: <ExitToApp sx={{ color: 'primary.contrastText' }} />, action: handleLogout },
+        { text: 'Office Settings', icon: <Settings sx={{ color: 'primary.contrastText' }} />, path: '/admin/settings/office' },
+        // {
+        //     text: 'Settings',
+        //     icon: <Settings sx={{ color: 'primary.contrastText' }} />,
+        //     subItems: [
+        //         { text: 'Office', path: '/admin/settings/office' }
+        //     ]
+        // },
+        // { text: 'Logout', icon: <ExitToApp sx={{ color: 'primary.contrastText' }} />, action: handleLogout },
     ];
     
-    return <SidebarLayout menuItems={menuItems} title="Admin" />;
+    return <SidebarLayout menuItems={menuItems} title="Admin" open={open} />;
 };
 
 export default AdminSidebar;

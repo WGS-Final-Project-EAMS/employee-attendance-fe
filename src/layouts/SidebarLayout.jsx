@@ -3,7 +3,7 @@ import { Drawer, List, ListItemIcon, ListItemText, Collapse, ListItemButton, Box
 import { ExpandLess, ExpandMore, PersonPinCircle } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const SidebarLayout = ({ menuItems, title }) => {
+const SidebarLayout = ({ menuItems, title, open = true }) => {
     const [openMenus, setOpenMenus] = useState({});
     const navigate = useNavigate();
     const location = useLocation();
@@ -14,18 +14,18 @@ const SidebarLayout = ({ menuItems, title }) => {
 
     return (
         <Drawer
-            variant="permanent"
+            variant="persistent"
             sx={{
                 width: 256,
                 flexShrink: 0,
                 [`& .MuiDrawer-paper`]: { width: 256, boxSizing: 'border-box' },
                 border:0
             }}
+            open={open}
         >
             <Box sx={{
                 minHeight: '100vh',
                 backgroundColor: 'primary.dark', color: 'primary.contrastText',
-                borderTopRightRadius: '5px', borderBottomRightRadius: '5px',
             }}>
                 <Typography component="h1" variant="h4" sx={{ mx:1, my: 2, pt:2, display:'flex', alignItems:'center', gap:1 }}>
                     <PersonPinCircle color='error' sx={{ fontSize: "40px" }} />
