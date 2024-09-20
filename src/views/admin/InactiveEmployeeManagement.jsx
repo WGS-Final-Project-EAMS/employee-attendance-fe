@@ -10,6 +10,7 @@ const InactiveEmployeeManagement = () => {
     const [employee, setEmployee] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const title = "Inactive Employees";
 
     const loadEmployee = async () => {
         try {
@@ -30,10 +31,10 @@ const InactiveEmployeeManagement = () => {
 
     return (
         <>
-            <AdminLayout>
-                <Container maxWidth="xl" sx={{ mt: 8, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <AdminLayout title={title}>
+                <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Typography component="h1" variant="h4" color="primary.dark">
-                        Employee Management
+                        {title}
                     </Typography>
                     {/* Main Content */}
                     <Box sx={{ my: 4, mt: 4 }}>

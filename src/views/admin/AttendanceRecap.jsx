@@ -66,7 +66,7 @@ const AttendanceRecap = () => {
 
     return (
         <AdminLayout title={title}>
-            <Container maxWidth="xl" sx={{ mt: 8 }}>
+            <Container maxWidth="xl">
                 <Typography component="h1" variant="h4" color="primary.dark">
                     {title}
                 </Typography>

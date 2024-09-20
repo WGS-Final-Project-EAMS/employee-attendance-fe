@@ -10,6 +10,7 @@ const DashboardAdmin = () => {
   const [user, setUser] = useState(null); // State untuk menyimpan data user
   // const [loading, setLoading] = useState(true); // State untuk mengelola status loading
   const [error, setError] = useState(null); // State untuk menyimpan error jika ada
+  const title = "Dashboard"
 
   // Fungsi untuk mengambil data user
   const fetchUserData = async () => {
@@ -46,10 +47,10 @@ const DashboardAdmin = () => {
   }
 
   return (
-    <AdminLayout>
+    <AdminLayout title={title}>
       <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', gap:2 }}>
           <Typography component="h1" variant="h4" color="primary.dark">
-              Dashboard
+              {title}
           </Typography>
           {/* User Info Card */}
           <Card sx={{ display: 'flex', width: '100%', alignItems: 'center', maxWidth: 600 }}>

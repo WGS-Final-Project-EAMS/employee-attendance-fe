@@ -14,6 +14,7 @@ const EmployeeManagement = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [openModal, setOpenModal] = useState(false);
+    const title = "Employee Management";
 
     const loadEmployee = async () => {
         try {
@@ -43,10 +44,10 @@ const EmployeeManagement = () => {
 
     return (
         <>
-            <AdminLayout>
-                <Container maxWidth="xl" sx={{ mt: 8, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <AdminLayout title={title}>
+                <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Typography component="h1" variant="h4" color="primary.dark">
-                        Employee Management
+                        {title}
                     </Typography>
                     {/* Main Content */}
                     <Box sx={{ my: 4, mt: 4 }}>

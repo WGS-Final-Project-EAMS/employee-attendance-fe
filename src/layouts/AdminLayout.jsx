@@ -44,7 +44,7 @@ const AdminLayout = ({ children, title }) => {
                     }}
                 >
                     <AdminAppBar handleSidebarToggle={handleSidebarToggle} username={username} avatarUrl={profilePicture} title={title} />
-                    <Container maxWidth="xl" disableGutters sx={{ p: 2, px:4 }}>
+                    <Container maxWidth="xl" disableGutters sx={{ p: 2, px:4, mt:4 }}>
                         {children}
                     </Container>
                 </Box>

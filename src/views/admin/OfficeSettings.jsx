@@ -11,6 +11,7 @@ const OfficeSettings = () => {
   const [loading, setLoading] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const title = "Office Settings";
 
   const loadOfficeSettings = async () => {
     try {
@@ -36,13 +37,13 @@ const OfficeSettings = () => {
   }
 
   return (
-    <AdminLayout>
-      <Container maxWidth="xl" sx={{ mt: 8 }}>
+    <AdminLayout title={title}>
+      <Container maxWidth="xl">
           <Box>
             <Card variant="outlined" sx={{ py: 4, px: 8 }}>
                 <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 4 }}>
                     <Typography component="h1" variant="h4" color="primary.dark">
-                      Office Settings
+                      {title}
                     </Typography>
                     {officeSettings ? (
                       <>
