@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Container, Box } from '@mui/material';
 import AdminSidebar from "../components/AdminSidebar";
 import AdminAppBar from "../components/AdminAppBar";
-import { getUserById } from '../services/auth';
+import Breadcrumbs from "../components/elements/Breadcrumbs";
 import { getAdminByUserId } from '../services/adminService';
 import { useState, useEffect } from 'react';
 
@@ -44,7 +44,8 @@ const AdminLayout = ({ children, title }) => {
                     }}
                 >
                     <AdminAppBar handleSidebarToggle={handleSidebarToggle} username={username} avatarUrl={profilePicture} title={title} />
-                    <Container maxWidth="xl" disableGutters sx={{ p: 2, px:4, mt:4 }}>
+                    <Container maxWidth="xl" disableGutters sx={{ p: 2, px: 4, mt: 4 }}>
+                        <Breadcrumbs />
                         {children}
                     </Container>
                 </Box>
