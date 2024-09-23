@@ -27,7 +27,9 @@ const ModalElement = ({openModal, handleCloseModal, renderModalContent, modalTit
                                 <Close />
                             </IconButton>
                         </Box>
-                        {renderModalContent()}
+                        <Box sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
+                            {renderModalContent()}
+                        </Box>
                     </Box>
                 </Box>
             </Zoom>
