@@ -35,7 +35,7 @@ function App() {
         <CssBaseline />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Link to="/login">Login</Link>} />
+            <Route path="/" element={<SignIn />} />
             <Route path="/login" element={<SignIn />} />
 
             {/* Admin Routes */}
