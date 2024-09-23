@@ -14,6 +14,7 @@ import PermissionHistory from "./views/employee/PermissionHistory";
 
 // Super admin
 import ActiveAdminManagement from "./views/super-admin/ActiveAdminManagement";
+import AdminManagement from "./views/super-admin/AdminManagement";
 import NonActiveAdmin from "./views/super-admin/NonActiveAdmin";
 import ErrorLog from "./views/super-admin/ErrorLog";
 import DashboardSuperAdmin from "./views/super-admin/DashboardSuperAdmin";
@@ -53,7 +54,7 @@ function App() {
             <Route element={<ProtectedRoute allowedRoles={['super_admin']} />} >
                 <Route path="/super-admin" element={<ActiveAdminManagement />} />
                 <Route path="/super-admin/dashboard" element={<DashboardSuperAdmin />} />
-                <Route path="/super-admin/admin-management/active" element={<ActiveAdminManagement />} />
+                <Route path="/super-admin/admin-management/active" element={<AdminManagement />} />
                 <Route path="/super-admin/admin-management/non-active" element={<NonActiveAdmin />} />
                 <Route path="/super-admin/error-log" element={<ErrorLog />} />
                 <Route path="/super-admin/change-password" element={<ChangePassword role="super_admin" />} />
