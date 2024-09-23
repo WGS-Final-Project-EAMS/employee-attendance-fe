@@ -10,7 +10,7 @@ import { userLogin } from '../services/auth';
 import { goToPage } from "../services/pageController";
 import SubmitButton from './elements/SubmitButton';
 
-export default function SignInForm() {
+export default function SignInForm({role}) {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [generalError, setGeneralError] = useState('');
@@ -30,7 +30,7 @@ export default function SignInForm() {
     const password = data.get('password');
 
     setLoading(true);
-    const error = await userLogin(email, password, onAdminLogin, onSuperAdminLogin, onEmployeeLogin);
+    const error = await userLogin(email, password, role, onAdminLogin, onSuperAdminLogin, onEmployeeLogin);
     
     // Error handling
     if (error) {

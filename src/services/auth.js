@@ -3,12 +3,29 @@ import { urlEndpoint, saveToken, token } from './url'; // Import utility functio
 import { jwtDecode } from 'jwt-decode'; // Import jwtDecode for decoding JWT tokens
 import Cookies from 'js-cookie';
 
-export const userLogin = async (email, password, onAdminLogin, onSuperAdminLogin, onEmployeeLogin) => {
-    try {        
+export const userLogin = async (email, password, role, onAdminLogin, onSuperAdminLogin, onEmployeeLogin) => {
+    try {
+        let response;
         // Make a POST request to the login endpoint with email and password
-        const response = await axios.post(`${urlEndpoint}/login`, {
-            email, password
-        });
+        switch (role) {
+            case "admin":
+                response = await axios.post(`${urlEndpoint}/admin-login`, {
+                    email, password
+                });
+            break;
+            
+            case "employee":
+                response = await axios.post(`${urlEndpoint}/employee-login`, {
+                    email, password
+                });
+            break;
+            
+            default:
+                response = await axios.post(`${urlEndpoint}/login`, {
+                    email, password
+                });
+            break;
+        }
 
         if (response && response.status === 200) { // Login success
             // Extract token from the response
@@ -20,7 +37,7 @@ export const userLogin = async (email, password, onAdminLogin, onSuperAdminLogin
             saveToken(token);
 
             // Determine the type of user based on the access level and call corresponding callback
-            switch (payload.role) {
+            switch (payload.roles) {
                 case 'admin':
                     onAdminLogin();
                     break;

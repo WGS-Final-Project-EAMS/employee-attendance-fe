@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { token } from "../services/url";
 import Cookies from 'js-cookie';
@@ -6,12 +6,15 @@ import { jwtDecode } from 'jwt-decode'; // Import jwtDecode for decoding JWT tok
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import SignInForm from '../components/SignInForm';
 import Copyright from '../components/Copyright';
 import MainLayout from '../layouts/MainLayout';
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const [tabValue, setTabValue] = useState(0);
 
     useEffect(() => {
 
@@ -43,6 +46,10 @@ export default function SignIn() {
           }
       }
     }, [navigate]);
+
+    const handleTabChange = (event, newValue) => {
+      setTabValue(newValue);
+    };
   
   return (
     <MainLayout>
@@ -69,7 +76,7 @@ export default function SignIn() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          px: 30, pt: 16
+          px: 30, pt: 8
         }}>
         <Box
           gap={2}
@@ -86,7 +93,16 @@ export default function SignIn() {
           <Typography component="h1" variant="subtitle1" gutterBottom>
             Sign in to your account
           </Typography>
-          <SignInForm />
+
+          {/* Tabs for switching between admin and employee sign-in */}
+          <Tabs value={tabValue} onChange={handleTabChange} aria-label="sign-in tabs">
+            <Tab label="Employee" />
+            <Tab label="Admin" />
+          </Tabs>
+
+          {/* Pass the selected role to SignInForm */}
+          <SignInForm role={tabValue === 0 ? 'employee' : 'admin'} />
+
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Grid>
