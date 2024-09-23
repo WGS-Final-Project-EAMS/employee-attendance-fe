@@ -19,6 +19,14 @@ export const fetchInactiveEmployees = async () => {
     return response.data;
 };
 
+// Get all active employee
+export const fetchEmployeeByUserId = async (user_id) => {
+    const response = await axios.get(`${urlEndpoint}/employees-user/${user_id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+};
+
 // Create new employee
 export const createEmployee = async (formData, profilePicture, token) => {
     const data = new FormData();

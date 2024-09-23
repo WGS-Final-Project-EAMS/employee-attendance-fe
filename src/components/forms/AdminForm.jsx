@@ -1,56 +1,99 @@
 import { useState, useEffect } from 'react';
-import {
-    FormControl, TextField, Button, Grid, Avatar, Typography, Alert,
-    FormControlLabel, Switch,
- } from '@mui/material';
-import { token } from '../../services/url';
-import { getCurrentUserId } from '../../services/auth';
-import { createAdmin, updateAdmin } from '../../services/adminService';
+import { FormControl, Grid, Alert, TextField } from '@mui/material';
 import { urlEndpoint } from '../../services/url';
+import { createAdmin, updateAdmin } from '../../services/adminService';
+import { fetchEmployee, fetchEmployeeByUserId } from '../../services/employeeService';
+import FormTextField from '../elements/FormTextField';
+import FormSelect from '../elements/FormSelect';
+import FileUploadField from '../elements/FormUploadField';
+import SwitchField from '../elements/SwitchField';
 import SubmitButton from '../elements/SubmitButton';
 
 const AdminForm = ({ mode = 'create', adminData = {} }) => {
     const [formData, setFormData] = useState({
+        full_name: '',
+        position: '',
+        department: '',
+        phone_number: '',
+        manager_id: '',
+        employment_date: '',
         username: '',
         email: '',
-        role: 'admin',
-        assigned_by: getCurrentUserId(),
-        full_name: '',
-        phone_number: '',
         profile_picture_url: null,
         is_active: false,
     });
-    
 
     const [profilePicture, setProfilePicture] = useState(null);
-    const [usernameError, setUsernameError] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [fullNameError, setFullNameError] = useState('');
-    const [phoneNumberError, setPhoneNumberError] = useState('');
-    const [generalError, setGeneralError] = useState('');
+    const [errorMessages, setErrorMessages] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
+    const [managerOptions, setManagerOptions] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        if (mode === 'edit' && adminData) {
-            const avatarUrl = `${urlEndpoint}/${adminData.profile_picture_url}`;
+    // Get employee for manager options
+    const fetchEmployeeOptions = async () => {
+        try {
+            const employees = await fetchEmployee();
+            
+            return employees.map(employee => ({
+                value: employee.employee_id,
+                label: employee.user?.full_name,
+            }));
+        } catch (error) {
+            console.error("Failed to fetch employees for manager select", error);
+            return [];
+        }
+    };
 
+    // Load fetched employee list
+    const loadManagerOptions = async () => {
+        const options = await fetchEmployeeOptions();
+        setManagerOptions(options);
+    };
+
+    // Load employee for initial form
+    const loadEmployee = async () => {
+        // Only for edit form
+        if (mode === 'edit' && adminData) {
+            const selectedEmployee = await fetchEmployeeByUserId(adminData.user_id);
+            
+            const avatarUrl = `${urlEndpoint}/${adminData.profile_picture_url}`;
             setFormData({
                 user_id: adminData.user_id || '',
-                admin_id: adminData.admin_id || '',
-                username: adminData.user.username || '',
-                email: adminData.user.email || '',
-                role: adminData.role || 'admin',
-                assigned_by: adminData.assigned_by || '',
                 full_name: adminData.full_name || '',
                 phone_number: adminData.phone_number || '',
+                username: adminData.username || '',
+                email: adminData.email || '',
                 profile_picture_url: avatarUrl || null,
-                is_active: adminData.user.is_active || false, // Add this line
+                is_active: adminData.is_active || false,
+                employee_id: selectedEmployee.employee_id || '',
+                position: selectedEmployee.position || '',
+                department: selectedEmployee.department || '',
+                manager_id: selectedEmployee.manager_id || '',
+                employment_date: selectedEmployee.employment_date || '',
             });
-            
-            setProfilePicture(null); // Reset profile picture state
+            setProfilePicture(null);
         }
-    }, [mode, adminData]);
+    };
+
+    // Formatting date
+    const formatDate = (date) => {
+        // Is date valid
+        const parsedDate = new Date(date);
+        if (isNaN(parsedDate)) {
+            return '';
+        }
+        
+        return parsedDate.toISOString().split('T')[0];
+    }
+
+    useEffect(() => {
+        loadManagerOptions();
+    }, [])
+
+    useEffect(() => {
+        loadEmployee();
+        
+    }, [adminData]);
 
     const handleFileChange = (e) => {
         setProfilePicture(e.target.files[0]);
@@ -72,147 +115,46 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Clear previous errors
-        setUsernameError('');
-        setEmailError('');
-        setFullNameError('');
-        setPhoneNumberError('');
-        setGeneralError('');
+        setErrorMessages({});
         setSuccessMessage('');
+        setLoading(true);
 
         const serviceFunction = mode === 'create' ? createAdmin : updateAdmin;
-        
-        setLoading(true); // Submitting
-        const { success, error } = await serviceFunction(formData, profilePicture, token);
+        const { success, error } = await serviceFunction(formData, profilePicture);
 
         if (success) {
-            setLoading(false);
             setSuccessMessage(`Admin ${mode === 'create' ? 'created' : 'updated'} successfully!`);
-            if (mode === 'create') {
-                // Reset form after success
-                setFormData({
-                    username: '',
-                    email: '',
-                    role: 'admin',
-                    assigned_by: getCurrentUserId(),
-                    full_name: '',
-                    phone_number: '',
-                    profile_picture_url: null,
-                });
-                setProfilePicture(null);
-            }
-        } else {
             setLoading(false);
-            if (error.username) setUsernameError(error.username);
-            if (error.email) setEmailError(error.email);
-            if (error.full_name) setFullNameError(error.full_name);
-            if (error.phone_number) setPhoneNumberError(error.phone_number);
-            if (error.general) setGeneralError(error.general);
+        } else {
+            setErrorMessages(error);
+            setLoading(false);
         }
     };
 
     return (
         <FormControl component="form" onSubmit={handleSubmit}>
-            {generalError && (
-                <Grid item sx={{ pb: 2 }} xs={12}>
-                    <Alert severity="error">{generalError}</Alert>
-                </Grid>
-            )}
-            {successMessage && (
-                <Grid item sx={{ pb: 2 }} xs={12}>
-                    <Alert severity="success">{successMessage}</Alert>
-                </Grid>
-            )}
-            <Grid container spacing={2} sx={{ p: 2, mb: 2 }}>
-                <Grid item xs={12}>
-                    <TextField
-                        label="Username"
-                        name="username"
-                        value={formData.username}
-                        onChange={handleChange}
-                        fullWidth
-                        required
-                        error={!!usernameError}
-                        helperText={usernameError}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        label="Email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        fullWidth
-                        required
-                        error={!!emailError}
-                        helperText={emailError}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        label="Full Name"
-                        name="full_name"
-                        value={formData.full_name}
-                        onChange={handleChange}
-                        fullWidth
-                        required
-                        error={!!fullNameError}
-                        helperText={fullNameError}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        label="Phone Number"
-                        name="phone_number"
-                        value={formData.phone_number}
-                        onChange={handleChange}
-                        fullWidth
-                        required
-                        error={!!phoneNumberError}
-                        helperText={phoneNumberError}
-                    />
-                </Grid>
-                {mode === 'edit' &&
-                    <Grid item xs={12}>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={formData.is_active}
-                                    onChange={handleSwitchChange}
-                                    color="primary"
-                                />
-                            }
-                            label={formData.is_active ? 'active' : 'non-active'}
-                        />
-                    </Grid>
-                }
-                <Grid item xs={12}>
-                    <Typography variant="h6">Upload Profile Picture</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <Button
-                        component="label"
-                        variant='outlined'
-                        sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', gap: 2, py: 2 }}
-                        color='secondary'
-                    >
-                        <Avatar
-                            alt="Profile Picture"
-                            src={profilePicture ? URL.createObjectURL(profilePicture) : formData.profile_picture_url}
-                            sx={{ width: 56, height: 56 }}
-                        />
-                        <Typography variant="subtitle1">Choose Profile Picture</Typography>
-                        <input
-                            type="file"
-                            hidden
-                            accept="image/jpeg, image/png, image/webp"
-                            onChange={handleFileChange}
-                        />
-                    </Button>
-                </Grid>
+            {errorMessages.general && <Alert severity="error">{errorMessages.general}</Alert>}
+            {successMessage && <Alert severity="success">{successMessage}</Alert>}
+
+            <Grid container spacing={2}>
+                <FormTextField label="Full Name" name="full_name" value={formData.full_name} onChange={handleChange} error={errorMessages.full_name} />
+                <FormTextField label="Position" name="position" value={formData.position} onChange={handleChange} error={errorMessages.position} />
+                <FormTextField label="Department" name="department" value={formData.department} onChange={handleChange} error={errorMessages.department} />
+                <FormTextField label="Phone Number" name="phone_number" value={formData.phone_number} onChange={handleChange} error={errorMessages.phone_number} />
+                <FormSelect
+                    label="Supervisor"
+                    name="manager"
+                    value={formData.manager_id}
+                    onChange={(event) => setFormData({ ...formData, manager_id: event.target.value })}
+                    options={managerOptions}
+                />
+                <FormTextField label="Employement Date" name="employment_date" value={formatDate(formData.employment_date)} onChange={handleChange} error={errorMessages.employement_date} type="date" InputLabelProps={{ shrink: true }} />
+                <FormTextField label="Username" name="username" value={formData.username} onChange={handleChange} error={errorMessages.username} />
+                <FormTextField label="Email" name="email" value={formData.email} onChange={handleChange} error={errorMessages.email} type="email" />
+                {mode === 'edit' && <SwitchField isActive={formData.is_active} handleSwitchChange={handleSwitchChange} />}
+                <FileUploadField profilePicture={profilePicture} handleFileChange={handleFileChange} profilePictureUrl={formData.profile_picture_url} />
             </Grid>
+
             <SubmitButton loading={loading} text={mode === 'create' ? 'Create Admin' : 'Update Admin'} />
         </FormControl>
     );

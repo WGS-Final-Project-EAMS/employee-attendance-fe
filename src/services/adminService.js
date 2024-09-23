@@ -6,6 +6,7 @@ export const fetchActiveAdmin = async () => {
     const response = await axios.get(`${urlEndpoint}/admins/active`, {
         headers: { Authorization: `Bearer ${token}` }
     });
+    
     return response.data;
 };
 
@@ -18,14 +19,16 @@ export const fetchNonActiveAdmin = async () => {
 };
 
 // Create new admin
-export const createAdmin = async (formData, profilePicture, token) => {
+export const createAdmin = async (formData, profilePicture) => {
     const data = new FormData();
     data.append('username', formData.username);
     data.append('email', formData.email);
-    data.append('role', formData.role);
-    data.append('assigned_by', formData.assigned_by);
     data.append('full_name', formData.full_name);
     data.append('phone_number', formData.phone_number);
+    data.append('position', formData.position);
+    data.append('department', formData.department);
+    data.append('manager_id', formData.manager_id);
+    data.append('employment_date', formData.employment_date);
     if (profilePicture) {
         data.append('profile_picture_url', profilePicture);
     }
@@ -56,9 +59,11 @@ export const createAdmin = async (formData, profilePicture, token) => {
 };
 
 // Edit admin
-export const updateAdmin = async (adminData, profilePicture, token) => {
+export const updateAdmin = async (adminData, profilePicture) => {
     try {
         const formData = new FormData();
+
+        adminData.employment_date = new Date(adminData.employment_date).toISOString();
 
         // Append all fields from adminData to the FormData object
         for (const key in adminData) {
@@ -73,7 +78,7 @@ export const updateAdmin = async (adminData, profilePicture, token) => {
         }
 
         // Make PUT request to update the admin
-        const response = await axios.put(`${urlEndpoint}/admin/${adminData.admin_id}`, formData, {
+        const response = await axios.put(`${urlEndpoint}/admin/${adminData.user_id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`,  // Include token in the Authorization header

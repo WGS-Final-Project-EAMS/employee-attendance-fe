@@ -29,15 +29,19 @@ export const InfoModal = ({ message, handleCloseModal, duration = 3000, type = "
     );
 };
 
-export const ModalActionAdmin = ({ data, modalType, handleOpenModal, handleCloseModal=null }) => {
+export const ModalActionAdmin = ({ data, modalType, handleOpenModal, handleCloseModal = null }) => {
+    const employmentDate = new Date(data?.employment_date).toLocaleDateString('en-GB');
+
     const detailFields = [
-        { label: 'Username', value: data?.user?.username },
-        { label: 'Role', value: data?.user?.role },
-        { label: 'Email', value: data?.user?.email },
         { label: 'Full Name', value: data?.full_name },
+        { label: 'Position', value: data?.position },
+        { label: 'Department', value: data?.department },
         { label: 'Phone Number', value: data?.phone_number },
-        { label: 'Assigned By', value: data?.assignedBy?.username },
-        { label: 'Status', value: data?.user?.is_active ? 'Active' : 'Non-active' },
+        { label: 'Supervisor', value: data?.manager?.full_name },
+        { label: 'Employement Date', value: employmentDate },
+        { label: 'Username', value: data?.username },
+        { label: 'Email', value: data?.email },
+        { label: 'Status', value: data?.is_active ? 'Active' : 'Non-active' },
     ];
 
     if (modalType === 'create') {

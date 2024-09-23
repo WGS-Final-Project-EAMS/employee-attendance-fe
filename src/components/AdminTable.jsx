@@ -57,14 +57,14 @@ const AdminTable = ({ admin, loadAdmin }) => {
                     {admin
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((record) => (
-                            <TableRow key={record.admin_id}>
+                            <TableRow key={record.user_id}>
                                 <TableCell>
                                     <Box sx={{ display:'flex', flexDirection:'row', alignItems:'center', gap:3 }}>
                                         <AvatarComponent url={ record.profile_picture_url } size={36} />
-                                        {record.user.username}
+                                        {record.username}
                                     </Box>
                                 </TableCell>
-                                <TableCell>{record.user.email}</TableCell>
+                                <TableCell>{record.email}</TableCell>
                                 <TableCell>{record.phone_number}</TableCell>
                                 <TableCell align="right">
                                     <IconButton color="primary" onClick={() => handleOpenModal(record, 'detail', 'Admin Details')}>
@@ -73,7 +73,7 @@ const AdminTable = ({ admin, loadAdmin }) => {
                                     <IconButton color="warning" onClick={() => handleOpenModal(record, 'edit', 'Edit Admin Data')}>
                                         <Edit />
                                     </IconButton>
-                                    {!record.user.is_active &&
+                                    {!record.is_active &&
                                         <IconButton color="error" onClick={() => handleOpenModal(record, 'delete')}>
                                             <Delete />
                                         </IconButton>

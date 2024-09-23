@@ -24,7 +24,7 @@ export default function SignIn() {
               const payload = jwtDecode(token);
               
               // Redirect based on role
-              switch (payload.role) {
+              switch (payload.roles) {
                   case 'admin':
                       navigate('/admin', { replace: true });
                       break;
