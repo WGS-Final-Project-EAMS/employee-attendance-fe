@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Container, Card, CardContent, Typography, Button, Box, Grid, Alert } from '@mui/material';
 import { LocalFireDepartment, AccessTime } from '@mui/icons-material';
 import EmployeeLayout from '../../layouts/EmployeeLayout';
-import { fetchAttendanceStatus, fetchTodayAttendance, clockIn, clockOut } from "../../services/attendanceService";
+import { fetchAttendanceStatus, fetchTodayAttendance, clockIn, clockOut, cancelClockOut } from "../../services/attendanceService";
 import { fetchOfficeSettings } from '../../services/officeSettingsService';
 import { fetchStreakByUserId } from '../../services/streakService';
 import ErrorMessage from '../../components/ErrorMessage';
@@ -16,6 +16,7 @@ const AttendanceTracking = () => {
     const [error, setError] = useState(null);
     const [officeStartTime, setOfficeStartTime] = useState(null); // State for office start time
     const [lateAlert, setLateAlert] = useState(false); // State for late alert
+    const [cancelAlert, setCancelAlert] = useState(null);
 
     const title = "Attendance";
 
@@ -97,6 +98,21 @@ const AttendanceTracking = () => {
             console.error("Clock out failed:", error.response?.data?.error || error.message);
         }
     };
+
+    // Handle cancel clock out
+    const handleCancelClockOut = async () => {
+        try {
+            const data = await cancelClockOut();
+            const { message } = data;
+
+            setCancelAlert(message);
+            setAttendanceStatus('clocked_in');
+            setError(null);
+        } catch (error) {
+            setError(error.response?.data?.error || "Cancel clock out failed.");
+            console.error("Cancel clock out failed:", error.response?.data?.error || error.message);
+        }
+    }
 
     // Check if employee is late
     useEffect(() => {
@@ -185,11 +201,16 @@ const AttendanceTracking = () => {
                                 </Typography>
                             )}
                             {clockOutTime && attendanceStatus === "clocked_out" && (
-                                <Typography sx={{ textAlign:'center', pt:2 }} variant="body1" component="h1" color="secondary.main" gutterBottom>
-                                    <Box sx={{ display:'flex', justifyContent:'center', gap:1 }}>
-                                        <AccessTime sx={{ fontSize: 24 }} /> {clockOutTime && `\n Clock Out Time: ${clockOutTime}`}
-                                    </Box>
-                                </Typography>
+                                <>
+                                    <Typography sx={{ textAlign:'center', pt:2 }} variant="body1" component="h1" color="secondary.main" gutterBottom>
+                                        <Box sx={{ display:'flex', justifyContent:'center', gap:1 }}>
+                                            <AccessTime sx={{ fontSize: 24 }} /> {clockOutTime && `\n Clock Out Time: ${clockOutTime}`}
+                                        </Box>
+                                    </Typography>
+                                    <Typography sx={{ textAlign:'center', pt:2 }} variant="body1" component="h1" color="secondary.main" gutterBottom>
+                                        Do you want to extend your clock in time? <Button onClick={handleCancelClockOut}>Cancel clock out</Button>
+                                    </Typography>
+                                </>
                             )}
                         </CardContent>
                     </Card>

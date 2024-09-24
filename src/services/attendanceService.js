@@ -32,6 +32,17 @@ export const clockOut = async () => {
     return response.data.updatedAttendance;
 }
 
+// Handle cancel clock out
+export const cancelClockOut = async () => {
+  const response = await axios.patch(
+      `${urlEndpoint}/cancel-clock-out`,
+      {},
+      { headers: { Authorization: `Bearer ${token}` } }
+  );
+
+  return response.data.message;
+}
+
 // Get Employee Attendance History
 export const fetchAttendanceHistory = async () => {
     const response = await axios.get(`${urlEndpoint}/attendance-history`, {
