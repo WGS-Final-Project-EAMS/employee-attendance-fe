@@ -1,4 +1,4 @@
-import { Modal, Box, Button, Zoom, Typography, IconButton } from "@mui/material";
+import { Modal, Box, Zoom, Typography, IconButton } from "@mui/material";
 import { Close } from '@mui/icons-material';
 
 const ModalElement = ({openModal, handleCloseModal, renderModalContent, modalTitle}) => {
@@ -21,13 +21,13 @@ const ModalElement = ({openModal, handleCloseModal, renderModalContent, modalTit
                     }}
                 >
                     <Box sx={{ ...style }}>
-                        <Box sx={{ display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center', mb:4 }}>
+                        <Box sx={{ display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center', mb:2 }}>
                             <Typography variant="h6">{modalTitle}</Typography>
                             <IconButton onClick={() => handleCloseModal()}>
                                 <Close />
                             </IconButton>
                         </Box>
-                        <Box sx={{ maxHeight: '70vh', overflowY: 'auto' }}>
+                        <Box sx={{ maxHeight: '80vh', overflowY: 'auto', pt:1 }}>
                             {renderModalContent()}
                         </Box>
                     </Box>
