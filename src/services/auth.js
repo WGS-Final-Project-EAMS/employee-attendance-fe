@@ -130,3 +130,20 @@ export const changePassword = async (newPassword, confirmPassword) => {
         return { success: false, error: 'Failed to change password' };
     }
 }
+
+export const forgotPassword = async (email) => {
+    try {
+        const response = await axios.put(
+            `${urlEndpoint}/user/reset-password`,
+            { email }
+        );
+        
+        return response;  // Mengembalikan data dari respons jika berhasil
+    } catch (error) {
+        // Mengembalikan pesan error jika terjadi kesalahan
+        if (error.response && error.response.data) {
+            return { success: false, error: error.response.data.error || 'Failed to reset password' };
+        }
+        return { success: false, error: 'Failed to reset password' };
+    }
+}

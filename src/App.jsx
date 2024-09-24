@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import theme from "./assets/style/theme";
 import SignIn from "./views/SigIn";
+import ForgotPasswordPage from "./views/ForgotPassword";
 import Unauthorized from "./views/Unauthorized";
 
 // Employee
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             <Route path="/" element={<SignIn />} />
             <Route path="/login" element={<SignIn />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
             {/* Super Admin Routes */}
             <Route element={<ProtectedRoute allowedRoles={['super_admin']} />} >
