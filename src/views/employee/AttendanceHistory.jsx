@@ -15,6 +15,8 @@ const AttendanceHistory = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const title = "Attendance History";
+
     useEffect(() => {
         const loadAttendanceHistory = async () => {
             try {
@@ -32,11 +34,11 @@ const AttendanceHistory = () => {
     }, []);
 
     return (
-        <EmployeeLayout>
-            <Container maxWidth="xl" sx={{ mt: 8, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <EmployeeLayout title={title}>
+            <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 {/* Header */}
                 <Typography variant="h4" component="h1" gutterBottom>
-                    Attendance History
+                    {title}
                 </Typography>
                 
                 {/* Main Content */}

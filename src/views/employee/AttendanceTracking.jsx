@@ -17,6 +17,8 @@ const AttendanceTracking = () => {
     const [officeStartTime, setOfficeStartTime] = useState(null); // State for office start time
     const [lateAlert, setLateAlert] = useState(false); // State for late alert
 
+    const title = "Attendance";
+
     // Load office settings to get start time
     const loadOfficeSettings = async () => {
         try {
@@ -118,13 +120,13 @@ const AttendanceTracking = () => {
     }, []);
 
     return (
-        <EmployeeLayout>
-            <Container maxWidth="xl" sx={{ mt: 8 }}>
+        <EmployeeLayout title={title}>
+            <Container maxWidth="xl">
                 <Box>
                     <Card variant="outlined" sx={{ py: 4, px: 8 }}>
                         <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 2 }}>
                             <Typography variant="h4" component="h1" color="primary.dark" gutterBottom>
-                                Attendance
+                                {title}
                             </Typography>
                             <Box>
                                 {attendanceStatus === "clocked_out" ? (

@@ -19,9 +19,17 @@ export const fetchInactiveEmployees = async () => {
     return response.data;
 };
 
-// Get all active employee
+// Get employee by user id
 export const fetchEmployeeByUserId = async (user_id) => {
     const response = await axios.get(`${urlEndpoint}/employees-user/${user_id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+};
+
+// Get employee by user login
+export const fetchEmployeeByUserLogin = async () => {
+    const response = await axios.get(`${urlEndpoint}/employees-user`, {
         headers: { Authorization: `Bearer ${token}` }
     });
     return response.data;

@@ -1,16 +1,7 @@
-import { Dashboard, AccessTime, Assignment, ExitToApp } from '@mui/icons-material';
-import { userLogout } from '../services/auth';
-import { goToPage } from "../services/pageController";
+import { Dashboard, AccessTime, Assignment } from '@mui/icons-material';
 import SidebarLayout from '../layouts/SidebarLayout';
 
-const EmployeeSidebar = () => {
-    const onLogout = () => {
-        goToPage('/login', 1500);
-    };
-
-    const handleLogout = () => {
-        userLogout(onLogout);
-    };
+const EmployeeSidebar = ({open}) => {
 
     const menuItems = [
         { text: 'Dashboard', icon: <Dashboard sx={{ color: 'primary.contrastText' }} />, path: '/employee/dashboard' },
@@ -31,10 +22,9 @@ const EmployeeSidebar = () => {
                 { text: 'Permission History', path: '/employee/permission-history' }
             ]
         },
-        { text: 'Logout', icon: <ExitToApp sx={{ color: 'primary.contrastText' }} />, action: handleLogout }
     ];
 
-    return <SidebarLayout menuItems={menuItems} title="Employee" />;
+    return <SidebarLayout menuItems={menuItems} title="Employee" open={open} />;
 };
 
 export default EmployeeSidebar;

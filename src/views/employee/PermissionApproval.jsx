@@ -11,6 +11,8 @@ const PermissionApproval = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const title = "Permission Approval";
+
     const loadPermissionApproval = async () => {
         try {
             const data = await fetchPermissionApproval(); // Get attendance history data
@@ -30,10 +32,10 @@ const PermissionApproval = () => {
 
     return (
         <>
-            <EmployeeLayout>
-                <Container maxWidth="xl" sx={{ mt: 8, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <EmployeeLayout title={title}>
+                <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Typography component="h1" variant="h4" color="primary.dark">
-                        Permission Approval
+                        {title}
                     </Typography>
                     {/* Main Content */}
                     <Box sx={{ my: 4, mt: 4 }}>

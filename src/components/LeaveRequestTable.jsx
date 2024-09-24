@@ -61,7 +61,7 @@ const LeaveRequestTable = ({ title, filterStatus }) => {
     const paginatedData = filteredData.slice((page - 1) * rowsPerPage, page * rowsPerPage); // Paginate data
 
     return (
-        <Container maxWidth="xl" sx={{ mt: 8, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 2 }}>
+        <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 2 }}>
             <Typography variant="h4" component="h1" color="primary.dark" gutterBottom>
                 {title}
             </Typography>
