@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Typography, Box, Grid, Button, FormControl } from '@mui/material';
 import { ReportGmailerrorred, CheckCircleOutline, Edit } from '@mui/icons-material';
 import AdminForm from '../forms/AdminForm';
@@ -6,7 +6,7 @@ import EmployeeForm from '../forms/EmployeeForm';
 import LeaveRequestForm from '../forms/LeaveRequestForm';
 import AvatarComponent from './UserAvatar';
 import { deleteAdmin } from '../../services/adminService';
-import { deleteEmployee } from '../../services/employeeService';
+import { fetchEmployeeByUserId, deleteEmployee } from '../../services/employeeService';
 import { updateLeaveRequest, cancelLeaveRequest } from '../../services/leaveRequestService';
 
 export const InfoModal = ({ message, handleCloseModal, duration = 3000, type = "success" }) => {
@@ -30,14 +30,25 @@ export const InfoModal = ({ message, handleCloseModal, duration = 3000, type = "
 };
 
 export const ModalActionAdmin = ({ data, modalType, handleOpenModal, handleCloseModal = null }) => {
+    const [employee, setEmployee] = useState({});
     const employmentDate = new Date(data?.employment_date).toLocaleDateString('en-GB');
+    
+    const loadEmployee = async () => {
+        const result = await fetchEmployeeByUserId(data?.user_id);
+        
+        setEmployee(result);
+    }
+
+    useEffect(() => {
+        loadEmployee();
+    }, [])
 
     const detailFields = [
         { label: 'Full Name', value: data?.full_name },
-        { label: 'Position', value: data?.position },
-        { label: 'Department', value: data?.department },
+        { label: 'Position', value: employee?.position },
+        { label: 'Department', value: employee?.department },
+        { label: 'Supervisor', value: employee?.manager?.full_name },
         { label: 'Phone Number', value: data?.phone_number },
-        { label: 'Supervisor', value: data?.manager?.full_name },
         { label: 'Employement Date', value: employmentDate },
         { label: 'Username', value: data?.username },
         { label: 'Email', value: data?.email },
@@ -119,7 +130,7 @@ export const ModalActionAdmin = ({ data, modalType, handleOpenModal, handleClose
                         </Grid>
                     ))}
                 </Box>
-                <Button onClick={() => handleOpenModal(data, 'edit', 'Edit Admin Data')} sx={{ mt: 2 }} color="warning">
+                <Button onClick={() => handleOpenModal(data, 'edit', 'Edit Admin Data')} sx={{ mt: 2 }} color="warning" variant="contained" fullWidth>
                     Edit
                 </Button>
             </>
