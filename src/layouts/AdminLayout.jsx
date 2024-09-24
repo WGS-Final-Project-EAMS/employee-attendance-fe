@@ -14,7 +14,7 @@ const AdminLayout = ({ children, title }) => {
 
     const loadUser = async () => {
         const admin = await getAdminByUserId();
-        setUsername(admin.user.username);
+        setUsername(admin.username);
         setProfilePicture(admin.profile_picture_url);
     }
 
