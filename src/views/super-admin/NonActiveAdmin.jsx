@@ -15,6 +15,8 @@ const NonActiveAdmin = () => {
     const [error, setError] = useState(null);
     const [openModal, setOpenModal] = useState(false);
 
+    const title = "Non Active Admin";
+
     const loadNonactiveAdmin = async () => {
         try {
             const data = await fetchNonActiveAdmin(); // Get attendance history data
@@ -43,10 +45,10 @@ const NonActiveAdmin = () => {
 
     return (
         <>
-            <SuperAdminLayout>
-                <Container maxWidth="xl" sx={{ mt: 8, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <SuperAdminLayout title={title}>
+                <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Typography component="h1" variant="h4" color="primary.dark">
-                        Non Active Admin
+                        {title}
                     </Typography>
                     {/* Main Content */}
                     <Box sx={{ my: 4, mt: 4 }}>

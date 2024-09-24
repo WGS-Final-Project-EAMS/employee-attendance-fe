@@ -17,6 +17,8 @@ const AdminManagement = () => {
     const [openModal, setOpenModal] = useState(false);
     const [tabValue, setTabValue] = useState(0);
 
+    const title = "Admin Management";
+
     // Get active admin for active admin tab
     const loadActiveAdmin = async () => {
         try {
@@ -65,10 +67,10 @@ const AdminManagement = () => {
 
     return (
         <>
-            <SuperAdminLayout>
-                <Container maxWidth="xl" sx={{ mt: 8, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <SuperAdminLayout title={title}>
+                <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Typography component="h1" variant="h4" color="primary.dark">
-                        Admin Management
+                        {title}
                     </Typography>
                     {/* Main Content */}
                     <Box sx={{ my: 4, mt: 4 }}>

@@ -15,6 +15,8 @@ const ErrorLog = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const title = "Error Log";
+
     const loadErrorLog = async () => {
         try {
             const data = await fetchErrorLog(); // Get attendance history data
@@ -33,11 +35,11 @@ const ErrorLog = () => {
     }, []);
 
     return (
-        <SuperAdminLayout>
-            <Container maxWidth="xl" sx={{ mt: 8, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <SuperAdminLayout title={title}>
+            <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                 {/* Header */}
                 <Typography variant="h4" component="h1" gutterBottom>
-                    Error Log
+                    {title}
                 </Typography>
                 
                 {/* Main Content */}

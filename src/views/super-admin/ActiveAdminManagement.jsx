@@ -15,6 +15,8 @@ const ActiveAdminManagement = () => {
     const [error, setError] = useState(null);
     const [openModal, setOpenModal] = useState(false);
 
+    const title = "Admin Management";
+
     const loadActiveAdmin = async () => {
         try {
             const data = await fetchActiveAdmin(); // Get attendance history data
@@ -43,10 +45,10 @@ const ActiveAdminManagement = () => {
 
     return (
         <>
-            <SuperAdminLayout>
-                <Container maxWidth="xl" sx={{ mt: 8, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <SuperAdminLayout title={title}>
+                <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <Typography component="h1" variant="h4" color="primary.dark">
-                        Admin Management
+                        {title}
                     </Typography>
                     {/* Main Content */}
                     <Box sx={{ my: 4, mt: 4 }}>

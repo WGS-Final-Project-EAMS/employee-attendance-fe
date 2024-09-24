@@ -30,11 +30,6 @@ const AdminLayout = ({ children, title }) => {
         <>
             <Container component="main" disableGutters maxWidth="xl" sx={{ display: 'flex', flexGrow: 1 }}>
                 <AdminSidebar open={sidebarOpen} />
-                {/* <Container maxWidth="xl" disableGutters sx={{ display: 'flex', flexDirection:'column', p:0, justifyContent:'start', alignItems:'start', gap:0 }}>
-                    <AdminAppBar handleSidebarToggle={handleSidebarToggle} username={username} title={title} />
-                    {children}
-                </Container> */}
-                {/* Main Content */}
                 <Box
                     sx={{
                         flexGrow: 1, // Fills the remaining space
