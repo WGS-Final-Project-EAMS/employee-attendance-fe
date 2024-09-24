@@ -144,10 +144,10 @@ export const ModalActionEmployee = ({ data, modalType, handleOpenModal, handleCl
     const employmentDate = new Date(data?.employment_date).toLocaleDateString('en-GB');
 
     const detailFields = [
-        { label: 'Full Name', value: data?.full_name },
+        { label: 'Full Name', value: data?.user?.full_name },
         { label: 'Position', value: data?.position },
         { label: 'Department', value: data?.department },
-        { label: 'Phone Number', value: data?.phone_number },
+        { label: 'Phone Number', value: data?.user?.phone_number },
         { label: 'Supervisor', value: data?.manager?.full_name },
         { label: 'Employement Date', value: employmentDate },
         { label: 'Username', value: data?.user?.username },
@@ -216,7 +216,7 @@ export const ModalActionEmployee = ({ data, modalType, handleOpenModal, handleCl
         return (
             <>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', px:2 }}>
-                    <AvatarComponent url={data?.profile_picture_url} />
+                    <AvatarComponent url={data?.user?.profile_picture_url} />
                     {detailFields.map((field, index) => (
                         <Grid container spacing={2} key={index}>
                             <Grid item xs={4}>

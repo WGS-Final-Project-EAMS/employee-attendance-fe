@@ -28,7 +28,7 @@ export const fetchEmployeeByUserId = async (user_id) => {
 };
 
 // Create new employee
-export const createEmployee = async (formData, profilePicture, token) => {
+export const createEmployee = async (formData, profilePicture) => {
     const data = new FormData();
     data.append('username', formData.username);
     data.append('email', formData.email);
@@ -69,7 +69,7 @@ export const createEmployee = async (formData, profilePicture, token) => {
 };
 
 // Edit employee
-export const updateEmployee = async (employeeData, profilePicture, token) => {
+export const updateEmployee = async (employeeData, profilePicture) => {
     try {
         const formData = new FormData();
 

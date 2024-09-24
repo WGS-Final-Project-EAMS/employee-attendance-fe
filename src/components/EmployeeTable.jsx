@@ -60,8 +60,8 @@ const EmployeeTable = ({ employee, loadEmployee }) => {
                             <TableRow key={record.employee_id}>
                                 <TableCell>
                                     <Box sx={{ display:'flex', flexDirection:'row', alignItems:'center', gap:3 }}>
-                                        <AvatarComponent url={ record.profile_picture_url } size={36} />
-                                        {record.full_name}
+                                        <AvatarComponent url={ record.user?.profile_picture_url } size={36} />
+                                        {record.user?.full_name}
                                     </Box>
                                 </TableCell>
                                 <TableCell>{record.position}</TableCell>

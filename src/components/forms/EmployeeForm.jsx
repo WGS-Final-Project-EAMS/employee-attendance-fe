@@ -7,6 +7,10 @@ import { token } from '../../services/url';
 import { createEmployee, updateEmployee, fetchEmployee } from '../../services/employeeService';
 import { urlEndpoint } from '../../services/url';
 import SubmitButton from '../elements/SubmitButton';
+import FormTextField from '../elements/FormTextField';
+import FormSelect from '../elements/FormSelect';
+import SwitchField from '../elements/SwitchField';
+import FileUploadField from '../elements/FormUploadField';
 
 const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
     const [formData, setFormData] = useState({
@@ -39,17 +43,12 @@ const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
             const employees = await fetchEmployee();
             return employees.map(employee => ({
                 value: employee.employee_id,
-                label: employee.full_name,
+                label: employee.user?.full_name,
             }));
         } catch (error) {
             console.error("Failed to fetch employees for manager select", error);
             return [];
         }
-    };
-
-    const loadManagerOptions = async () => {
-        const options = await fetchEmployeeOptions();
-        setManagerOptions(options);
     };
 
     const formatDate = (date) => {
@@ -62,18 +61,25 @@ const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
         return parsedDate.toISOString().split('T')[0];
     }
 
-    useEffect(() => {
-        loadManagerOptions();
+    // Load manager for manager options
+    const loadManagerOptions = async () => {
+        const options = await fetchEmployeeOptions();
+        setManagerOptions(options);
+    };
+
+    // Load employee for initial form
+    const loadEmployee = async () => {
+        // Only for edit form
         if (mode === 'edit' && employeeData) {
-            const avatarUrl = `${urlEndpoint}/${employeeData.profile_picture_url}`;
+            const avatarUrl = `${urlEndpoint}/${employeeData.user?.profile_picture_url}`;
 
             setFormData({
                 user_id: employeeData.user_id || '',
                 employee_id: employeeData.employee_id || '',
-                full_name: employeeData.full_name || '',
+                full_name: employeeData.user?.full_name || '',
                 position: employeeData.position || '',
                 department: employeeData.department || '',
-                phone_number: employeeData.phone_number || '',
+                phone_number: employeeData.user?.phone_number || '',
                 manager_id: employeeData.manager_id || '',
                 employment_date: employeeData.employment_date || '',
                 username: employeeData.user?.username || '',
@@ -84,7 +90,15 @@ const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
 
             setProfilePicture(null); // Reset profile picture state
         }
-    }, [mode, employeeData]);
+    }
+
+    useEffect(() => {
+        loadManagerOptions();
+    }, []);
+
+    useEffect(() => {
+        loadEmployee();
+    }, [])
 
     const handleFileChange = (e) => {
         setProfilePicture(e.target.files[0]);
@@ -165,148 +179,76 @@ const EmployeeForm = ({ mode = 'create', employeeData = {} }) => {
                     <Alert severity="success">{successMessage}</Alert>
                 </Grid>
             )}
-            <Grid container spacing={2} sx={{ p: 2, mb: 2 }}>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        label="Full Name"
-                        name="full_name"
-                        value={formData.full_name}
-                        onChange={handleChange}
-                        fullWidth
-                        required
-                        error={!!fullNameError}
-                        helperText={fullNameError}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        label="Position"
-                        name="position"
-                        value={formData.position}
-                        onChange={handleChange}
-                        fullWidth
-                        required
-                        error={!!positionError}
-                        helperText={positionError}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        label="Department"
-                        name="department"
-                        value={formData.department}
-                        onChange={handleChange}
-                        fullWidth
-                        required
-                        error={!!departmentError}
-                        helperText={departmentError}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        label="Phone Number"
-                        name="phone_number"
-                        value={formData.phone_number}
-                        onChange={handleChange}
-                        fullWidth
-                        required
-                        error={!!phoneNumberError}
-                        helperText={phoneNumberError}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <FormControl fullWidth>
-                        <InputLabel id="manager-select-label">Supervisor</InputLabel>
-                        <Select
-                            labelId="manager-select-label"
-                            id="manager-select"
-                            label="Supervisor"
-                            value={formData.manager_id}
-                            onChange={(event) => setFormData({ ...formData, manager_id: event.target.value })}
-                        >
-                            {managerOptions.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        label="Employment Date"
-                        name="employment_date"
-                        type="date"
-                        value={formatDate(formData.employment_date)}
-                        onChange={handleChange}
-                        fullWidth
-                        required
-                        InputLabelProps={{ shrink: true }}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        label="Username"
-                        name="username"
-                        value={formData.username}
-                        onChange={handleChange}
-                        fullWidth
-                        required
-                        error={!!usernameError}
-                        helperText={usernameError}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <TextField
-                        label="Email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        fullWidth
-                        required
-                        error={!!emailError}
-                        helperText={emailError}
-                    />
-                </Grid>
+            <Grid container spacing={2} sx={{ px: 2, pt:2 }}>
+                <FormTextField 
+                    label="Full Name" 
+                    name="full_name" 
+                    value={formData.full_name} 
+                    onChange={handleChange} 
+                    error={fullNameError} 
+                />
+                <FormTextField 
+                    label="Position" 
+                    name="position" 
+                    value={formData.position} 
+                    onChange={handleChange} 
+                    error={positionError} 
+                />
+                <FormTextField 
+                    label="Department" 
+                    name="department" 
+                    value={formData.department} 
+                    onChange={handleChange} 
+                    error={departmentError} 
+                />
+                <FormTextField 
+                    label="Phone Number" 
+                    name="phone_number" 
+                    value={formData.phone_number} 
+                    onChange={handleChange} 
+                    error={phoneNumberError} 
+                />
+                <FormSelect
+                    label="Supervisor"
+                    name="manager"
+                    value={formData.manager_id}
+                    onChange={(event) => setFormData({ ...formData, manager_id: event.target.value })}
+                    options={managerOptions}
+                />
+                <FormTextField 
+                    label="Employement Date" 
+                    name="employment_date" 
+                    value={formatDate(formData.employment_date)} 
+                    onChange={handleChange} 
+                    type="date" 
+                    InputLabelProps={{ shrink: true }} 
+                />
+                <FormTextField 
+                    label="Username" 
+                    name="username" 
+                    value={formData.username} 
+                    onChange={handleChange} 
+                    error={usernameError} 
+                />
+                <FormTextField 
+                    label="Email" 
+                    name="email" 
+                    value={formData.email} 
+                    onChange={handleChange} 
+                    error={emailError} 
+                    type="email" 
+                />
                 {mode === 'edit' && (
-                    <Grid item xs={12} sm={6}>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={formData.is_active}
-                                    onChange={handleSwitchChange}
-                                    color="primary"
-                                />
-                            }
-                            label={formData.is_active ? 'Active' : 'Non-active'}
-                        />
-                    </Grid>
+                    <SwitchField 
+                        isActive={formData.is_active} 
+                        handleSwitchChange={handleSwitchChange} 
+                    />
                 )}
-                <Grid item xs={12}>
-                    <Typography variant="h6">Upload Profile Picture</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <Button
-                        component="label"
-                        variant='outlined'
-                        sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', gap: 2, py: 2 }}
-                        color='secondary'
-                    >
-                        <Avatar
-                            alt="Profile Picture"
-                            src={profilePicture ? URL.createObjectURL(profilePicture) : formData.profile_picture_url}
-                            sx={{ width: 56, height: 56 }}
-                        />
-                        <Typography variant="subtitle1">Choose Profile Picture</Typography>
-                        <input
-                            type="file"
-                            hidden
-                            accept="image/jpeg, image/png, image/webp"
-                            onChange={handleFileChange}
-                        />
-                    </Button>
-                </Grid>
+                <FileUploadField
+                    profilePicture={profilePicture}
+                    handleFileChange={handleFileChange}
+                    profilePictureUrl={formData.profile_picture_url}
+                />
             </Grid>
             <SubmitButton loading={loading} text={mode === 'create' ? 'Create Employee' : 'Update Employee'} />
         </FormControl>
