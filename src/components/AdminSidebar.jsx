@@ -14,14 +14,15 @@ const AdminSidebar = ({ open }) => {
 
     const menuItems = [
         { text: 'Dashboard', icon: <Dashboard sx={{ color: 'primary.contrastText' }} />, path: '/admin/dashboard' },
-        {
-            text: 'Employee Management',
-            icon: <Group sx={{ color: 'primary.contrastText' }} />,
-            subItems: [
-                { text: 'Active Employees', path: '/admin/employee-management/active' },
-                { text: 'Inactive Employees', path: '/admin/employee-management/inactive' }
-            ]
-        },
+        { text: 'Employee Management', icon: <Group sx={{ color: 'primary.contrastText' }} />, path: '/admin/employee-management' },
+        // {
+        //     text: 'Employee Management',
+        //     icon: <Group sx={{ color: 'primary.contrastText' }} />,
+        //     subItems: [
+        //         { text: 'Active Employees', path: '/admin/employee-management/active' },
+        //         { text: 'Inactive Employees', path: '/admin/employee-management/inactive' }
+        //     ]
+        // },
         { text: 'Attendance Records', icon: <CheckCircle sx={{ color: 'primary.contrastText' }} />, path: '/admin/attendance-records' },
         { text: 'Office Settings', icon: <Settings sx={{ color: 'primary.contrastText' }} />, path: '/admin/settings/office' },
         // {

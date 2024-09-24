@@ -50,8 +50,7 @@ function App() {
             <Route element={<ProtectedRoute allowedRoles={['admin']} />} >
                 <Route path="/admin" element={<DashboardAdmin />} />
                 <Route path="/admin/dashboard" element={<DashboardAdmin />} />
-                <Route path="/admin/employee-management/active" element={<EmployeeManagement />} />
-                <Route path="/admin/employee-management/inactive" element={<InactiveEmployeeManagement />} />
+                <Route path="/admin/employee-management" element={<EmployeeManagement />} />
                 <Route path="/admin/settings/office" element={<OfficeSettings />} />
                 <Route path="/admin/attendance-records" element={<AttendanceRecap />} />
                 <Route path="/admin/change-password" element={<ChangePassword role="admin"/>} />
