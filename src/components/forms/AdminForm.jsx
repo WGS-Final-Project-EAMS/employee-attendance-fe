@@ -125,6 +125,22 @@ const AdminForm = ({ mode = 'create', adminData = {} }) => {
         if (success) {
             setSuccessMessage(`Admin ${mode === 'create' ? 'created' : 'updated'} successfully!`);
             setLoading(false);
+            if (mode === 'create') {
+                // Reset form after success
+                setFormData({
+                    full_name: '',
+                    position: '',
+                    department: '',
+                    phone_number: '',
+                    manager_id: '',
+                    employment_date: '',
+                    username: '',
+                    email: '',
+                    profile_picture_url: null,
+                    is_active: false,
+                });
+                setProfilePicture(null);
+            }
         } else {
             setErrorMessages(error);
             setLoading(false);
