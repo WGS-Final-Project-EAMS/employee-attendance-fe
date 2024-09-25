@@ -51,9 +51,9 @@ const AttendanceRecapTable = ({ recaps, period }) => {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((recap) => (
                             <TableRow key={recap.recap_id}>
-                                <TableCell>{recap.employee.full_name}</TableCell>
-                                <TableCell>{recap.employee.department}</TableCell>
-                                <TableCell>{recap.employee.position}</TableCell>
+                                <TableCell>{recap.employee?.user?.full_name}</TableCell>
+                                <TableCell>{recap.employee?.department}</TableCell>
+                                <TableCell>{recap.employee?.position}</TableCell>
                                 <TableCell>{recap.total_days_present}</TableCell>
                                 <TableCell>{recap.total_days_absent}</TableCell>
                                 <TableCell>{recap.total_days_late}</TableCell>
@@ -66,9 +66,9 @@ const AttendanceRecapTable = ({ recaps, period }) => {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((recap) => (
                             <TableRow key={recap.attendance_id}>
-                                <TableCell>{recap.employee.full_name}</TableCell>
-                                <TableCell>{recap.employee.department}</TableCell>
-                                <TableCell>{recap.employee.position}</TableCell>
+                                <TableCell>{recap.employee?.user?.full_name}</TableCell>
+                                <TableCell>{recap.employee?.department}</TableCell>
+                                <TableCell>{recap.employee?.position}</TableCell>
                                 <TableCell>{recap.clock_in_time && new Date(recap.clock_in_time).toLocaleTimeString()}</TableCell>
                                 <TableCell>{recap.clock_out_time && new Date(recap.clock_out_time).toLocaleTimeString()}</TableCell>
                                 <TableCell>{recap.clock_in_location}</TableCell>

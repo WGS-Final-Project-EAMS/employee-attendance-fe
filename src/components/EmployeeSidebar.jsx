@@ -1,7 +1,7 @@
 import { Dashboard, AccessTime, Assignment } from '@mui/icons-material';
 import SidebarLayout from '../layouts/SidebarLayout';
 
-const EmployeeSidebar = ({open}) => {
+const EmployeeSidebar = ({ open }) => {
 
     const menuItems = [
         { text: 'Dashboard', icon: <Dashboard sx={{ color: 'primary.contrastText' }} />, path: '/employee/dashboard' },
@@ -14,12 +14,12 @@ const EmployeeSidebar = ({open}) => {
             ]
         },
         {
-            text: 'Permission',
+            text: 'Leave Request',
             icon: <Assignment sx={{ color: 'primary.contrastText' }} />,
             subItems: [
                 { text: 'Application for Permit', path: '/employee/application-for-permit' },
-                { text: 'Permission Approval', path: '/employee/permission-approval' },
-                { text: 'Permission History', path: '/employee/permission-history' }
+                { text: 'Leave Request Approval', path: '/employee/permission-approval' },
+                { text: 'Leave Request History', path: '/employee/permission-history' }
             ]
         },
     ];

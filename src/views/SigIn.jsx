@@ -11,10 +11,14 @@ import Tab from '@mui/material/Tab';
 import SignInForm from '../components/SignInForm';
 import Copyright from '../components/Copyright';
 import MainLayout from '../layouts/MainLayout';
+import ModalElement from "../components/elements/ModalElement";
+import { ModalActionEmployee } from "../components/elements/ModalActionContent";
+import { Button } from "@mui/material";
 
 export default function SignIn() {
   const navigate = useNavigate();
   const [tabValue, setTabValue] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
 
@@ -46,6 +50,14 @@ export default function SignIn() {
           }
       }
     }, [navigate]);
+  
+    const handleOpenModal = () => {
+      setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
 
     const handleTabChange = (event, newValue) => {
       setTabValue(newValue);
@@ -65,9 +77,11 @@ export default function SignIn() {
             alignItems: 'start',
           }}
         >
-          <Typography component="h1" variant="h3" color="secondary">
-            Welcome back!
-          </Typography>
+          <Button onClick={handleOpenModal}>
+            <Typography component="h1" variant="h3" color="secondary">
+              Welcome back!
+            </Typography>
+          </Button>
         </Box>
       </Grid>
       <Grid item xs={7}
@@ -105,6 +119,11 @@ export default function SignIn() {
 
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
+        {/* Modal */}
+        <ModalElement openModal={openModal} handleCloseModal={handleCloseModal} modalTitle="Create New Employee"
+                    renderModalContent={
+                        () => <ModalActionEmployee modalType="create-rahasia" handleOpenModal={handleOpenModal} />
+                    }/>
       </Grid>
     </MainLayout>
   );

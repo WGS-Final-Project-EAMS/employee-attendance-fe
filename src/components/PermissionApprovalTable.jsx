@@ -80,8 +80,8 @@ const PermissionApprovalTable = ({ leaveRequests, loadLeaveRequests }) => {
                                 <TableRow key={record.leave_request_id}>
                                     <TableCell>
                                         <Box sx={{ display:'flex', flexDirection:'row', alignItems:'center', gap:3 }}>
-                                            <AvatarComponent url={record.employee.profile_picture_url} size={36} />
-                                            {record.employee.full_name}
+                                            <AvatarComponent url={record.employee?.user?.profile_picture_url} size={36} />
+                                            {record.employee?.user?.full_name}
                                         </Box>
                                     </TableCell>
                                     <TableCell align="center">

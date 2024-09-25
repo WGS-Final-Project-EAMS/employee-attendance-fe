@@ -243,7 +243,7 @@ export const ModalActionLeaveRequest = ({ data, modalType, handleOpenModal, hand
     const endDate = new Date(data?.end_date).toLocaleDateString('en-GB');
 
     const detailFields = [
-        { label: 'Full Name', value: data?.employee?.full_name },
+        { label: 'Full Name', value: data?.employee?.user?.full_name },
         { label: 'Leave Type', value: data?.leave_type },
         { label: 'Leave Reason', value: data?.leave_reason },
         { label: 'Leave Time', value: `${startDate} - ${endDate}` },

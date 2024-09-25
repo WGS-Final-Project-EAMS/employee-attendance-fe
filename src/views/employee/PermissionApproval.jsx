@@ -11,7 +11,7 @@ const PermissionApproval = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const title = "Permission Approval";
+    const title = "Leave Request Approval";
 
     const loadPermissionApproval = async () => {
         try {
