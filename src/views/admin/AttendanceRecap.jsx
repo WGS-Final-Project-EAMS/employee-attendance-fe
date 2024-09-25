@@ -11,7 +11,7 @@ const AttendanceRecap = () => {
     const [recaps, setRecaps] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [period, setPeriod] = useState('monthly');
+    const [period, setPeriod] = useState('period');
     const [date, setDate] = useState(new Date());
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date);
@@ -20,8 +20,6 @@ const AttendanceRecap = () => {
     const title = "Attendance Recap";
 
     const loadRecaps = async () => {
-        // console.log(`start date: ${startDate}, end date: ${endDate}`);
-        
         try {
             const data = await fetchAttendanceRecap({ period, date, startDate, endDate, month, year });
             setError(null);
@@ -35,11 +33,11 @@ const AttendanceRecap = () => {
 
     const handleCSVDownload = async () => {
         try {
-            const csvData = await fetchAttendanceRecapCSV({ period, date, month, year });
+            const csvData = await fetchAttendanceRecapCSV({ period, date, startDate, endDate, month, year });
             const blob = new Blob([csvData], { type: 'text/csv' });
             const link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
-            link.download = `${month}-${year}-attendance-recap.csv`;
+            link.download = `${period}-${month}-${year}-attendance-recap.csv`;
             link.click();
         } catch (error) {
             console.error("Error downloading CSV:", error);
@@ -138,7 +136,10 @@ const AttendanceRecap = () => {
                                 onChange={(e) => setEndDate(e.target.value)}
                                 InputLabelProps={{ shrink: true }}
                                 sx={{ width: 200 }}
-                                inputProps={{ max: getTodayDate() }}
+                                inputProps={{
+                                    min: formatDate(startDate) || null,
+                                    max: getTodayDate()
+                                }}
                             />
                         </>
                     )}

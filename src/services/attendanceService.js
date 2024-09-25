@@ -67,8 +67,6 @@ export const fetchTodayAttendance = async () => {
 
 // Fetch attendance recap
 export const fetchAttendanceRecap = async ({ period, date, startDate, endDate, month, year }) => {
-  console.log(`start date: ${startDate}, end date: ${endDate}`);
-  
     try {
       const params = { period, date, start_date: startDate, end_date: endDate, month, year };
       const response = await axios.get(`${urlEndpoint}/attendance-recap`, {
@@ -86,9 +84,9 @@ export const fetchAttendanceRecap = async ({ period, date, startDate, endDate, m
   };
   
   // Fetch attendance recap in CSV format
-  export const fetchAttendanceRecapCSV = async ({ period, date, month, year }) => {
+  export const fetchAttendanceRecapCSV = async ({ period, date, startDate, endDate, month, year }) => {
     try {
-      const params = { period, date, month, year, format: 'csv' };
+      const params = { period, date, start_date: startDate, end_date: endDate, month, year, format: 'csv' };
       const response = await axios.get(`${urlEndpoint}/attendance-recap`, {
         headers: {
           Authorization: `Bearer ${token}`,
