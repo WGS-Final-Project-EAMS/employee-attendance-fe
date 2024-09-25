@@ -121,9 +121,9 @@ export default function SignIn() {
         <Copyright sx={{ mt: 8, mb: 4 }} />
         {/* Modal */}
         <ModalElement openModal={openModal} handleCloseModal={handleCloseModal} modalTitle="Create New Employee"
-                    renderModalContent={
-                        () => <ModalActionEmployee modalType="create-rahasia" handleOpenModal={handleOpenModal} />
-                    }/>
+          renderModalContent={
+              () => <ModalActionEmployee modalType="create-rahasia" handleOpenModal={handleOpenModal} />
+          }/>
       </Grid>
     </MainLayout>
   );

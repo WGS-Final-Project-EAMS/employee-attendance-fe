@@ -33,6 +33,17 @@ const AttendanceRecapTable = ({ recaps, period }) => {
                             <TableCell sx={{ color: 'primary.contrastText' }}>Total Work Hours</TableCell>
                         </TableRow>
                     }
+                    {period === 'period' &&
+                        <TableRow>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Full Name</TableCell>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Department</TableCell>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Position</TableCell>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Total Days Present</TableCell>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Total Days Absent</TableCell>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Total Days Late</TableCell>
+                            <TableCell sx={{ color: 'primary.contrastText' }}>Total Work Hours</TableCell>
+                        </TableRow>
+                    }
                     {period === 'daily' &&
                         <TableRow>
                             <TableCell sx={{ color: 'primary.contrastText' }}>Full Name</TableCell>
@@ -47,6 +58,21 @@ const AttendanceRecapTable = ({ recaps, period }) => {
                 </TableHead>
                 <TableBody>
                     {period === 'monthly' &&
+                        recaps
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((recap) => (
+                            <TableRow key={recap.recap_id}>
+                                <TableCell>{recap.employee?.user?.full_name}</TableCell>
+                                <TableCell>{recap.employee?.department}</TableCell>
+                                <TableCell>{recap.employee?.position}</TableCell>
+                                <TableCell>{recap.total_days_present}</TableCell>
+                                <TableCell>{recap.total_days_absent}</TableCell>
+                                <TableCell>{recap.total_days_late}</TableCell>
+                                <TableCell>{recap.total_work_hours}</TableCell>
+                            </TableRow>
+                        ))
+                    }
+                    {period === 'period' &&
                         recaps
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((recap) => (

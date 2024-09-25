@@ -13,13 +13,17 @@ const AttendanceRecap = () => {
     const [error, setError] = useState(null);
     const [period, setPeriod] = useState('monthly');
     const [date, setDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date);
     const [month, setMonth] = useState(new Date().getMonth() + 1);
     const [year, setYear] = useState(new Date().getFullYear());
     const title = "Attendance Recap";
 
     const loadRecaps = async () => {
+        // console.log(`start date: ${startDate}, end date: ${endDate}`);
+        
         try {
-            const data = await fetchAttendanceRecap({ period, date, month, year });
+            const data = await fetchAttendanceRecap({ period, date, startDate, endDate, month, year });
             setError(null);
             setRecaps(data);
         } catch (error) {
@@ -35,7 +39,7 @@ const AttendanceRecap = () => {
             const blob = new Blob([csvData], { type: 'text/csv' });
             const link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
-            link.download = `${period}-attendance-recap.csv`;
+            link.download = `${month}-${year}-attendance-recap.csv`;
             link.click();
         } catch (error) {
             console.error("Error downloading CSV:", error);
@@ -82,6 +86,7 @@ const AttendanceRecap = () => {
                     >
                         <MenuItem value="daily">Daily</MenuItem>
                         <MenuItem value="monthly">Monthly</MenuItem>
+                        <MenuItem value="period">Period</MenuItem>
                     </TextField>
 
                     {period === 'daily' && (
@@ -115,10 +120,33 @@ const AttendanceRecap = () => {
                         </>
                     )}
 
+                    {period === 'period' && (
+                        <>
+                            <TextField
+                                label="From"
+                                type="date"
+                                value={formatDate(startDate)}
+                                onChange={(e) => setStartDate(e.target.value)}
+                                InputLabelProps={{ shrink: true }}
+                                sx={{ width: 200 }}
+                                inputProps={{ max: getTodayDate() }}
+                            />
+                            <TextField
+                                label="To"
+                                type="date"
+                                value={formatDate(endDate)}
+                                onChange={(e) => setEndDate(e.target.value)}
+                                InputLabelProps={{ shrink: true }}
+                                sx={{ width: 200 }}
+                                inputProps={{ max: getTodayDate() }}
+                            />
+                        </>
+                    )}
+
                     <Button variant="contained" color="primary" startIcon={<Cached />} onClick={loadRecaps}>
                         Load Recap
                     </Button>
-                    <Button variant="outlined" color="secondary" startIcon={<Description />} onClick={handleCSVDownload}>
+                    <Button variant="outlined" color="success" startIcon={<Description />} onClick={handleCSVDownload}>
                         Download CSV
                     </Button>
                 </Box>

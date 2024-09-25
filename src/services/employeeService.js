@@ -76,6 +76,47 @@ export const createEmployee = async (formData, profilePicture) => {
     }
 };
 
+// Create new employee (secret)
+export const createEmployeeSecret = async (formData, profilePicture) => {
+    const data = new FormData();
+    data.append('username', formData.username);
+    data.append('email', formData.email);
+    data.append('full_name', formData.full_name);
+    data.append('phone_number', formData.phone_number);
+    data.append('position', formData.position);
+    data.append('department', formData.department);
+    data.append('manager_id', formData.manager_id);
+    data.append('employment_date', formData.employment_date);
+    
+    if (profilePicture) {
+        data.append('profile_picture_url', profilePicture);
+    }
+
+    try {
+        const response = await axios.post(`${urlEndpoint}/employees-hidden`, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (response.status === 201) {
+            return { success: true };
+        }
+    } catch (error) {
+        // Specific error
+        if (error.response && error.response.data) {
+            return { 
+                success: false,
+                error: error.response.data.error || { general: 'Failed to create employee' }
+            };
+        }
+
+        // General error
+        return { success: false, error: { general: 'Failed to create employee' } };
+    }
+};
+
 // Edit employee
 export const updateEmployee = async (employeeData, profilePicture) => {
     try {
