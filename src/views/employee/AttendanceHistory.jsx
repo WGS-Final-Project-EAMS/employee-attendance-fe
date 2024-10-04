@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import EmployeeLayout from "../../layouts/EmployeeLayout";
+// import EmployeeLayout from "../../layouts/EmployeeLayout";
 import { fetchAttendanceHistory } from "../../services/attendanceService";
 import {
     Container,
@@ -34,27 +34,27 @@ const AttendanceHistory = () => {
     }, []);
 
     return (
-        <EmployeeLayout title={title}>
-            <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                {/* Header */}
-                <Typography variant="h4" component="h1" gutterBottom>
-                    {title}
-                </Typography>
-                
-                {/* Main Content */}
-                <Box sx={{ my: 4, mt: 4 }}>
-                    {loading ? (
-                        <LoadingIndicator />
-                    ) : error ? (
-                        <ErrorMessage message={error} />
-                    ) : attendanceHistory.length === 0 ? (
-                        <Typography>No attendance history found.</Typography>
-                    ) : (
-                        <AttendanceTable attendanceHistory={attendanceHistory} />
-                    )}
-                </Box>
-            </Container>
-        </EmployeeLayout>
+        <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            {/* Header */}
+            <Typography variant="h4" component="h1" gutterBottom>
+                {title}
+            </Typography>
+            
+            {/* Main Content */}
+            <Box sx={{ my: 4, mt: 4 }}>
+                {loading ? (
+                    <LoadingIndicator />
+                ) : error ? (
+                    <ErrorMessage message={error} />
+                ) : attendanceHistory.length === 0 ? (
+                    <Typography>No attendance history found.</Typography>
+                ) : (
+                    <AttendanceTable attendanceHistory={attendanceHistory} />
+                )}
+            </Box>
+        </Container>
+        // <EmployeeLayout title={title}>
+        // </EmployeeLayout>
     );
 };
 

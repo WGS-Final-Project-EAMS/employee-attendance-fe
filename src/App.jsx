@@ -6,6 +6,7 @@ import ForgotPasswordPage from "./views/ForgotPassword";
 import Unauthorized from "./views/Unauthorized";
 
 // Employee
+import EmployeeLayout from "./layouts/EmployeeLayout";
 import AttendanceTracking from "./views/employee/AttendanceTracking";
 import AttendanceHistory from "./views/employee/AttendanceHistory";
 import DashboardEmployee from "./views/employee/DashboardEmployee";
@@ -66,14 +67,16 @@ function App() {
 
             {/* Employee Routes */}
             <Route element={<ProtectedRoute allowedRoles={['employee']} />} >
-                <Route path="/employee" element={<AttendanceTracking />} />
-                <Route path="/employee/dashboard" element={<DashboardEmployee />} />
-                <Route path="/employee/take-attendance" element={<AttendanceTracking />} />
-                <Route path="/employee/attendance-history" element={<AttendanceHistory />} />
-                <Route path="/employee/application-for-permit" element={<ApplicationForPermit />} />
-                <Route path="/employee/permission-approval" element={<PermissionApproval />} />
-                <Route path="/employee/permission-history" element={<PermissionHistory />} />
-                <Route path="/employee/change-password" element={<ChangePassword role="employee" />} />
+                <Route element={<EmployeeLayout />}>
+                  <Route path="/employee" element={<AttendanceTracking />} />
+                  <Route path="/employee/dashboard" element={<DashboardEmployee />} />
+                  <Route path="/employee/take-attendance" element={<AttendanceTracking />} />
+                  <Route path="/employee/attendance-history" element={<AttendanceHistory />} />
+                  <Route path="/employee/application-for-permit" element={<ApplicationForPermit />} />
+                  <Route path="/employee/permission-approval" element={<PermissionApproval />} />
+                  <Route path="/employee/permission-history" element={<PermissionHistory />} />
+                  <Route path="/employee/change-password" element={<ChangePassword />} />
+                </Route>
             </Route>
 
             {/* Unauthorized */}
