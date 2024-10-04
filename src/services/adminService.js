@@ -2,8 +2,8 @@ import axios from "axios";
 import { token, urlEndpoint } from "./url";
 
 // Get all active admin
-export const fetchActiveAdmin = async () => {
-    const response = await axios.get(`${urlEndpoint}/admins/active`, {
+export const fetchActiveAdmin = async (page, limit) => {
+    const response = await axios.get(`${urlEndpoint}/admins/active?page=${page + 1}&limit=${limit}`, {
         headers: { Authorization: `Bearer ${token}` }
     });
     
@@ -11,8 +11,8 @@ export const fetchActiveAdmin = async () => {
 };
 
 // Get all active admin
-export const fetchNonActiveAdmin = async () => {
-    const response = await axios.get(`${urlEndpoint}/admins/non-active`, {
+export const fetchNonActiveAdmin = async (page, limit) => {
+    const response = await axios.get(`${urlEndpoint}/admins/non-active?page=${page + 1}&limit=${limit}`, {
         headers: { Authorization: `Bearer ${token}` }
     });
     return response.data;

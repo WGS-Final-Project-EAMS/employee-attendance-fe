@@ -17,14 +17,20 @@ const AdminManagement = () => {
     const [openModal, setOpenModal] = useState(false);
     const [tabValue, setTabValue] = useState(0);
 
+    // Pagination state
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [totalItems, setTotalItems] = useState(0);
+
     const title = "Admin Management";
 
     // Get active admin for active admin tab
     const loadActiveAdmin = async () => {
         try {
-            const data = await fetchActiveAdmin(); // Get attendance history data
+            const data = await fetchActiveAdmin(page, rowsPerPage); // Get attendance history data
             
-            setActiveAdmin(data);
+            setActiveAdmin(data.data);
+            setTotalItems(data.totalItems);
         } catch (error) {
             setError("Failed to fetch attendance history.");
             console.error("Error fetching attendance history:", error);
@@ -36,9 +42,10 @@ const AdminManagement = () => {
     // Get nonactive admin for nonactive admin tab
     const loadNonactiveAdmin = async () => {
         try {
-            const data = await fetchNonActiveAdmin(); // Get attendance history data
+            const data = await fetchNonActiveAdmin(page, rowsPerPage); // Get attendance history data
             
-            setNonActiveAdmin(data);
+            setNonActiveAdmin(data.data);
+            setTotalItems(data.totalItems);
         } catch (error) {
             setError("Failed to fetch attendance history.");
             console.error("Error fetching attendance history:", error);
@@ -48,9 +55,8 @@ const AdminManagement = () => {
     }
 
     useEffect(() => {
-        loadActiveAdmin();
-        loadNonactiveAdmin();
-    }, [tabValue]);
+        tabValue === 0 ? loadActiveAdmin() : loadNonactiveAdmin();
+    }, [tabValue, page, rowsPerPage]);
 
     const handleOpenModal = () => {
         setOpenModal(true);
@@ -62,7 +68,18 @@ const AdminManagement = () => {
     };
 
     const handleTabChange = (event, newValue) => {
+        setPage(0);
         setTabValue(newValue);
+    };
+
+    // Pagination handle
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
     };
 
     return (
@@ -102,6 +119,11 @@ const AdminManagement = () => {
                         <AdminTable
                             admin={tabValue === 0 ? activeAdmin : nonActiveAdmin}
                             loadAdmin={tabValue === 0 ? loadActiveAdmin : loadNonactiveAdmin}
+                            handleChangePage={handleChangePage}
+                            handleChangeRowsPerPage={handleChangeRowsPerPage}
+                            page={page}
+                            rowsPerPage={rowsPerPage}
+                            totalItems={totalItems}
                         />
                     )}
                 </Box>

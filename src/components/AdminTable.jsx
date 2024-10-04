@@ -8,15 +8,11 @@ import ModalElement from "./elements/ModalElement";
 import { ModalActionAdmin } from "./elements/ModalActionContent";
 import AvatarComponent from "./elements/UserAvatar";
 
-const AdminTable = ({ admin, loadAdmin }) => {
+const AdminTable = ({ admin, loadAdmin, handleChangePage, handleChangeRowsPerPage, page, rowsPerPage, totalItems }) => {
     const [selectedAdmin, setSelectedAdmin] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [modalType, setModalType] = useState('');
     const [modalTitle, setModalTItle] = useState('');
-
-    // Pagination state
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const handleOpenModal = (admin, type, title) => {
         setSelectedAdmin(admin);
@@ -29,16 +25,6 @@ const AdminTable = ({ admin, loadAdmin }) => {
         setSelectedAdmin(null);
         setOpenModal(false);
         loadAdmin();
-    };
-
-    // Pagination handle
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
     };
 
     return (
@@ -55,7 +41,6 @@ const AdminTable = ({ admin, loadAdmin }) => {
                     </TableHead>
                     <TableBody>
                     {admin
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((record) => (
                             <TableRow key={record.user_id}>
                                 <TableCell>
@@ -86,7 +71,7 @@ const AdminTable = ({ admin, loadAdmin }) => {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={admin.length}
+                    count={totalItems}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
