@@ -67,6 +67,7 @@ const EmployeeManagement = () => {
     };
 
     const handleTabChange = (event, newValue) => {
+        setPage(0);
         setTabValue(newValue);
     };
 
