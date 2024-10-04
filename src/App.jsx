@@ -20,6 +20,7 @@ import ErrorLog from "./views/super-admin/ErrorLog";
 import DashboardSuperAdmin from "./views/super-admin/DashboardSuperAdmin";
 
 // Admin
+import AdminLayout from "./layouts/AdminLayout";
 import DashboardAdmin from "./views/admin/DashboardAdmin";
 import ProtectedRoute from "./services/ProtectedRoutes";
 import EmployeeManagement from "./views/admin/EmployeeManagement";
@@ -53,12 +54,14 @@ function App() {
 
             {/* Admin Routes */}
             <Route element={<ProtectedRoute allowedRoles={['admin']} />} >
-                <Route path="/admin" element={<DashboardAdmin />} />
-                <Route path="/admin/dashboard" element={<DashboardAdmin />} />
-                <Route path="/admin/employee-management" element={<EmployeeManagement />} />
-                <Route path="/admin/settings/office" element={<OfficeSettings />} />
-                <Route path="/admin/attendance-records" element={<AttendanceRecap />} />
-                <Route path="/admin/change-password" element={<ChangePassword role="admin"/>} />
+                <Route element={<AdminLayout />}>
+                  <Route path="/admin" element={<DashboardAdmin />} />
+                  <Route path="/admin/dashboard" element={<DashboardAdmin />} />
+                  <Route path="/admin/employee-management" element={<EmployeeManagement />} />
+                  <Route path="/admin/settings/office" element={<OfficeSettings />} />
+                  <Route path="/admin/attendance-records" element={<AttendanceRecap />} />
+                  <Route path="/admin/change-password" element={<ChangePassword />} />
+                </Route>
             </Route>
 
             {/* Employee Routes */}

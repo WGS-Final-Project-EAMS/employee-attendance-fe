@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Box, Typography, Card, CardContent, Avatar, Button, Grid } from "@mui/material";
 import { Key } from "@mui/icons-material";
 import { useNavigate } from 'react-router-dom';
-import AdminLayout from "../../layouts/AdminLayout";
+// import AdminLayout from "../../layouts/AdminLayout";
 import { getUserById } from "../../services/auth";
 
 const DashboardAdmin = () => {
@@ -47,36 +47,36 @@ const DashboardAdmin = () => {
   }
 
   return (
-    <AdminLayout title={title}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', gap:2 }}>
-          <Typography component="h1" variant="h4" color="primary.dark">
-              {title}
-          </Typography>
-          {/* User Info Card */}
-          <Card sx={{ display: 'flex', width: '100%', alignItems: 'center', maxWidth: 600 }}>
-                  {/* <Avatar
-                      sx={{ width: 150 }}
-                      src={user.profile_picture_url || ''}
-                      alt="User Profile Picture"
-                  /> */}
-                  <CardContent>
-                      <Typography component="h2" variant="h5">
-                          {user?.username}
-                      </Typography>
-                      <Typography variant="body1" color="text.secondary">
-                          {user?.email}
-                      </Typography>
-                  </CardContent>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                      <Grid container sx={{ p: 2 }} justifyContent="flex-end">
-                          <Button variant="contained" color="primary" onClick={handleChangePassword} startIcon={<Key />}>
-                              Change Password
-                          </Button>
-                      </Grid>
-                  </Box>
-              </Card>
-      </Box>
-    </AdminLayout>
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', gap:2 }}>
+        <Typography component="h1" variant="h4" color="primary.dark">
+            {title}
+        </Typography>
+        {/* User Info Card */}
+        <Card sx={{ display: 'flex', width: '100%', alignItems: 'center', maxWidth: 600 }}>
+                {/* <Avatar
+                    sx={{ width: 150 }}
+                    src={user.profile_picture_url || ''}
+                    alt="User Profile Picture"
+                /> */}
+                <CardContent>
+                    <Typography component="h2" variant="h5">
+                        {user?.username}
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                        {user?.email}
+                    </Typography>
+                </CardContent>
+                <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                    <Grid container sx={{ p: 2 }} justifyContent="flex-end">
+                        <Button variant="contained" color="primary" onClick={handleChangePassword} startIcon={<Key />}>
+                            Change Password
+                        </Button>
+                    </Grid>
+                </Box>
+            </Card>
+    </Box>
+    // <AdminLayout title={title}>
+    // </AdminLayout>
   );
 }
 
