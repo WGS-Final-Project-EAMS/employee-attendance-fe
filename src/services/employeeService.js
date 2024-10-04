@@ -2,16 +2,17 @@ import axios from "axios";
 import { token, urlEndpoint } from "./url";
 
 // Get all active employee
-export const fetchEmployee = async () => {
-    const response = await axios.get(`${urlEndpoint}/employees`, {
+export const fetchEmployee = async (page, limit) => {
+    const response = await axios.get(`${urlEndpoint}/employees?page=${page + 1}&limit=${limit}`, {
         headers: { Authorization: `Bearer ${token}` }
     });
+    
     return response.data;
 };
 
 // Get inactive employees
-export const fetchInactiveEmployees = async () => {
-    const response = await axios.get(`${urlEndpoint}/employees/inactive`, {
+export const fetchInactiveEmployees = async (page, limit) => {
+    const response = await axios.get(`${urlEndpoint}/employees/inactive?page=${page + 1}&limit=${limit}`, {
         headers: {
             Authorization: `Bearer ${token}`, // Include token in the Authorization header
         }

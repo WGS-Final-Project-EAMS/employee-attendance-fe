@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Container, Typography, Box, Button, Tabs, Tab } from "@mui/material";
 import { PersonAddAlt } from '@mui/icons-material';
-// import AdminLayout from "../../layouts/AdminLayout";
 import { fetchEmployee, fetchInactiveEmployees } from "../../services/employeeService";
 import LoadingIndicator from "../../components/LoadingIndicator";
 import ErrorMessage from "../../components/ErrorMessage";
@@ -16,14 +15,21 @@ const EmployeeManagement = () => {
     const [error, setError] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [tabValue, setTabValue] = useState(0);
+
+    // Pagination state
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [totalItems, setTotalItems] = useState(0);
+
     const title = "Employee Management";
 
     // Load active employee
     const loadEmployee = async () => {
         try {
-            const data = await fetchEmployee(); // Get attendance history data
+            const data = await fetchEmployee(page, rowsPerPage); // Get attendance history data
             
-            setEmployee(data);
+            setEmployee(data.data);
+            setTotalItems(data.totalItems);
         } catch (error) {
             setError("Failed to fetch attendance history.");
             console.error("Error fetching attendance history:", error);
@@ -35,9 +41,10 @@ const EmployeeManagement = () => {
     // Load inactive employee
     const loadInactiveEmployee = async () => {
         try {
-            const data = await fetchInactiveEmployees(); // Get attendance history data
+            const data = await fetchInactiveEmployees(page, rowsPerPage); // Get attendance history data
             
-            setNonactiveEmployee(data);
+            setNonactiveEmployee(data.data);
+            setTotalItems(data.totalItems);
         } catch (error) {
             setError("Failed to fetch attendance history.");
             console.error("Error fetching attendance history:", error);
@@ -47,9 +54,8 @@ const EmployeeManagement = () => {
     }
 
     useEffect(() => {
-        loadEmployee();
-        loadInactiveEmployee();
-    }, [tabValue]);
+        tabValue === 0 ? loadEmployee() : loadInactiveEmployee();
+    }, [tabValue, page, rowsPerPage]);
 
     const handleOpenModal = () => {
         setOpenModal(true);
@@ -62,6 +68,16 @@ const EmployeeManagement = () => {
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
+    };
+
+    // Pagination handle
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
     };
 
     return (
@@ -100,6 +116,11 @@ const EmployeeManagement = () => {
                         <EmployeeTable
                             employee={tabValue === 0 ? employee : nonactiveEmployee}
                             loadEmployee={tabValue === 0 ? loadEmployee : loadInactiveEmployee}
+                            handleChangePage={handleChangePage}
+                            handleChangeRowsPerPage={handleChangeRowsPerPage}
+                            page={page}
+                            rowsPerPage={rowsPerPage}
+                            totalItems={totalItems}
                         />
                     )}
                 </Box>
@@ -110,8 +131,6 @@ const EmployeeManagement = () => {
                 renderModalContent={
                     () => <ModalActionEmployee modalType="create" handleOpenModal={handleOpenModal} />
                 }/>
-            {/* <AdminLayout title={title}>
-            </AdminLayout> */}
         </>
     );
 }

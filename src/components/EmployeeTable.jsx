@@ -8,15 +8,11 @@ import ModalElement from "./elements/ModalElement";
 import { ModalActionEmployee } from "./elements/ModalActionContent";
 import AvatarComponent from "./elements/UserAvatar";
 
-const EmployeeTable = ({ employee, loadEmployee }) => {
+const EmployeeTable = ({ employee, loadEmployee, handleChangePage, handleChangeRowsPerPage, page, rowsPerPage, totalItems }) => {
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [openModal, setOpenModal] = useState(false);
     const [modalType, setModalType] = useState('');
     const [modalTitle, setModalTItle] = useState('');
-
-    // Pagination state
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const handleOpenModal = (employee, type, title) => {
         setSelectedEmployee(employee);
@@ -29,16 +25,6 @@ const EmployeeTable = ({ employee, loadEmployee }) => {
         setSelectedEmployee(null);
         setOpenModal(false);
         loadEmployee();
-    };
-
-    // Pagination handle
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
     };
 
     return (
@@ -55,7 +41,6 @@ const EmployeeTable = ({ employee, loadEmployee }) => {
                     </TableHead>
                     <TableBody>
                     {employee
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((record) => (
                             <TableRow key={record.employee_id}>
                                 <TableCell>
@@ -86,7 +71,7 @@ const EmployeeTable = ({ employee, loadEmployee }) => {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={employee.length}
+                    count={totalItems}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
