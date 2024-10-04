@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import SuperAdminLayout from "../../layouts/SuperAdminLayout";
+// import SuperAdminLayout from "../../layouts/SuperAdminLayout";
 import { fetchErrorLog } from "../../services/errorService";
 import {
     Container,
@@ -35,27 +35,27 @@ const ErrorLog = () => {
     }, []);
 
     return (
-        <SuperAdminLayout title={title}>
-            <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                {/* Header */}
-                <Typography variant="h4" component="h1" gutterBottom>
-                    {title}
-                </Typography>
-                
-                {/* Main Content */}
-                <Box sx={{ my: 4, mt: 4 }}>
-                    {loading ? (
-                        <LoadingIndicator />
-                    ) : error ? (
-                        <ErrorMessage message={error} />
-                    ) : errorLog.length === 0 ? (
-                        <Typography>No error log found.</Typography>
-                    ) : (
-                        <ErrorLogTable errorLog={errorLog} loadErrorLog={loadErrorLog} />
-                    )}
-                </Box>
-            </Container>
-        </SuperAdminLayout>
+        <Container maxWidth="xl" sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            {/* Header */}
+            <Typography variant="h4" component="h1" gutterBottom>
+                {title}
+            </Typography>
+            
+            {/* Main Content */}
+            <Box sx={{ my: 4, mt: 4 }}>
+                {loading ? (
+                    <LoadingIndicator />
+                ) : error ? (
+                    <ErrorMessage message={error} />
+                ) : errorLog.length === 0 ? (
+                    <Typography>No error log found.</Typography>
+                ) : (
+                    <ErrorLogTable errorLog={errorLog} loadErrorLog={loadErrorLog} />
+                )}
+            </Box>
+        </Container>
+        // <SuperAdminLayout title={title}>
+        // </SuperAdminLayout>
     );
 };
 

@@ -14,6 +14,7 @@ import PermissionApproval from "./views/employee/PermissionApproval";
 import PermissionHistory from "./views/employee/PermissionHistory";
 
 // Super admin
+import SuperAdminLayout from "./layouts/SuperAdminLayout";
 import AdminManagement from "./views/super-admin/AdminManagement";
 import ErrorLog from "./views/super-admin/ErrorLog";
 import DashboardSuperAdmin from "./views/super-admin/DashboardSuperAdmin";
@@ -40,12 +41,14 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
             {/* Super Admin Routes */}
-            <Route element={<ProtectedRoute allowedRoles={['super_admin']} />} >
-                <Route path="/super-admin" element={<AdminManagement />} />
-                <Route path="/super-admin/dashboard" element={<DashboardSuperAdmin />} />
-                <Route path="/super-admin/admin-management" element={<AdminManagement />} />
-                <Route path="/super-admin/error-log" element={<ErrorLog />} />
-                <Route path="/super-admin/change-password" element={<ChangePassword role="super_admin" />} />
+            <Route element={<ProtectedRoute allowedRoles={['super_admin']} />}>
+              <Route element={<SuperAdminLayout />}>
+                  <Route path="/super-admin" element={<AdminManagement />} />
+                  <Route path="/super-admin/dashboard" element={<DashboardSuperAdmin />} />
+                  <Route path="/super-admin/admin-management" element={<AdminManagement />} />
+                  <Route path="/super-admin/error-log" element={<ErrorLog />} />
+                  <Route path="/super-admin/change-password" element={<ChangePassword />} />
+              </Route>
             </Route>
 
             {/* Admin Routes */}
